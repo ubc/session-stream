@@ -1,0 +1,49 @@
+#session-cct-media select {
+    width: 19%;
+}
+
+#session-cct-media input {
+    width: 80%;
+}
+
+
+#session-cct-slide input[type="number"] {
+    width: 50px;
+}
+
+.scct-admin-section {
+    border-bottom: 1px solid darkgray;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+
+.scct-section-meta {
+    float: right;
+}
+
+.scct-close {
+    font-size: 16px;
+    position: relative;
+    bottom: 2px;
+}
+
+.scct-section-meta img,
+.scct-section-meta a {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+}
+
+.scct-section-meta a:hover {
+    cursor: pointer;
+}
+
+.scct-slide-type-markup textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.scct-slide:not(.show-markup) .scct-slide-type-markup,
+.scct-slide:not(.show-image) .scct-slide-type-image {
+    display: none;
+}

@@ -1,0 +1,49 @@
+body {
+    background: white;
+}
+
+#primary {
+    margin: 0;
+    padding: 1%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.bookmarks-wrapper a {
+    cursor: pointer;
+}
+
+.session-cct .media-wrapper {
+    color: black;
+    outline: 1px dashed purple;
+    float: left;
+    width: 60%;
+    margin: 5px;
+}
+
+.session-cct .slideshow-wrapper {
+    color: black;
+    outline: 1px dashed red;
+    float: left;
+    height: 200px;
+    width: 60%;
+    margin: 5px;
+}
+
+.session-cct .pulse-wrapper {
+    color: black;
+    outline: 1px dashed blue;
+    float: right;
+    height: 600px;
+    width: 25%;
+    margin: 5px;
+}
+
+.session-cct .bookmarks-wrapper {
+    color: black;
+    outline: 1px dashed green;
+    float: right;
+    height: 300px;
+    width: 10%;
+    margin: 5px;
+}
