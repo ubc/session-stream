@@ -20,6 +20,7 @@ define( 'SESSION_CCT_SLUG', "session-cct" );
 
 require_once( 'lib/class.session_cct.php' );
 require_once( 'lib/class.session_cct_view.php' );
+require_once( 'lib/class.session_cct_pulse.php' );
 require_once( 'lib/class.session_cct_admin.php' );
 require_once( 'lib/class.session_cct_settings.php' );
 

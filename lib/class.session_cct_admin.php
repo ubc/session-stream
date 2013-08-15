@@ -125,11 +125,13 @@ class Session_CCT_Admin {
 		
 		?>
 		<div class="scct-admin-section">
+			<!--
 			<label>
 				Start the first slide at: 
 				<input type="number" name="slide_meta[offset]" value="<?php echo $offset; ?>" />
 				seconds.
 			</label>
+			-->
 		</div>
 		<div class="scct-slide-list">
 			<?php
@@ -143,10 +145,11 @@ class Session_CCT_Admin {
 	}
 	
 	public static function slide_meta( $data = array() ) {
-		$type     = ( empty( $data['type']     ) ? "markup" : $data['type']     );
-		$duration = ( empty( $data['duration'] ) ? 0        : $data['duration'] );
-		$content  = ( empty( $data['content']  ) ? ""       : $data['content']  );
-		$image    = ( empty( $data['image']    ) ? ""       : $data['image']    );
+		$type    = ( empty( $data['type']     ) ? "markup" : $data['type']    );
+		$start   = ( empty( $data['start']    ) ? "0:00"   : $data['start']   );
+		$end     = ( empty( $data['end']      ) ? "0:00"   : $data['end']     );
+		$content = ( empty( $data['content']  ) ? ""       : $data['content'] );
+		$image   = ( empty( $data['image']    ) ? ""       : $data['image']   );
 		
 		?>
 		<div class="scct-slide show-markup scct-admin-section">
@@ -169,9 +172,8 @@ class Session_CCT_Admin {
 				</select>
 			</label>
 			<label>
-				Duration: 
-				<input type="number" name="slides[][duration]" value="<?php echo $duration; ?>" />
-				seconds.
+				Start At: 
+				<input type="text" name="slides[][start]" value="<?php echo $start; ?>" />
 			</label>
 			<br />
 			<span class="scct-slide-type-markup">
@@ -190,10 +192,35 @@ class Session_CCT_Admin {
 	}
 	
 	public static function pulse_meta_box( $post, $box ) {
+		$data = get_post_meta( $post->ID, 'session_cct_pulse', true );
+		if ( empty( $data ) ) {
+			$data = array();
+		}
+		
+		$data = array_merge( $data, array(
+			'placeholder' => "",
+			'num_char'    => 140,
+		) );
+		
 		Pulse_CPT_Admin::pulse_meta_box( $post, $box );
 		?>
-		<br /><br />
-		TODO: Add some custom configuration for pulse, for this Session.
+		<br />
+		<!-- Placeholder -->
+		<p>
+			<label for="pulse[placeholder]">
+				Placeholder: <input class="widefat" name="pulse[placeholder]" type="text" value="<?php echo esc_attr( $data['placeholder'] ); ?>" />
+			</label>
+		</p>
+		<!-- Character Count -->
+		<p>
+			<label for="pulse[placeholder]">
+				Limit Character Count:
+				<br />
+				<input name="pulse[num_char]" type="text" value="<?php echo esc_attr( $data['num_char'] ); ?>" />
+				<br />
+				<small class="clear">A counter restricting the number of characters a person can enter.</small>
+			</label>
+		</p>
 		<?php
 	}
 	
@@ -256,9 +283,30 @@ class Session_CCT_Admin {
 		}
 		$bookmarks['list'][] = $bookmark;
 		
+		$pulse = array_merge( $_POST['pulse'], array(
+			'title'                  => '',
+			'display_title'          => false,
+			'compact_view'           => true,
+			'placeholder'            => "",
+			'enable_character_count' => true,
+			'num_char'               => 140,
+			'enable_url_shortener'   => false,
+			'bitly_user'             => get_option( 'pulse_bitly_username' ),
+			'bitly_api_key'          => get_option( 'pulse_bitly_key' ),
+			'rating_metric'          => false,
+			'display_content_rating' => false,
+			'enable_replies'         => false,
+			'tabs'                   => array(
+				'tagging'      => false,
+				'co_authoring' => false,
+				'file_upload'  => false,
+			),
+		) );
+		
 		update_post_meta( $post_id, 'session_cct_slides', $slides );
 		update_post_meta( $post_id, 'session_cct_bookmarks', $bookmarks );
 		update_post_meta( $post_id, 'session_cct_media', $_POST['media'] );
+		update_post_meta( $post_id, 'session_cct_pulse', $pulse );
 		
 		return true;
 	}

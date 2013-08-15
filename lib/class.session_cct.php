@@ -1,9 +1,13 @@
 <?php
 
 class Session_CCT {
+	public static $plugins = array();
 	
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'load' ) );
+		
+		self::$plugins['pulse_cpt'] = defined( "PULSE_CPT_BASENAME" );
+		self::$plugins['stream'] = defined( "CTLT_STREAM" );
 	}
 	
 	public static function install() {
@@ -53,7 +57,7 @@ class Session_CCT {
 	}
 	
 	public static function register_scripts() {
-    	wp_register_script( 'popcornjs',     'http://popcornjs.org/code/dist/popcorn-complete.min.js', array(), '1.0', true );
+    	wp_register_script( 'popcornjs',     'http://popcornjs.org/code/dist/popcorn-complete.js', array(), '1.0', true );
     	wp_register_script( 'popcorn-pulse', SESSION_CCT_DIR_URL.'/js/popcorn-pulse.js', array( 'popcornjs' ), '1.0', true );
 	}
 	

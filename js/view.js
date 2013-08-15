@@ -7,16 +7,30 @@ var Session_CCT_View = {
 	},
 	
 	onContentLoad: function() {
+		console.log("Print From Session_CCT_View.onContentLoad");
 		console.log(session_data);
+		console.log(pulse_data);
 		
 		//jQuery('#scct-slide').css('transform', 'skew(30deg,20deg)'); // Look at w3schools
 		
 		Session_CCT_View.media = Popcorn.smart( '#scct-media', session_data.media.url );
+		Session_CCT_View.media.on( 'loadedmetadata', Session_CCT_View.loadSlides );
 		
+		if ( typeof CTLT_Stream != 'undefined' ) { // Check for stream activity
+            CTLT_Stream.on( 'server-push', Session_CCT_View.listen );
+		}
+		
+		for ( index in pulse_data ) {
+			Session_CCT_View.addPulse( pulse_data[index], pulse_data[index].synctime );
+		}
+	},
+	
+	loadSlides: function() {
 		var time = parseInt( session_data.slides.offset );
 		
-		for ( index in session_data.slides.list ) {
+		for ( var index = 0; index < session_data.slides.list.length; index++ ) {
 			var slide = session_data.slides.list[index];
+			var next_slide = session_data.slides.list[index+1];
 			var content = "";
 			var duration = parseInt( slide.duration );
 			
@@ -29,24 +43,50 @@ var Session_CCT_View = {
 					break;
 			}
 			
+			var end;
+			if ( next_slide != undefined ) {
+				end = next_slide.start;
+			} else {
+				end = Session_CCT_View.media.duration();
+			}
+			
 			Session_CCT_View.media.footnote( {
-				start: time,
-				end: time + duration,
+				start: slide.start,
+				end: end,
 				text: slide.content,
-				target: "scct-slide"
+				target: "scct-slide",
 			} );
 			
 			time += duration;
 		}
+	},
+    
+    listen: function( data ) {
+		console.log("Received message from node.");
+		if ( data.type == 'pulse' ) { // We are interested
+			var pulse_data = jQuery.parseJSON(data.data);
+			console.log( pulse_data );
+			Session_CCT_View.addPulse( pulse_data, pulse_data.synctime );
+		}
+    },
+	
+	addPulse: function( data, time ) {
+		console.log("Add Pulse "+data.ID+" at "+time);
+		var new_pulse = Pulse_CPT_Form.single_pulse_template( data );
+		var start = time;
+		var end = time + 5;
 		
-		/*
-		media.pulse( {
-			start: 4,
-			text: "Pulse",
-			target: "scct-pulse-list"
+		if ( time == 0 ) {
+			end = start + 1;
+		}
+		
+		Session_CCT_View.media.footnote( {
+			start: start,
+			end: end,
+			text: new_pulse,
+			target: "pulse-list"
 		} );
-		*/
-	}
+	},
 }
 
 document.addEventListener( "DOMContentLoaded", Session_CCT_View.onContentLoad, false );
