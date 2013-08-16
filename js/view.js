@@ -50,7 +50,7 @@ var Session_CCT_View = {
 			Session_CCT_View.media.footnote( {
 				start: slide.start,
 				end: end,
-				text: slide.content,
+				text: '<div class="scct-slide-content '+slide.type+'">'+content+'</div>',
 				target: "scct-slide",
 			} );
 			

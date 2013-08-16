@@ -13,7 +13,13 @@ class Session_CCT_Pulse {
 		add_action( 'publish_pulse-cpt', array( __CLASS__, 'modify_pulse' ) );
 		add_filter( 'the_pulse_data', array( __CLASS__, 'the_pulse_data' ) );
 		
-		$pulse_query = new WP_Query( Pulse_CPT_Form_Widget::query_arguments() );
+		$args = Pulse_CPT_Form_Widget::query_arguments();
+		$args['posts_per_page'] = -1;
+		$args['orderby'] = "meta_value_num";
+		$args['meta_key'] = "synctime";
+		$args['order'] = "DESC";
+		
+		$pulse_query = new WP_Query( $args );
 		while ( $pulse_query->have_posts() ) {
 			$pulse_query->the_post();
 			$pulse_data[] = Pulse_CPT::the_pulse_array();

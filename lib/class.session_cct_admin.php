@@ -31,7 +31,11 @@ class Session_CCT_Admin {
 	
 	public static function enqueue_scripts_and_styles() {
     	wp_enqueue_script( 'scct-admin' );
+		wp_enqueue_script('media-upload');
+		wp_enqueue_script('thickbox');
+		
     	wp_enqueue_style( 'scct-admin' );
+		wp_enqueue_style('thickbox');
 	}
 	
 	public static function meta_box_setup() {
@@ -166,7 +170,7 @@ class Session_CCT_Admin {
 			</span>
 			<label>
 				Type: 
-				<select name="slides[][type]" value="<?php echo $type; ?>" onchange="Session_CCT_Admin.changeType( this );">
+				<select name="slides[][type]" class="scct-slide-type" value="<?php echo $type; ?>" onchange="Session_CCT_Admin.changeType( this );">
 					<option value="markup" <?php selected( $type == "markup" ); ?>>Markup</option>
 					<option value="image" <?php selected( $type == "image" ); ?>>Image</option>
 				</select>
@@ -182,10 +186,18 @@ class Session_CCT_Admin {
 				</label>
 			</span>
 			<span class="scct-slide-type-image">
+				<!--
 				<label>
 					Image
 					<input type="url" name="slides[][image]" value="<?php echo $image; ?>" />
 				</label>
+				-->
+				<label for="slides[][image]">
+					<input class="upload-image" type="text" size="36" name="slides[][image]" value="<?php echo $image; ?>" />
+					<input class="upload-image-button" type="button" value="Upload Image" />
+					<br />Enter an URL or upload an image for the slide.
+				</label>
+				<tr valign="top">
 			</span>
 		</div>
 		<?php
@@ -197,23 +209,35 @@ class Session_CCT_Admin {
 			$data = array();
 		}
 		
-		$data = array_merge( $data, array(
+		$data = array_merge( array(
+			'locked'      => false,
 			'placeholder' => "",
 			'num_char'    => 140,
-		) );
+		), $data );
 		
 		Pulse_CPT_Admin::pulse_meta_box( $post, $box );
 		?>
 		<br />
+		TODO: The above checkbox doesn't work. Maybe combine it with the one below.
+		<br />
+		<!-- Lock Pulses -->
+		<p>
+			<label>
+				<input type="checkbox" name="pulse[locked]" <?php checked( $data['locked'] ); ?>/>
+					 Lock pulses
+				<br />
+				<small>Pulses will be displayed, but users will not be able to post any new ones.</small>
+			</label>
+		</p>
 		<!-- Placeholder -->
 		<p>
-			<label for="pulse[placeholder]">
+			<label>
 				Placeholder: <input class="widefat" name="pulse[placeholder]" type="text" value="<?php echo esc_attr( $data['placeholder'] ); ?>" />
 			</label>
 		</p>
 		<!-- Character Count -->
 		<p>
-			<label for="pulse[placeholder]">
+			<label>
 				Limit Character Count:
 				<br />
 				<input name="pulse[num_char]" type="text" value="<?php echo esc_attr( $data['num_char'] ); ?>" />
@@ -283,7 +307,7 @@ class Session_CCT_Admin {
 		}
 		$bookmarks['list'][] = $bookmark;
 		
-		$pulse = array_merge( $_POST['pulse'], array(
+		$pulse = array_merge( array(
 			'title'                  => '',
 			'display_title'          => false,
 			'compact_view'           => true,
@@ -301,7 +325,8 @@ class Session_CCT_Admin {
 				'co_authoring' => false,
 				'file_upload'  => false,
 			),
-		) );
+		), $_POST['pulse'] );
+		$pulse['locked'] = ! empty( $_POST['pulse']['locked'] );
 		
 		update_post_meta( $post_id, 'session_cct_slides', $slides );
 		update_post_meta( $post_id, 'session_cct_bookmarks', $bookmarks );
