@@ -30,12 +30,10 @@ class Session_CCT_Admin {
 	}
 	
 	public static function enqueue_scripts_and_styles() {
+		wp_enqueue_media();
+		wp_enqueue_script( 'media-upload' );
     	wp_enqueue_script( 'scct-admin' );
-		wp_enqueue_script('media-upload');
-		wp_enqueue_script('thickbox');
-		
     	wp_enqueue_style( 'scct-admin' );
-		wp_enqueue_style('thickbox');
 	}
 	
 	public static function meta_box_setup() {
@@ -186,16 +184,10 @@ class Session_CCT_Admin {
 				</label>
 			</span>
 			<span class="scct-slide-type-image">
-				<!--
-				<label>
-					Image
-					<input type="url" name="slides[][image]" value="<?php echo $image; ?>" />
-				</label>
-				-->
 				<label for="slides[][image]">
+					<input class="upload-image-button button" type="button" value="Choose Image" />
 					<input class="upload-image" type="text" size="36" name="slides[][image]" value="<?php echo $image; ?>" />
-					<input class="upload-image-button" type="button" value="Upload Image" />
-					<br />Enter an URL or upload an image for the slide.
+					<br />Enter an URL or choose an image for the slide.
 				</label>
 				<tr valign="top">
 			</span>
