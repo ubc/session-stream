@@ -80,7 +80,7 @@ var Session_CCT_View = {
 			//end = start + 1;
 		}
 		
-		Session_CCT_View.media.footnote( {
+		Session_CCT_View.media.pulse( {
 			start: start,
 			end: end,
 			text: new_pulse,
