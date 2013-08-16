@@ -15,13 +15,10 @@ var Session_CCT_View = {
 		
 		Session_CCT_View.media = Popcorn.smart( '#scct-media', session_data.media.url );
 		Session_CCT_View.media.on( 'loadedmetadata', Session_CCT_View.loadSlides );
+		Session_CCT_View.media.on( 'loadedmetadata', Session_CCT_View.loadPulses );
 		
 		if ( typeof CTLT_Stream != 'undefined' ) { // Check for stream activity
             CTLT_Stream.on( 'server-push', Session_CCT_View.listen );
-		}
-		
-		for ( index in pulse_data ) {
-			Session_CCT_View.addPulse( pulse_data[index], pulse_data[index].synctime );
 		}
 	},
 	
@@ -60,24 +57,27 @@ var Session_CCT_View = {
 			time += duration;
 		}
 	},
+	
+	loadPulses: function() {
+		for ( index in pulse_data ) {
+			Session_CCT_View.addPulse( pulse_data[index], pulse_data[index].synctime );
+		}
+	},
     
     listen: function( data ) {
-		console.log("Received message from node.");
 		if ( data.type == 'pulse' ) { // We are interested
 			var pulse_data = jQuery.parseJSON(data.data);
-			console.log( pulse_data );
 			Session_CCT_View.addPulse( pulse_data, pulse_data.synctime );
 		}
     },
 	
 	addPulse: function( data, time ) {
-		console.log("Add Pulse "+data.ID+" at "+time);
 		var new_pulse = Pulse_CPT_Form.single_pulse_template( data );
 		var start = time;
-		var end = time + 5;
+		var end = Session_CCT_View.media.duration(); //time + 5;
 		
 		if ( time == 0 ) {
-			end = start + 1;
+			//end = start + 1;
 		}
 		
 		Session_CCT_View.media.footnote( {

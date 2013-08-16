@@ -61,17 +61,14 @@ class Session_CCT_View {
 		
 		$args = Pulse_CPT_Form_Widget::query_arguments();
 		$args['posts_per_page'] = -1;
-		
-		error_log( print_r( $args, TRUE ) );
+		$args['orderby'] = "";
 		
 		$pulse_query = new WP_Query( $args );
 		
-		error_log( count( $pulse_query->posts ) );
-		
 		$bookmarks = get_post_meta( $post->ID, 'session_cct_bookmarks', true );
-		$media = get_post_meta( $post->ID, 'session_cct_media', true );
-		$slides = get_post_meta( $post->ID, 'session_cct_slides', true );
-		$pulse = get_post_meta( $post->ID, 'session_cct_pulse', true );
+		$media     = get_post_meta( $post->ID, 'session_cct_media',     true );
+		$slides    = get_post_meta( $post->ID, 'session_cct_slides',    true );
+		$pulse     = get_post_meta( $post->ID, 'session_cct_pulse',     true );
 		
 		foreach ( $slides['list'] as $index => $slide ) {
 			if ( ! empty( $slide['content'] ) ) {
@@ -90,9 +87,7 @@ class Session_CCT_View {
 		?>
 		<div class="pulse-wrapper widget">
 			<div id="scct-pulse-list" class="pulse-widget">
-				<?php
-					Pulse_CPT_Form_Widget::pulse_form( $pulse );
-				?>
+				<?php Pulse_CPT_Form_Widget::pulse_form( $pulse ); ?>
 				<div id="pulse-list" class="pulse-list">
 					<!-- To be populated by PopcornJS -->
 				</div>

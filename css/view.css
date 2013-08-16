@@ -47,3 +47,20 @@ body {
     width: 10%;
     margin: 5px;
 }
+
+.session-cct .pulse-list {
+    overflow-y: scroll;
+    clear: both;
+    height: 100%;
+}
+
+.session-cct .postbox,
+.session-cct .postbox-placeholder {
+    float: left;
+    width: 100%;
+}
+
+.session-cct .pulse-widget {
+    overflow: hidden;
+    height: 100%;
+}
