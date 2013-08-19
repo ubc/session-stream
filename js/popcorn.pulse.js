@@ -48,6 +48,11 @@
 					type: "text",
 					label: "Text"
 				},
+				sort: {
+					elem: "input",
+					type: "checkbox",
+					label: "Sort"
+				},
 				target: "footnote-container"
 			}
 		},
@@ -56,10 +61,22 @@
 			var target = Popcorn.dom.find( options.target );
 			
 			options._container = document.createElement( "div" );
+			options._container.dataset.start = options.start;
 			options._container.style.display = "none";
-			options._container.innerHTML  = options.text;
+			options._container.innerHTML = options.text;
 			
-			target.appendChild( options._container );
+			if ( options.sort ) {
+				var children = jQuery(target).children();
+				children.each( function() {
+					if ( this.dataset.start < options.start ) {
+						target.insertBefore( options._container, this );
+						return false;
+					}
+					return true;
+				} );
+			} else {
+				target.appendChild( options._container );
+			}
 		},
 		
 		/**
@@ -71,7 +88,6 @@
 		start: function( event, options ){
 			//options._container.style.display = "inline";
 			jQuery(options._container).fadeIn();
-			//console.log(options);
 		},
 		
 		/**

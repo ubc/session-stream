@@ -1,0 +1,16 @@
+.pulse-wrapper .bookmark {
+    display: block;
+    padding: 3px 11px;
+    background: #EEE;
+    color: #999;
+    font-size: 80%;
+    cursor: pointer;
+}
+
+.pulse-wrapper .bookmark:hover {
+    color: #555;
+}
+
+.pulse-wrapper .bookmark .time {
+    float: right;
+}

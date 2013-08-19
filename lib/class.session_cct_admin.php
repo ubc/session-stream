@@ -1,5 +1,4 @@
 <?php
-
 class Session_CCT_Admin {
 	
 	public static function init() {
@@ -46,6 +45,7 @@ class Session_CCT_Admin {
 		add_meta_box( 'session-cct-bookmark', __( 'Bookmarks', 'session-cct' ), array( __CLASS__, 'bookmark_meta_box' ), SESSION_CCT_SLUG, 'normal', 'high' );
 		add_meta_box( 'session-cct-slide',    __( 'Slides',    'session-cct' ), array( __CLASS__, 'slide_meta_box'    ), SESSION_CCT_SLUG, 'normal', 'high' );
 		add_meta_box( 'session-cct-pulse',    __( 'Pulse CPT',   'pulse-cpt' ), array( __CLASS__, 'pulse_meta_box'    ), SESSION_CCT_SLUG, 'normal', 'default' );
+		add_meta_box( 'session-cct-quiz',     __( 'Quiz',      'session-cpt' ), array( __CLASS__, 'quiz_meta_box'     ), SESSION_CCT_SLUG, 'normal', 'default' );
 	}
 	
 	public static function meta_box_remove() {
@@ -77,7 +77,7 @@ class Session_CCT_Admin {
 		?>
 		<div class="scct-admin-section">
 			<label>
-				<input type="checkbox" name="bookmark_meta[show_time]" <?php checked( true ); ?> />
+				<input type="checkbox" name="bookmark_meta[show_time]" <?php checked( $bookmarks['show_time'] ); ?> />
 				Show Timestamp
 			</label>
 		</div>
@@ -189,7 +189,6 @@ class Session_CCT_Admin {
 					<input class="upload-image" type="text" size="36" name="slides[][image]" value="<?php echo $image; ?>" />
 					<br />Enter an URL or choose an image for the slide.
 				</label>
-				<tr valign="top">
 			</span>
 		</div>
 		<?php
@@ -202,23 +201,34 @@ class Session_CCT_Admin {
 		}
 		
 		$data = array_merge( array(
-			'locked'      => false,
+			'markers'     => "on",
+			'status'      => "enabled",
 			'placeholder' => "",
 			'num_char'    => 140,
 		), $data );
 		
-		Pulse_CPT_Admin::pulse_meta_box( $post, $box );
 		?>
-		<br />
-		TODO: The above checkbox doesn't work. Maybe combine it with the one below.
-		<br />
-		<!-- Lock Pulses -->
+		<!-- Pulse Status -->
 		<p>
 			<label>
-				<input type="checkbox" name="pulse[locked]" <?php checked( $data['locked'] ); ?>/>
-					 Lock pulses
+				Status:
 				<br />
-				<small>Pulses will be displayed, but users will not be able to post any new ones.</small>
+				<select name="pulse[status]">
+					<option value="enabled" <?php selected( $data['status'] == "enabled" ); ?>>Open</option>
+					<option value="locked" <?php selected( $data['status'] == "locked" ); ?>>Locked</option>
+					<option value="disabled" <?php selected( $data['status'] == "disabled" ); ?>>Disabled</option>
+				</select>
+				<br />
+				<small>When Locked, pulses will be displayed, but users will not be able to post any new ones.</small>
+			</label>
+		</p>
+		<!-- Markers -->
+		<p>
+			<label>
+				<input type="checkbox" name="pulse[markers]" <?php checked( $data['markers'] == "on" ); ?> />
+				 Show Markers
+				<br />
+				<small>Show bookmark titles in the pulse list.</small>
 			</label>
 		</p>
 		<!-- Placeholder -->
@@ -237,6 +247,14 @@ class Session_CCT_Admin {
 				<small class="clear">A counter restricting the number of characters a person can enter.</small>
 			</label>
 		</p>
+		<?php
+	}
+	
+	public static function quiz_meta_box( $post, $box ) {
+		?>
+		TODO: This feature has not been implemented in any capacity.
+		<br /><br />
+		It should be a poll or other question/answer that comes up during the media, and pauses the media until you answer or skip.
 		<?php
 	}
 	
@@ -318,7 +336,6 @@ class Session_CCT_Admin {
 				'file_upload'  => false,
 			),
 		), $_POST['pulse'] );
-		$pulse['locked'] = ! empty( $_POST['pulse']['locked'] );
 		
 		update_post_meta( $post_id, 'session_cct_slides', $slides );
 		update_post_meta( $post_id, 'session_cct_bookmarks', $bookmarks );

@@ -21,6 +21,7 @@ class Session_CCT_View {
     	wp_register_style( 'scct-view-bookmarks', SESSION_CCT_DIR_URL.'/css/view-bookmarks.css' );
     	wp_register_style( 'scct-view-slideshow', SESSION_CCT_DIR_URL.'/css/view-slideshow.css' );
     	wp_register_style( 'scct-view-media', SESSION_CCT_DIR_URL.'/css/view-media.css' );
+    	wp_register_style( 'scct-view-pulse', SESSION_CCT_DIR_URL.'/css/view-pulse.css' );
 	}
 	
 	public static function enqueue_scripts_and_styles() {
@@ -31,6 +32,7 @@ class Session_CCT_View {
     	wp_enqueue_style( 'scct-view-bookmarks' );
     	wp_enqueue_style( 'scct-view-slideshow' );
     	wp_enqueue_style( 'scct-view-media' );
+    	wp_enqueue_style( 'scct-view-pulse' );
 	}
 	
 	function edit_body_class( $wp_classes, $extra_classes ) {
@@ -72,26 +74,33 @@ class Session_CCT_View {
 			$slides['list'][$index]['start'] = self::string_to_seconds( $slide['start'] );
 		}
 		
+		foreach ( $bookmarks['list'] as $index => $bookmark ) {
+			$bookmarks['list'][$index]['synctime'] = self::string_to_seconds( $bookmark['time'] );
+		}
+		
 		wp_localize_script( 'scct-view', 'session_data', array(
-			'media'  => $media,
-			'slides' => $slides,
+			'media'     => $media,
+			'slides'    => $slides,
+			'bookmarks' => $bookmarks,
 		) );
 		self::enqueue_scripts_and_styles();
 		
 		ob_start();
 		?>
-		<div class="pulse-wrapper widget">
-			<div id="scct-pulse-list" class="pulse-widget">
-				<?php
-					if ( ! $pulse['locked'] ) {
-						Pulse_CPT_Form_Widget::pulse_form( $pulse );
-					}
-				?>
-				<div id="pulse-list" class="pulse-list">
-					<!-- To be populated by PopcornJS -->
+		<?php if ( $pulse['status'] != 'disabled' ): ?>
+			<div class="pulse-wrapper widget">
+				<div id="scct-pulse-list" class="pulse-widget">
+					<?php
+						if ( $pulse['status'] != 'locked' ) {
+							Pulse_CPT_Form_Widget::pulse_form( $pulse );
+						}
+					?>
+					<div id="pulse-list" class="pulse-list">
+						<!-- To be populated by PopcornJS -->
+					</div>
 				</div>
 			</div>
-		</div>
+		<?php endif; ?>
 		<div class="bookmarks-wrapper">
 			<ul id="scct-bookmarks">
 				<li class="title">
