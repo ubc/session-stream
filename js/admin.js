@@ -45,7 +45,15 @@ var Session_CCT_Admin = {
 		jQuery(element).siblings('.scct-bookmark-list').append(scct_bookmark_html);
 	},
 	
+	addQuestion: function( element ) {
+		jQuery(element).siblings('.scct-question-list').append(scct_question_html);
+	},
+	
 	removeSection: function( element ) {
+		jQuery(element).closest('.scct-admin-section').remove();
+	},
+	
+	removeAnswer: function( element ) {
 		jQuery(element).closest('.scct-admin-section').remove();
 	},
 	

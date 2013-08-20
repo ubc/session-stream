@@ -20,17 +20,20 @@ class Session_CCT_View {
     	wp_register_style( 'scct-view', SESSION_CCT_DIR_URL.'/css/view.css' );
     	wp_register_style( 'scct-view-bookmarks', SESSION_CCT_DIR_URL.'/css/view-bookmarks.css' );
     	wp_register_style( 'scct-view-slideshow', SESSION_CCT_DIR_URL.'/css/view-slideshow.css' );
+    	wp_register_style( 'scct-view-questions', SESSION_CCT_DIR_URL.'/css/view-questions.css' );
     	wp_register_style( 'scct-view-media', SESSION_CCT_DIR_URL.'/css/view-media.css' );
     	wp_register_style( 'scct-view-pulse', SESSION_CCT_DIR_URL.'/css/view-pulse.css' );
 	}
 	
 	public static function enqueue_scripts_and_styles() {
 		wp_enqueue_script( 'popcorn-pulse' );
+		wp_enqueue_script( 'popcorn-question' );
     	wp_enqueue_script( 'scct-view' );
     	wp_enqueue_script( 'scct-pulse' );
     	wp_enqueue_style( 'scct-view' );
     	wp_enqueue_style( 'scct-view-bookmarks' );
     	wp_enqueue_style( 'scct-view-slideshow' );
+    	wp_enqueue_style( 'scct-view-questions' );
     	wp_enqueue_style( 'scct-view-media' );
     	wp_enqueue_style( 'scct-view-pulse' );
 	}
@@ -62,6 +65,7 @@ class Session_CCT_View {
 		global $post;
 		
 		$bookmarks = get_post_meta( $post->ID, 'session_cct_bookmarks', true );
+		$questions = get_post_meta( $post->ID, 'session_cct_questions', true );
 		$media     = get_post_meta( $post->ID, 'session_cct_media',     true );
 		$slides    = get_post_meta( $post->ID, 'session_cct_slides',    true );
 		$pulse     = get_post_meta( $post->ID, 'session_cct_pulse',     true );
@@ -78,15 +82,24 @@ class Session_CCT_View {
 			$bookmarks['list'][$index]['synctime'] = self::string_to_seconds( $bookmark['time'] );
 		}
 		
+		foreach ( $questions['list'] as $index => $question ) {
+			$questions['list'][$index]['synctime'] = self::string_to_seconds( $question['time'] );
+		}
+		
+		wp_localize_script( 'scct-view', 'scct_question_template', self::question_template() );
 		wp_localize_script( 'scct-view', 'session_data', array(
 			'media'     => $media,
 			'slides'    => $slides,
 			'bookmarks' => $bookmarks,
+			'questions' => $questions,
 		) );
 		self::enqueue_scripts_and_styles();
 		
 		ob_start();
 		?>
+		<div class="questions-wrapper">
+			<div id="scct-questions"></div>
+		</div>
 		<?php if ( $pulse['status'] != 'disabled' ): ?>
 			<div class="pulse-wrapper widget">
 				<div id="scct-pulse-list" class="pulse-widget">
@@ -173,6 +186,31 @@ class Session_CCT_View {
 		}
 		
 		return implode( ":", $segments );
+	}
+	
+	public static function question_template() {
+		ob_start();
+		?>
+		<div class="question-dialog">
+			{{=it}}
+			<div class="question">
+				{{=it.title}}
+			</div>
+			<ul class="answers">
+				{{~it.answers :value:index}}
+					<li class="answer">
+						<label>
+							<input name="answer" type="radio" />
+							{{=value.title}}!
+						</label>
+					</li>
+				{{~}}
+			</ul>
+			<button class="btn btn-inverse">Submit</button>
+			<button class="btn btn-primary">Skip</button>
+		</div>
+		<?php
+		return ob_get_clean();
 	}
 	
 }

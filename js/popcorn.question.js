@@ -1,25 +1,24 @@
 // PLUGIN: Pulse
 (function ( Popcorn ) {
   /**
-   * Pulse popcorn plug-in
+   * Question popcorn plug-in
    *
    * Based on the built-in footnote plugin.
-   *
+   * 
    * Example:
    *  var p = Popcorn('#video')
-   *    .pulse({
+   *    .question({
    *      start: 5, // seconds
    *      end: 15, // seconds
    *      text: 'This video made exclusively for drumbeat.org',
-   *      sort: true,
    *      target: 'footnotediv'
    *    });
    **/
 
-	Popcorn.plugin( "pulse", {
+	Popcorn.plugin( "question", {
 		manifest: {
 			about: {
-				name: "Popcorn Pulse Plugin",
+				name: "Popcorn Question Plugin",
 				version: "1.0",
 				author: "@ardnived",
 				website: ""

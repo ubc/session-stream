@@ -26,6 +26,10 @@ class Session_CCT_Admin {
 		ob_start();
 		self::bookmark_meta();
 		wp_localize_script( 'scct-admin', 'scct_bookmark_html', ob_get_clean() );
+		
+		ob_start();
+		self::question_meta();
+		wp_localize_script( 'scct-admin', 'scct_question_html', ob_get_clean() );
 	}
 	
 	public static function enqueue_scripts_and_styles() {
@@ -45,7 +49,7 @@ class Session_CCT_Admin {
 		add_meta_box( 'session-cct-bookmark', __( 'Bookmarks', 'session-cct' ), array( __CLASS__, 'bookmark_meta_box' ), SESSION_CCT_SLUG, 'normal', 'high' );
 		add_meta_box( 'session-cct-slide',    __( 'Slides',    'session-cct' ), array( __CLASS__, 'slide_meta_box'    ), SESSION_CCT_SLUG, 'normal', 'high' );
 		add_meta_box( 'session-cct-pulse',    __( 'Pulse CPT',   'pulse-cpt' ), array( __CLASS__, 'pulse_meta_box'    ), SESSION_CCT_SLUG, 'normal', 'default' );
-		add_meta_box( 'session-cct-quiz',     __( 'Quiz',      'session-cpt' ), array( __CLASS__, 'quiz_meta_box'     ), SESSION_CCT_SLUG, 'normal', 'default' );
+		add_meta_box( 'session-cct-question', __( 'Questions', 'session-cpt' ), array( __CLASS__, 'question_meta_box' ), SESSION_CCT_SLUG, 'normal', 'default' );
 	}
 	
 	public static function meta_box_remove() {
@@ -126,15 +130,6 @@ class Session_CCT_Admin {
 		$offset = ( empty( $slides['offset'] ) ? 0 : $slides['offset'] );
 		
 		?>
-		<div class="scct-admin-section">
-			<!--
-			<label>
-				Start the first slide at: 
-				<input type="number" name="slide_meta[offset]" value="<?php echo $offset; ?>" />
-				seconds.
-			</label>
-			-->
-		</div>
 		<div class="scct-slide-list">
 			<?php
 				foreach ( $slides['list'] as $slide ) {
@@ -250,11 +245,88 @@ class Session_CCT_Admin {
 		<?php
 	}
 	
-	public static function quiz_meta_box( $post, $box ) {
+	public static function question_meta_box( $post, $box ) {
+		$questions = get_post_meta( $post->ID, 'session_cct_questions', true );
+		
 		?>
-		TODO: This feature has not been implemented in any capacity.
-		<br /><br />
-		It should be a poll or other question/answer that comes up during the media, and pauses the media until you answer or skip.
+		<pre>
+			<?php print_r( $questions ); ?>
+		</pre>
+		<div class="scct-admin-section">
+			<label>
+				Mode
+				<select name="question_meta[mode]">
+					<option value="skip" <?php selected( $questions['mode'] == 'skip' ); ?>>Skippable</option>
+					<option value="any" <?php selected( $questions['mode'] == 'any' ); ?>>Must Answer</option>
+					<option value="correct" <?php selected( $questions['mode'] == 'correct' ); ?>>Must Answer Correctly</option>
+				</select>
+			</label>
+			<br />
+			<label>
+				<input type="checkbox" name="question_meta[random]" <?php checked( $questions['random'] ); ?> />
+				Randomize Order
+			</label>
+		</div>
+		<div class="scct-question-list">
+			<?php
+				foreach ( $questions['list'] as $question ) {
+					self::question_meta( $question );
+				}
+			?>
+		</div>
+		<a class="button" onclick="Session_CCT_Admin.addQuestion( this );">Add Question</a>
+		<?php
+	}
+	
+	public static function question_meta( $data = array() ) {
+		$title   = ( empty( $data['title']   ) ? ""      : $data['title'] );
+		$time    = ( empty( $data['time']    ) ? ""      : $data['time'] );
+		$answers = ( empty( $data['answers'] ) ? array() : $data['answers'] );
+		
+		?>
+		<div class="scct-question scct-admin-section">
+			<span class="scct-section-meta">
+				<a class="scct-close" onclick="Session_CCT_Admin.removeSection( this );">
+					&#10006;
+				</a>
+				<a class="scct-up" onclick="Session_CCT_Admin.move( this, false );">
+					<img src="<?php echo SESSION_CCT_DIR_URL; ?>/img/arrow-down.png" />
+				</a>
+				<a class="scct-down" onclick="Session_CCT_Admin.move( this, true );">
+					<img src="<?php echo SESSION_CCT_DIR_URL; ?>/img/arrow-up.png" />
+				</a>
+			</span>
+			<label>
+				Title: 
+				<input type="text" name="questions[][title]" value="<?php echo $title; ?>" />
+			</label>
+			<label>
+				Time: 
+				<input type="text" name="questions[][time]" value="<?php echo $time; ?>" />
+			</label>
+			<br />
+			Answers
+			<ul>
+				<?php
+					self::answer_meta( $answers[0] );
+					self::answer_meta( $answers[1] );
+					self::answer_meta( $answers[2] );
+					self::answer_meta( $answers[3] );
+				?>
+			</ul>
+		</div>
+		<?php
+	}
+	
+	public static function answer_meta( $data = array() ) {
+		?>
+		<li>
+			<input type="text" name="questions[][answer_title]" value="<?php echo $data['title']; ?>" />
+			<label>
+				<input type="checkbox" name="questions[][answer_correct]" <?php checked( $data['correct'] == "on" ); ?> />
+				This answer is correct.
+			</label>
+		</li>
 		<?php
 	}
 	
@@ -317,6 +389,51 @@ class Session_CCT_Admin {
 		}
 		$bookmarks['list'][] = $bookmark;
 		
+		$questions = array(
+			'mode'   => $_POST['question_meta']['mode'],
+			'random' => $_POST['question_meta']['random'] == "on",
+			'list'   => array(),
+		);
+		
+		$question = null;
+		$answer = null;
+		foreach ( $_POST['questions'] as $field ) {
+			reset( $field );
+			$key = key( $field );
+			$value = $field[$key];
+			
+			if ( self::starts_with( $key, 'answer' ) ) {
+				$key = substr( $key, 7 );
+				
+				if ( $key == 'title' ) {
+					if ( ! empty( $answer ) ) {
+						$question['answers'][] = $answer;
+					}
+					
+					$answer = array();
+				}
+				
+				$answer[$key] = $value;
+			} else {
+				if ( $key == 'title' ) {
+					if ( ! empty( $question ) ) {
+						if ( ! empty( $answer ) ) {
+							$question['answers'][] = $answer;
+						}
+						
+						$questions['list'][] = $question;
+					}
+					
+					$question = array();
+				}
+				
+				$question[$key] = $value;
+			}
+		}
+		
+		$question['answers'][] = $answer;
+		$questions['list'][] = $question;
+		
 		$pulse = array_merge( array(
 			'title'                  => '',
 			'display_title'          => false,
@@ -337,12 +454,17 @@ class Session_CCT_Admin {
 			),
 		), $_POST['pulse'] );
 		
-		update_post_meta( $post_id, 'session_cct_slides', $slides );
+		update_post_meta( $post_id, 'session_cct_slides',    $slides );
 		update_post_meta( $post_id, 'session_cct_bookmarks', $bookmarks );
-		update_post_meta( $post_id, 'session_cct_media', $_POST['media'] );
-		update_post_meta( $post_id, 'session_cct_pulse', $pulse );
+		update_post_meta( $post_id, 'session_cct_media',     $_POST['media'] );
+		update_post_meta( $post_id, 'session_cct_pulse',     $pulse );
+		update_post_meta( $post_id, 'session_cct_questions', $questions );
 		
 		return true;
+	}
+	
+	function starts_with( $haystack, $needle ) {
+		return $needle === "" || strpos( $haystack, $needle ) === 0;
 	}
 	
 }

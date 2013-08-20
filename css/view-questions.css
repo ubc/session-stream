@@ -1,0 +1,14 @@
+.questions-wrapper .question-dialog {
+    position: absolute;
+    top: 40px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    
+    z-index: 10;
+    border: 1px solid lightgray;
+    background: white;
+    padding: 10px;
+    
+    box-shadow: 6px 6px 6px #888;
+}
