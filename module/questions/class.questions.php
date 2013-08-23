@@ -4,9 +4,9 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 	function __construct() {
 		parent::__construct( "Questions" );
 		
-    	wp_register_style(  'scct-view-questions', SESSION_CCT_DIR_URL.'/module/pulse/view-questions.css' );
-    	wp_register_script( 'scct-view-questions', SESSION_CCT_DIR_URL.'/module/pulse/view-questions.js', array( 'jquery' ), '1.0', true );
-    	wp_register_script( 'popcornjs-questions', SESSION_CCT_DIR_URL.'/module/pulse/popcorn.question.js', array( 'jquery', 'popcornjs' ), '1.0', true );
+    	wp_register_style(  'scct-view-questions', SESSION_CCT_DIR_URL.'/module/questions/view-questions.css' );
+    	wp_register_script( 'scct-view-questions', SESSION_CCT_DIR_URL.'/module/questions/view-questions.js', array( 'jquery' ), '1.0', true );
+    	wp_register_script( 'popcornjs-questions', SESSION_CCT_DIR_URL.'/module/questions/popcorn.question.js', array( 'jquery', 'popcornjs' ), '1.0', true );
 	}
 	
 	public function load_admin() {
@@ -125,7 +125,6 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 		ob_start();
 		?>
 		<div class="question-dialog">
-			{{=it}}
 			<div class="question">
 				{{=it.title}}
 			</div>
@@ -139,8 +138,8 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 					</li>
 				{{~}}
 			</ul>
-			<button class="btn btn-inverse">Submit</button>
-			<button class="btn btn-primary">Skip</button>
+			<button class="btn btn-inverse" onclick="SCCT_Module_Questions.submit();">Submit</button>
+			<button class="btn btn-primary" onclick="SCCT_Module_Questions.skip();">Skip</button>
 		</div>
 		<?php
 		return ob_get_clean();

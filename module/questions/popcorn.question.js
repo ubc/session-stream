@@ -78,7 +78,11 @@
 		 */
 		start: function( event, options ){
 			//options._container.style.display = "inline";
+			console.log(options);
 			jQuery(options._container).fadeIn();
+			
+			SCCT_Module_Questions.current = options._id;
+			SCCT_Module_Media.media.pause();
 		},
 		
 		/**
@@ -90,6 +94,9 @@
 		end: function( event, options ){
 			//options._container.style.display = "none";
 			jQuery(options._container).fadeOut();
+			
+			SCCT_Module_Questions.current = null;
+			SCCT_Module_Media.media.play();
 		},
 		
 		_teardown: function( options ) {
@@ -97,6 +104,9 @@
 			if ( target ) {
 				target.removeChild( options._container );
 			}
+			
+			SCCT_Module_Questions.current = null;
+			SCCT_Module_Media.media.play();
 		}
 	} );
 } )( Popcorn );
