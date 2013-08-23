@@ -24,21 +24,21 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 		
 		$data = array_merge( array(
 			'markers'     => "on",
-			'status'      => "enabled",
+			'mode'      => "enabled",
 			'placeholder' => "",
 			'num_char'    => 140,
 		), $data );
 		
 		?>
-		<!-- Pulse Status -->
+		<!-- Module Mode -->
 		<p>
 			<label>
-				Status:
+				Mode
 				<br />
-				<select name="<?php $this->field_name( "status" ); ?>">
-					<option value="enabled" <?php selected( $data['status'] == "enabled" ); ?>>Open</option>
-					<option value="locked" <?php selected( $data['status'] == "locked" ); ?>>Locked</option>
-					<option value="disabled" <?php selected( $data['status'] == "disabled" ); ?>>Disabled</option>
+				<select name="<?php $this->field_name( "meta", "mode" ); ?>">
+					<option value="enabled" <?php selected( $data['meta']['mode'] == "enabled" ); ?>>Open</option>
+					<option value="locked" <?php selected( $data['meta']['mode'] == "locked" ); ?>>Locked</option>
+					<option value="disabled" <?php selected( $data['meta']['mode'] == "disabled" ); ?>>Disabled</option>
 				</select>
 				<br />
 				<small>When Locked, pulses will be displayed, but users will not be able to post any new ones.</small>
@@ -82,7 +82,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 		<div class="widget">
 			<div id="scct-pulse-list" class="pulse-widget">
 				<?php
-					if ( $pulse['status'] != 'locked' ) {
+					if ( $pulse['mode'] != 'locked' ) {
 						Pulse_CPT_Form_Widget::pulse_form( $pulse );
 					}
 				?>

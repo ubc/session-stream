@@ -28,6 +28,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 					<option value="skip" <?php selected( $questions['meta']['mode'] == 'skip' ); ?>>Skippable</option>
 					<option value="any" <?php selected( $questions['meta']['mode'] == 'any' ); ?>>Must Answer</option>
 					<option value="correct" <?php selected( $questions['meta']['mode'] == 'correct' ); ?>>Must Answer Correctly</option>
+					<option value="disabled" <?php selected( $questions['meta']['mode'] == 'disabled' ); ?>>Disable Module</option>
 				</select>
 			</label>
 			<br />

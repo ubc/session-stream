@@ -32,7 +32,7 @@ class Session_CCT_Module {
 	static function print_view( $post_id ) {
 		foreach ( self::$modules as $index => $module ) {
 			$data = $module->data( $post_id );
-			if ( $data['mode'] != 'disabled' ) {
+			if ( $data['meta']['mode'] != 'disabled' ) {
 				?>
 				<div class="<?php echo $module->slug; ?>-wrapper scct-wrapper">
 					<?php $module->view( $post_id ); ?>
