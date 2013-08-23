@@ -1,45 +1,25 @@
 <?php
-
 class Session_CCT_View {
-	public static $show_session = false;
 	
 	public static function init() {
-		add_action( 'init',            array( __CLASS__, 'load'             ) );
+		add_action( 'init', array( __CLASS__, 'load' ) );
+		
+    	wp_register_script( 'scct-view', SESSION_CCT_DIR_URL.'/js/view.js',  array( 'jquery', 'popcornjs' ), '1.0', true );
+    	wp_register_style(  'scct-view', SESSION_CCT_DIR_URL.'/css/view.css' );
+	}
+	
+	public static function load() {
 		add_filter( 'the_content',     array( __CLASS__, 'the_content'      ) );
 		add_filter( 'single_template', array( __CLASS__, 'session_template' ) );
 		add_filter( 'body_class',      array( __CLASS__, 'edit_body_class'  ), 10, 2);
 	}
 	
-	public static function load() {
-		self::register_scripts_and_styles();
-	}
-	
-	public static function register_scripts_and_styles() {
-    	wp_register_script( 'scct-view',  SESSION_CCT_DIR_URL.'/js/view.js',  array( 'jquery', 'popcornjs' ), '1.0', true );
-    	wp_register_script( 'scct-pulse', SESSION_CCT_DIR_URL.'/js/pulse.js', array( 'jquery' ), '1.0', true );
-    	wp_register_style( 'scct-view', SESSION_CCT_DIR_URL.'/css/view.css' );
-    	wp_register_style( 'scct-view-bookmarks', SESSION_CCT_DIR_URL.'/css/view-bookmarks.css' );
-    	wp_register_style( 'scct-view-slideshow', SESSION_CCT_DIR_URL.'/css/view-slideshow.css' );
-    	wp_register_style( 'scct-view-questions', SESSION_CCT_DIR_URL.'/css/view-questions.css' );
-    	wp_register_style( 'scct-view-media', SESSION_CCT_DIR_URL.'/css/view-media.css' );
-    	wp_register_style( 'scct-view-pulse', SESSION_CCT_DIR_URL.'/css/view-pulse.css' );
-	}
-	
-	public static function enqueue_scripts_and_styles() {
-		wp_enqueue_script( 'popcorn-pulse' );
-		wp_enqueue_script( 'popcorn-question' );
-    	wp_enqueue_script( 'scct-view' );
-    	wp_enqueue_script( 'scct-pulse' );
-    	wp_enqueue_style( 'scct-view' );
-    	wp_enqueue_style( 'scct-view-bookmarks' );
-    	wp_enqueue_style( 'scct-view-slideshow' );
-    	wp_enqueue_style( 'scct-view-questions' );
-    	wp_enqueue_style( 'scct-view-media' );
-    	wp_enqueue_style( 'scct-view-pulse' );
+	public static function is_active() {
+		return is_single() && get_post_type() == SESSION_CCT_SLUG;
 	}
 	
 	function edit_body_class( $wp_classes, $extra_classes ) {
-		if ( get_post_type() == SESSION_CCT_SLUG ) {
+		if ( Session_CCT_View::is_active() ) {
 			$wp_classes[] = "full-width";
 		}
 		
@@ -47,8 +27,7 @@ class Session_CCT_View {
 	}
 	
 	function session_template( $template ) {
-		if ( get_post_type() == SESSION_CCT_SLUG ) {
-			self::$show_session = true;
+		if ( Session_CCT_View::is_active() ) {
 			$template = SESSION_CCT_DIR_PATH.'/view/session.php';
 		}
 		
@@ -56,7 +35,7 @@ class Session_CCT_View {
 	}
 	
 	public static function the_content( $content ) {
-		if ( get_post_type() == SESSION_CCT_SLUG && is_single() ) {
+		if ( Session_CCT_View::is_active() ) {
 			return self::the_session( $content );
 		}
 	}
@@ -64,6 +43,16 @@ class Session_CCT_View {
 	public static function the_session( $content ) {
 		global $post;
 		
+		wp_localize_script( 'scct-view', 'scct_data', apply_filters( "scct_localize_view", array() ) );
+		
+    	wp_enqueue_script( 'scct-view' );
+    	wp_enqueue_style( 'scct-view' );
+		
+		ob_start();
+		do_action( "scct_print_view", $post->ID );
+		return ob_get_clean();
+		
+		/*
 		$bookmarks = get_post_meta( $post->ID, 'session_cct_bookmarks', true );
 		$questions = get_post_meta( $post->ID, 'session_cct_questions', true );
 		$media     = get_post_meta( $post->ID, 'session_cct_media',     true );
@@ -135,22 +124,7 @@ class Session_CCT_View {
 		<?php
 		Pulse_CPT_Form_Widget::footer( $instance );
 		return ob_get_clean();
-	}
-	
-	public static function bookmark( $data = array() ) {
-		$title = $data['title'];
-		$time = $data['time'];
-		
-		$seconds = self::string_to_seconds( $time );
-		$action = "Session_CCT_View.skipTo(".$seconds.");";
-		
-		?>
-		<li class="control" title="<?php echo $title; ?>">
-			<a class="scct-bookmark" onclick="<?php echo $action; ?>">
-				<?php echo $title; ?><span class="timestamp"><?php echo $time; ?></span>
-			</a>
-		</li>
-		<?php
+		*/
 	}
 	
 	public static function string_to_seconds( $string ) {
@@ -186,31 +160,6 @@ class Session_CCT_View {
 		}
 		
 		return implode( ":", $segments );
-	}
-	
-	public static function question_template() {
-		ob_start();
-		?>
-		<div class="question-dialog">
-			{{=it}}
-			<div class="question">
-				{{=it.title}}
-			</div>
-			<ul class="answers">
-				{{~it.answers :value:index}}
-					<li class="answer">
-						<label>
-							<input name="answer" type="radio" />
-							{{=value.title}}!
-						</label>
-					</li>
-				{{~}}
-			</ul>
-			<button class="btn btn-inverse">Submit</button>
-			<button class="btn btn-primary">Skip</button>
-		</div>
-		<?php
-		return ob_get_clean();
 	}
 	
 }

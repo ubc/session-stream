@@ -21,11 +21,11 @@ body {
     margin: 5px;
 }
 
-.session-cct .slideshow-wrapper {
+.session-cct .slides-wrapper {
     color: black;
     outline: 1px dashed red;
     float: left;
-    height: 200px;
+    height: 230px;
     width: 60%;
     margin: 5px;
 }
