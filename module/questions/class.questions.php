@@ -196,6 +196,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 						}
 						
 						$list[] = $question;
+						$answer = null;
 					}
 					
 					$question = array();
