@@ -11,13 +11,17 @@
     width: 50px;
 }
 
-.scct-admin-section {
+.scct-admin-section:not(.no-css) {
     border-bottom: 1px solid darkgray;
     margin-bottom: 5px;
     padding-bottom: 5px;
 }
 
 .scct-section-meta {
+    vertical-align: baseline;
+}
+
+.scct-section-meta:not(.no-float) {
     float: right;
 }
 

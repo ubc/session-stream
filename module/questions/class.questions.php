@@ -28,7 +28,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 			<label>
 				Mode
 				<select name="<?php $this->field_name( array( "meta", "mode" ) ); ?>">
-					<option value="skip" <?php selected( $questions['meta']['mode'] == 'skip' ); ?>>Skippable</option>
+					<option value="skippable" <?php selected( $questions['meta']['mode'] == 'skippable' ); ?>>Skippable</option>
 					<option value="any" <?php selected( $questions['meta']['mode'] == 'any' ); ?>>Must Answer</option>
 					<option value="correct" <?php selected( $questions['meta']['mode'] == 'correct' ); ?>>Must Answer Correctly</option>
 					<option value="disabled" <?php selected( $questions['meta']['mode'] == 'disabled' ); ?>>Disable Module</option>
@@ -81,26 +81,37 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 			</label>
 			<br />
 			Answers
-			<ul>
+			<ul class="scct-section-list">
 				<?php
-					$this->admin_answer( $answers[0] );
-					$this->admin_answer( $answers[1] );
-					$this->admin_answer( $answers[2] );
-					$this->admin_answer( $answers[3] );
+					if ( empty( $answers ) ) {
+						$this->admin_answer();
+						$this->admin_answer();
+						$this->admin_answer();
+					} else {
+						foreach ( $answers as $index => $answer ) {
+							$this->admin_answer( $answer );
+						}
+					}
 				?>
 			</ul>
+			<a class="button" onclick="Session_CCT_Admin.addSection( this, 'answer' );">Add Answer</a>
 		</div>
 		<?php
 	}
 	
 	public function admin_answer( $data = array() ) {
 		?>
-		<li>
+		<li class="scct-answer scct-admin-section no-css">
 			<input type="text" name="<?php $this->field_name( array( "list", "", "answer_title" ) ); ?>" value="<?php echo $data['title']; ?>" />
 			<label>
 				<input type="checkbox" name="<?php $this->field_name( array( "list", "", "answer_correct" ) ); ?>" <?php checked( $data['correct'] == "on" ); ?> />
 				This answer is correct.
 			</label>
+			<span class="scct-section-meta no-float">
+				<a class="scct-close" onclick="Session_CCT_Admin.removeSection( this );">
+					&#10006;
+				</a>
+			</span>
 		</li>
 		<?php
 	}
@@ -147,7 +158,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 				{{~}}
 			</ul>
 			<button class="btn btn-inverse button" onclick="SCCT_Module_Questions.submit(this);">Submit</button>
-			<?php if ( $data['mode'] == 'skippable' ): ?>
+			<?php if ( $data['meta']['mode'] == 'skippable' ): ?>
 				<button class="btn btn-primary button" onclick="SCCT_Module_Questions.skip(this);">Skip</button>
 			<?php endif; ?>
 		</div>

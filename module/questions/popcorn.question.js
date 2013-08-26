@@ -54,6 +54,7 @@
 			options._container = document.createElement( "div" );
 			options._container.dataset.start = options.start;
 			options._container.style.display = "none";
+			options._container.className = "dialog-wrapper";
 			options._container.innerHTML = options.text;
 			
 			//SCCT_Module_Questions.questions[options.id] = options._id;
@@ -68,7 +69,7 @@
 					return true;
 				} );
 			} else {
-				target.appendChild( options._container );
+				target.insertBefore( options._container, target.firstChild );
 			}
 		},
 		
@@ -80,6 +81,7 @@
 		 */
 		start: function( event, options ) {
 			jQuery(options._container).fadeIn();
+			jQuery(options._container).addClass('visible');
 			SCCT_Module_Questions.questions[options.id] = options._id;
 			SCCT_Module_Media.media.pause();
 		},
@@ -92,7 +94,11 @@
 		 */
 		end: function( event, options ) {
 			jQuery(options._container).fadeOut();
-			SCCT_Module_Media.media.play();
+			jQuery(options._container).removeClass('visible');
+			
+			if ( jQuery('.dialog-wrapper.visible').length < 1 ) {
+				SCCT_Module_Media.media.play();
+			}
 		},
 		
 		_teardown: function( options ) {
@@ -100,8 +106,6 @@
 			if ( target ) {
 				target.removeChild( options._container );
 			}
-			
-			SCCT_Module_Media.media.play();
 		}
 	} );
 } )( Popcorn );

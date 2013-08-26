@@ -146,9 +146,15 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 			$slide[$key] = $value;
 		}
 		$list[] = $slide;
+		usort( $list, array( $this, 'compare_slides' ) );
+		
 		$_POST[$this->slug]['list'] = $list;
 		
 		parent::save( $post_id );
+	}
+	
+	public function compare_slides( $a, $b ) {
+		return Session_CCT_View::string_to_seconds( $a['start'] ) > Session_CCT_View::string_to_seconds( $b['start'] );
 	}
 }
 

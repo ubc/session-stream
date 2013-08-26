@@ -39,7 +39,6 @@ var SCCT_Module_Questions = {
 			question: id,
 			answer: jQuery(".question-"+id+" input:radio[name='answer']:checked").val(),
 		}, function( response ) {
-			console.log(response);
 			if ( response != 1 && Session_CCT_View.data.questions.meta.mode == 'correct' ) {
 				jQuery(".question-"+id+" .error").show();
 			} else {
@@ -50,8 +49,6 @@ var SCCT_Module_Questions = {
 	
 	skip: function( element ) {
 		var id = jQuery(element).closest('.question-dialog').data('id');
-		console.log(SCCT_Module_Questions.questions+", "+id);
-		console.log(SCCT_Module_Questions.questions[id]);
 		SCCT_Module_Media.media.removeTrackEvent( SCCT_Module_Questions.questions[id] );
 	},
 	
