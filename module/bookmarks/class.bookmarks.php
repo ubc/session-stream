@@ -20,6 +20,16 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 		
 		?>
 		<div class="scct-admin-section">
+			<!-- Module Mode -->
+			<label>
+				Mode
+				<select name="<?php $this->field_name( "meta", "mode" ); ?>">
+					<option value="enabled" <?php selected( $data['meta']['mode'] == "enabled" ); ?>>Enabled</option>
+					<option value="disabled" <?php selected( $data['meta']['mode'] == "disabled" ); ?>>Disable Module</option>
+				</select>
+			</label>
+			<br />
+			<!-- Show Timestamp -->
 			<label>
 				<input type="checkbox" name="<?php $this->field_name( array( "meta", "show_time" ) ); ?>" <?php checked( $bookmarks['show_time']['meta'] ); ?> />
 				Show Timestamp

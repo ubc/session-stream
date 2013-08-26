@@ -34,11 +34,10 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 		<p>
 			<label>
 				Mode
-				<br />
 				<select name="<?php $this->field_name( "meta", "mode" ); ?>">
 					<option value="enabled" <?php selected( $data['meta']['mode'] == "enabled" ); ?>>Open</option>
 					<option value="locked" <?php selected( $data['meta']['mode'] == "locked" ); ?>>Locked</option>
-					<option value="disabled" <?php selected( $data['meta']['mode'] == "disabled" ); ?>>Disabled</option>
+					<option value="disabled" <?php selected( $data['meta']['mode'] == "disabled" ); ?>>Disable Module</option>
 				</select>
 				<br />
 				<small>When Locked, pulses will be displayed, but users will not be able to post any new ones.</small>

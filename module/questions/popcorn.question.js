@@ -56,6 +56,8 @@
 			options._container.style.display = "none";
 			options._container.innerHTML = options.text;
 			
+			//SCCT_Module_Questions.questions[options.id] = options._id;
+			
 			if ( options.sort ) {
 				var children = jQuery(target).children();
 				children.each( function() {
@@ -76,12 +78,9 @@
 		 * of the video  reaches the start time provided by the
 		 * options variable
 		 */
-		start: function( event, options ){
-			//options._container.style.display = "inline";
-			console.log(options);
+		start: function( event, options ) {
 			jQuery(options._container).fadeIn();
-			
-			SCCT_Module_Questions.current = options._id;
+			SCCT_Module_Questions.questions[options.id] = options._id;
 			SCCT_Module_Media.media.pause();
 		},
 		
@@ -91,11 +90,8 @@
 		 * of the video  reaches the end time provided by the
 		 * options variable
 		 */
-		end: function( event, options ){
-			//options._container.style.display = "none";
+		end: function( event, options ) {
 			jQuery(options._container).fadeOut();
-			
-			SCCT_Module_Questions.current = null;
 			SCCT_Module_Media.media.play();
 		},
 		
@@ -105,7 +101,6 @@
 				target.removeChild( options._container );
 			}
 			
-			SCCT_Module_Questions.current = null;
 			SCCT_Module_Media.media.play();
 		}
 	} );

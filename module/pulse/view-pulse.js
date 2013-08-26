@@ -7,8 +7,13 @@ var SCCT_Module_Pulse = {
 			.attr( 'name', 'ss_synctime' )
 			.appendTo( '.pulse-form' );
 		
+		jQuery('.pulse-form textarea').keyup( function() {
+			SCCT_Module_Media.media.pause();
+		} );
+		
 		jQuery('.pulse-form').submit( function() {
 			jQuery('.ss_synctime').val( SCCT_Module_Media.media.roundTime() );
+			SCCT_Module_Media.media.play();
 		} );
 	},
 	

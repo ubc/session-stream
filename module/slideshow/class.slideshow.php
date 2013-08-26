@@ -28,6 +28,16 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 		$slides = get_post_meta( $post->ID, 'session_cct_slides', true );
 		
 		?>
+		<div class="scct-admin-section">
+			<!-- Module Mode -->
+			<label>
+				Mode
+				<select name="<?php $this->field_name( "meta", "mode" ); ?>">
+					<option value="enabled" <?php selected( $data['meta']['mode'] == "enabled" ); ?>>Enabled</option>
+					<option value="disabled" <?php selected( $data['meta']['mode'] == "disabled" ); ?>>Disable Module</option>
+				</select>
+			</label>
+		</div>
 		<div class="scct-slide-list scct-section-list">
 			<?php
 				if ( ! empty( $slides['list'] ) ) {

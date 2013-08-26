@@ -43,7 +43,12 @@ class Session_CCT_View {
 	public static function the_session( $content ) {
 		global $post;
 		
-		wp_localize_script( 'scct-view', 'scct_data', apply_filters( "scct_localize_view", array() ) );
+		$data = apply_filters( "scct_localize_view", array(
+			'session_id' => $post->ID,
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+		) );
+		
+		wp_localize_script( 'scct-view', 'scct_data', $data );
 		
     	wp_enqueue_script( 'scct-view' );
     	wp_enqueue_style( 'scct-view' );
@@ -51,80 +56,6 @@ class Session_CCT_View {
 		ob_start();
 		do_action( "scct_print_view", $post->ID );
 		return ob_get_clean();
-		
-		/*
-		$bookmarks = get_post_meta( $post->ID, 'session_cct_bookmarks', true );
-		$questions = get_post_meta( $post->ID, 'session_cct_questions', true );
-		$media     = get_post_meta( $post->ID, 'session_cct_media',     true );
-		$slides    = get_post_meta( $post->ID, 'session_cct_slides',    true );
-		$pulse     = get_post_meta( $post->ID, 'session_cct_pulse',     true );
-		
-		foreach ( $slides['list'] as $index => $slide ) {
-			if ( ! empty( $slide['content'] ) ) {
-				$slides['list'][$index]['content'] = do_shortcode( $slide['content'] );
-			}
-			
-			$slides['list'][$index]['start'] = self::string_to_seconds( $slide['start'] );
-		}
-		
-		foreach ( $bookmarks['list'] as $index => $bookmark ) {
-			$bookmarks['list'][$index]['synctime'] = self::string_to_seconds( $bookmark['time'] );
-		}
-		
-		foreach ( $questions['list'] as $index => $question ) {
-			$questions['list'][$index]['synctime'] = self::string_to_seconds( $question['time'] );
-		}
-		
-		wp_localize_script( 'scct-view', 'scct_question_template', self::question_template() );
-		wp_localize_script( 'scct-view', 'session_data', array(
-			'media'     => $media,
-			'slides'    => $slides,
-			'bookmarks' => $bookmarks,
-			'questions' => $questions,
-		) );
-		self::enqueue_scripts_and_styles();
-		
-		ob_start();
-		?>
-		<div class="questions-wrapper">
-			<div id="scct-questions"></div>
-		</div>
-		<?php if ( $pulse['status'] != 'disabled' ): ?>
-			<div class="pulse-wrapper widget">
-				<div id="scct-pulse-list" class="pulse-widget">
-					<?php
-						if ( $pulse['status'] != 'locked' ) {
-							Pulse_CPT_Form_Widget::pulse_form( $pulse );
-						}
-					?>
-					<div id="pulse-list" class="pulse-list">
-						<!-- To be populated by PopcornJS -->
-					</div>
-				</div>
-			</div>
-		<?php endif; ?>
-		<div class="bookmarks-wrapper">
-			<ul id="scct-bookmarks">
-				<li class="title">
-					Bookmarks
-				</li>
-				<?php
-					foreach ( $bookmarks['list'] as $bookmark ) {
-						self::bookmark( $bookmark );
-					}
-				?>
-			</ul>
-		</div>
-		<div class="media-wrapper">
-			<div id="scct-media" class="iframe-wrapper <?php echo $media['type']; ?>"></div>
-		</div>
-		<div class="slideshow-wrapper">
-			<div id="scct-slide" class="slide"></div>
-		</div>
-		<?php
-		Pulse_CPT_Form_Widget::footer( $instance );
-		return ob_get_clean();
-		*/
 	}
 	
 	public static function string_to_seconds( $string ) {

@@ -7,6 +7,9 @@ class SCCT_Module_Questions extends Session_CCT_Module {
     	wp_register_style(  'scct-view-questions', SESSION_CCT_DIR_URL.'/module/questions/view-questions.css' );
     	wp_register_script( 'scct-view-questions', SESSION_CCT_DIR_URL.'/module/questions/view-questions.js', array( 'jquery' ), '1.0', true );
     	wp_register_script( 'popcornjs-questions', SESSION_CCT_DIR_URL.'/module/questions/popcorn.question.js', array( 'jquery', 'popcornjs' ), '1.0', true );
+		
+		add_action( 'wp_ajax_scct_answer', array( $this, 'register_answer' ) );
+		add_action( 'wp_ajax_nopriv_scct_answer', array( $this, 'register_answer' ) );
 	}
 	
 	public function load_admin() {
@@ -14,7 +17,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 	}
 	
 	public function load_view() {
-		add_filter( 'scct_localize_view', array( $this, 'localize_view' ) );
+		add_filter( 'scct_localize_view',  array( $this, 'localize_view' ) );
 	}
 	
 	public function admin( $post, $box ) {
@@ -122,10 +125,14 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 		<?php
 	}
 	
-	public function question_template() {
+	public function question_template( $data ) {
 		ob_start();
 		?>
-		<div class="question-dialog">
+		<div class="question-dialog question-{{=it.index}}" data-id="{{=it.index}}">
+			<div class="error" style="display: none;">
+				Incorrect Answer
+				<br /><br />
+			</div>
 			<div class="question">
 				{{=it.title}}
 			</div>
@@ -133,14 +140,16 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 				{{~it.answers :value:index}}
 					<li class="answer">
 						<label>
-							<input name="answer" type="radio" />
+							<input class="scctq-answer" name="answer" type="radio" value="{{=index}}" />
 							{{=value.title}}!
 						</label>
 					</li>
 				{{~}}
 			</ul>
-			<button class="btn btn-inverse" onclick="SCCT_Module_Questions.submit();">Submit</button>
-			<button class="btn btn-primary" onclick="SCCT_Module_Questions.skip();">Skip</button>
+			<button class="btn btn-inverse button" onclick="SCCT_Module_Questions.submit(this);">Submit</button>
+			<?php if ( $data['mode'] == 'skippable' ): ?>
+				<button class="btn btn-primary button" onclick="SCCT_Module_Questions.skip(this);">Skip</button>
+			<?php endif; ?>
 		</div>
 		<?php
 		return ob_get_clean();
@@ -148,9 +157,10 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 	
 	function localize_view( $data ) {
 		$data['questions'] = $this->data();
-		$data['questions']['template'] = $this->question_template();
+		$data['questions']['template'] = $this->question_template( $data['questions'] );
 		
 		foreach ( $data['questions']['list'] as $index => $question ) {
+			$data['questions']['list'][$index]['index'] = $index;
 			$data['questions']['list'][$index]['synctime'] = Session_CCT_View::string_to_seconds( $question['time'] );
 		}
 		
@@ -201,6 +211,13 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 		$_POST[$this->slug]['meta']['random'] = $_POST[$this->slug]['meta']['random'] == "on";
 		
 		parent::save( $post_id );
+	}
+	
+	public function register_answer() {
+		$data = $this->data( $_POST['session_id'] );
+		$data = $data['list'][$_POST['question']];
+		echo $data['answers'][$_POST['answer']]['correct'] == "on";
+		die();
 	}
 }
 
