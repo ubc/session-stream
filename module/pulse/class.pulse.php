@@ -2,7 +2,11 @@
 class SCCT_Module_Pulse extends Session_CCT_Module {
 	
 	function __construct() {
-		parent::__construct( "Pulse", "default", "side" );
+		parent::__construct( array(
+			'name'     => "Pulse",
+			'priority' => "default",
+			'context'  => "side",
+		) );
 		
     	wp_register_style(  'scct-view-pulse', SESSION_CCT_DIR_URL.'/module/pulse/view-pulse.css' );
     	wp_register_script( 'scct-view-pulse', SESSION_CCT_DIR_URL.'/module/pulse/view-pulse.js', array( 'jquery' ), '1.0', true );
@@ -119,7 +123,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 	}
 	
 	public function save( $post_id ) {
-		$_POST['pulse'] = array_merge( array(
+		$_POST[$this->atts['slug']] = array_merge( array(
 			'title'                  => '',
 			'display_title'          => false,
 			'compact_view'           => true,
@@ -137,7 +141,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 				'co_authoring' => false,
 				'file_upload'  => false,
 			),
-		), $_POST['pulse'] );
+		), $_POST[$this->atts['slug']] );
 		
 		parent::save( $post_id );
 	}

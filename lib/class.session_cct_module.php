@@ -17,7 +17,7 @@ class Session_CCT_Module {
 	
 	static function meta_box_add() {
 		foreach ( self::$modules as $index => $module ) {
-			add_meta_box( 'session-cct-'.$module->slug, __( $module->name, 'session-cct' ), array( $module, 'admin' ), SESSION_CCT_SLUG, $module->context, $module->priority );
+			add_meta_box( 'session-cct-'.$module->atts['slug'], __( $module->atts['name'], 'session-cct' ), array( $module, 'admin' ), SESSION_CCT_SLUG, $module->atts['context'], $module->atts['priority'] );
 		}
 	}
 	
@@ -34,7 +34,7 @@ class Session_CCT_Module {
 			$data = $module->data( $post_id );
 			if ( $data['meta']['mode'] != 'disabled' ) {
 				?>
-				<div class="<?php echo $module->slug; ?>-wrapper scct-wrapper">
+				<div class="<?php echo $module->atts['slug']; ?>-wrapper scct-wrapper">
 					<?php $module->view( $post_id ); ?>
 				</div>
 				<?php
@@ -65,18 +65,21 @@ class Session_CCT_Module {
 	
 	
 	// ============================== INSTANCE ============================== //
-	protected $name;
-	protected $slug;
-	private $context;
-	private $priority;
+	protected $atts;
 	
-	function __construct( $name, $priority = "default", $context = "normal" ) {
-		$this->name = $name;
-		$this->slug = self::slugify( $name );
-		$this->context = $context;
-		$this->priority = $priority;
-		self::$modules[] = $this;
+	function __construct( $atts ) {
+		$this->atts = wp_parse_args( $atts, array(
+			'name'     => "Untitled",
+			'slug'     => null,
+			'priority' => "default",
+			'context'  => "normal",
+		) );
 		
+		if ( empty( $this->atts['slug'] ) ) {
+			$this->atts['slug'] = self::slugify( $atts['name'] );
+		}
+		
+		self::$modules[] = $this;
 		add_action( 'admin_init', array( $this, 'load_admin' ) );
 	}
 	
@@ -96,7 +99,7 @@ class Session_CCT_Module {
 	}
 	
 	public function save( $post_id ) {
-		update_post_meta( $post_id, 'session_cct_'.$this->slug, $_POST[$this->slug] );
+		update_post_meta( $post_id, 'session_cct_'.$this->atts['slug'], $_POST[$this->atts['slug']] );
 	}
 	
 	public function data( $post_id = null ) {
@@ -105,7 +108,7 @@ class Session_CCT_Module {
 			$post_id = $post->ID;
 		}
 		
-		return get_post_meta( $post_id, 'session_cct_'.$this->slug, true );
+		return get_post_meta( $post_id, 'session_cct_'.$this->atts['slug'], true );
 	}
 	
 	public function field_name( $key ) {
@@ -113,7 +116,7 @@ class Session_CCT_Module {
 			$key = implode( "][", $key );
 		}
 		
-		echo $this->slug."[".$key."]";
+		echo $this->atts['slug']."[".$key."]";
 	}
 	
 	

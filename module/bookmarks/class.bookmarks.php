@@ -2,7 +2,10 @@
 class SCCT_Module_Bookmarks extends Session_CCT_Module {
 	
 	function __construct() {
-		parent::__construct( "Bookmarks", "high" );
+		parent::__construct( array(
+			'name'     => "Bookmarks",
+			'priority' => "high",
+		) );
 		
     	wp_register_style( 'scct-view-bookmarks', SESSION_CCT_DIR_URL.'/module/bookmarks/view-bookmarks.css' );
 	}
@@ -131,7 +134,7 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 	public function save( $post_id ) {
 		$bookmark = null;
 		$list = array();
-		foreach ( $_POST[$this->slug]['list'] as $field ) {
+		foreach ( $_POST[$this->atts['slug']]['list'] as $field ) {
 			reset( $field );
 			$key = key( $field );
 			$value = $field[$key];
@@ -147,7 +150,7 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 			$bookmark[$key] = $value;
 		}
 		$list[] = $bookmark;
-		$_POST[$this->slug]['list'] = $list;
+		$_POST[$this->atts['slug']]['list'] = $list;
 		
 		parent::save( $post_id );
 	}

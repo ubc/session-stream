@@ -2,7 +2,9 @@
 class SCCT_Module_Questions extends Session_CCT_Module {
 	
 	function __construct() {
-		parent::__construct( "Questions" );
+		parent::__construct( array(
+			'name' => "Questions",
+		) );
 		
     	wp_register_style(  'scct-view-questions', SESSION_CCT_DIR_URL.'/module/questions/view-questions.css' );
     	wp_register_script( 'scct-view-questions', SESSION_CCT_DIR_URL.'/module/questions/view-questions.js', array( 'jquery' ), '1.0', true );
@@ -190,7 +192,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 		$question = null;
 		$answer = null;
 		$list = array();
-		foreach ( $_POST[$this->slug]['list'] as $field ) {
+		foreach ( $_POST[$this->atts['slug']]['list'] as $field ) {
 			reset( $field );
 			$key = key( $field );
 			$value = $field[$key];
@@ -229,8 +231,8 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 		$list[] = $question;
 		usort( $list, array( $this, 'compare_questions' ) );
 		
-		$_POST[$this->slug]['list'] = $list;
-		$_POST[$this->slug]['meta']['random'] = $_POST[$this->slug]['meta']['random'] == "on";
+		$_POST[$this->atts['slug']]['list'] = $list;
+		$_POST[$this->atts['slug']]['meta']['random'] = $_POST[$this->atts['slug']]['meta']['random'] == "on";
 		
 		parent::save( $post_id );
 	}

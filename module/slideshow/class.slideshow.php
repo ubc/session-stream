@@ -2,7 +2,10 @@
 class SCCT_Module_Slideshow extends Session_CCT_Module {
 	
 	function __construct() {
-		parent::__construct( "Slides", "high" );
+		parent::__construct( array(
+			'name'     => "Slides",
+			'priority' => "high",
+		) );
 		
     	wp_register_style(  'scct-view-slideshow', SESSION_CCT_DIR_URL.'/module/slideshow/view-slideshow.css' );
     	wp_register_script( 'scct-view-slideshow', SESSION_CCT_DIR_URL.'/module/slideshow/view-slideshow.js',  array( 'jquery' ), '1.0', true );
@@ -130,7 +133,7 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	public function save( $post_id ) {
 		$slide = null;
 		$list = array();
-		foreach ( $_POST[$this->slug]['list'] as $field ) {
+		foreach ( $_POST[$this->atts['slug']]['list'] as $field ) {
 			reset( $field );
 			$key = key( $field );
 			$value = $field[$key];
@@ -148,7 +151,7 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 		$list[] = $slide;
 		usort( $list, array( $this, 'compare_slides' ) );
 		
-		$_POST[$this->slug]['list'] = $list;
+		$_POST[$this->atts['slug']]['list'] = $list;
 		
 		parent::save( $post_id );
 	}

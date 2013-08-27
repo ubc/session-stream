@@ -2,7 +2,10 @@
 class SCCT_Module_Media extends Session_CCT_Module {
 	
 	function __construct() {
-		parent::__construct( "Media", "high" );
+		parent::__construct( array(
+			'name'     => "Media",
+			'priority' => "high",
+		) );
 		
     	wp_register_style(  'scct-view-media', SESSION_CCT_DIR_URL.'/module/media/view-media.css' );
     	wp_register_script( 'scct-view-media', SESSION_CCT_DIR_URL.'/module/media/view-media.js',  array( 'jquery' ), '1.0', true );
