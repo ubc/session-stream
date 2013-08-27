@@ -19,7 +19,7 @@ var SCCT_Module_Pulse = {
 	
 	onContentLoad: function() {
 		if ( typeof CTLT_Stream != 'undefined' ) { // Check for stream activity
-            CTLT_Stream.on( 'server-push', Session_CCT_View.listen );
+            CTLT_Stream.on( 'server-push', SCCT_Module_Pulse.listen );
 		}
 		
 		SCCT_Module_Media.media.on( 'loadedmetadata', SCCT_Module_Pulse.loadPulses );

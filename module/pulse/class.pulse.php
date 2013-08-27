@@ -9,10 +9,10 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
     	wp_register_script( 'popcornjs-pulse', SESSION_CCT_DIR_URL.'/module/pulse/popcorn.pulse.js', array( 'jquery', 'popcornjs' ), '1.0', true );
 		
 		add_action( 'publish_pulse-cpt', array( __CLASS__, 'modify_pulse' ) );
+		add_filter( 'the_pulse_data', array( $this, 'the_pulse_data' ) );
 	}
 	
 	public function load_view() {
-		add_filter( 'the_pulse_data', array( $this, 'the_pulse_data' ) );
 		add_filter( 'scct_localize_view', array( $this, 'localize_view' ) );
 	}
 	
