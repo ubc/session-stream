@@ -24,7 +24,9 @@ class Session_CCT_Module {
 	static function load_modules() {
 		if ( Session_CCT_View::is_active() ) {
 			foreach ( self::$modules as $index => $module ) {
-				$module->load_view();
+				if ( $module->atts['active'] ) {
+					$module->load_view();
+				}
 			}
 		}
 	}
@@ -73,6 +75,7 @@ class Session_CCT_Module {
 			'slug'     => null,
 			'priority' => "default",
 			'context'  => "normal",
+			'active'   => true,
 		) );
 		
 		if ( empty( $this->atts['slug'] ) ) {

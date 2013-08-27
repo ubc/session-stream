@@ -14,3 +14,20 @@
 .pulse-wrapper .bookmark .time {
     float: right;
 }
+
+.pulse-wrapper .pulse-list {
+    overflow-y: scroll;
+    clear: both;
+    height: 100%;
+}
+
+.pulse-wrapper .postbox,
+.pulse-wrapper .postbox-placeholder {
+    float: left;
+    width: 100%;
+}
+
+.pulse-wrapper .pulse-widget {
+    overflow: hidden;
+    height: 100%;
+}

@@ -6,6 +6,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 			'name'     => "Pulse",
 			'priority' => "default",
 			'context'  => "side",
+			'active'   => Session_CCT::$plugins['pulse_cpt'],
 		) );
 		
     	wp_register_style(  'scct-view-pulse', SESSION_CCT_DIR_URL.'/module/pulse/view-pulse.css' );
@@ -28,7 +29,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 		
 		$data = array_merge( array(
 			'markers'     => "on",
-			'mode'      => "enabled",
+			'mode'        => "enabled",
 			'placeholder' => "",
 			'num_char'    => 140,
 		), $data );
@@ -44,6 +45,9 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 					<option value="disabled" <?php selected( $data['meta']['mode'] == "disabled" ); ?>>Disable Module</option>
 				</select>
 				<br />
+				<?php if ( ! $this->atts['active'] ): ?>
+					<small class="error">The Pulse CPT plugin was not found, therefore this module will not be rendered.</small>
+				<?php endif; ?>
 				<small>When Locked, pulses will be displayed, but users will not be able to post any new ones.</small>
 			</label>
 		</p>

@@ -6,6 +6,7 @@ class Session_CCT_View {
 		
     	wp_register_script( 'scct-view', SESSION_CCT_DIR_URL.'/js/view.js',  array( 'jquery', 'popcornjs' ), '1.0', true );
     	wp_register_style(  'scct-view', SESSION_CCT_DIR_URL.'/css/view.css' );
+    	wp_register_style(  'scct-layout', SESSION_CCT_DIR_URL.'/css/layout.css' );
 	}
 	
 	public static function load() {
@@ -52,6 +53,7 @@ class Session_CCT_View {
 		
     	wp_enqueue_script( 'scct-view' );
     	wp_enqueue_style( 'scct-view' );
+    	wp_enqueue_style( 'scct-layout' );
 		
 		ob_start();
 		do_action( "scct_print_view", $post->ID );

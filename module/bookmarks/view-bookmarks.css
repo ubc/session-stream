@@ -35,6 +35,10 @@
     -moz-box-sizing: border-box;
 }
 
+.bookmarks-wrapper a {
+    cursor: pointer;
+}
+
 .bookmarks-wrapper .timestamp {
     color: gray;
     padding: 0 5px;
