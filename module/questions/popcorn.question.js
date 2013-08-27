@@ -83,7 +83,8 @@
 			jQuery(options._container).fadeIn();
 			jQuery(options._container).addClass('visible');
 			SCCT_Module_Questions.questions[options.id] = options._id;
-			SCCT_Module_Media.media.pause();
+			
+			SCCT_Module_Media.pauseForModule();
 		},
 		
 		/**
@@ -97,7 +98,7 @@
 			jQuery(options._container).removeClass('visible');
 			
 			if ( jQuery('.dialog-wrapper.visible').length < 1 ) {
-				SCCT_Module_Media.media.play();
+				SCCT_Module_Media.playForModule();
 			}
 		},
 		

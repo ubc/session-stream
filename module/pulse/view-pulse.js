@@ -8,12 +8,12 @@ var SCCT_Module_Pulse = {
 			.appendTo( '.pulse-form' );
 		
 		jQuery('.pulse-form textarea').keyup( function() {
-			SCCT_Module_Media.media.pause();
+			SCCT_Module_Media.pauseForModule();
 		} );
 		
 		jQuery('.pulse-form').submit( function() {
 			jQuery('.ss_synctime').val( SCCT_Module_Media.media.roundTime() );
-			SCCT_Module_Media.media.play();
+			SCCT_Module_Media.playForModule();
 		} );
 	},
 	
