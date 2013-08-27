@@ -12,3 +12,56 @@
     
     box-shadow: 6px 6px 6px #888;
 }
+
+.questions-wrapper .submit {
+    display: none;
+}
+
+.questions-wrapper .question {
+    font-weight: bold;
+    font-size: 2em;
+    padding: 10px;
+}
+
+.questions-wrapper .answer {
+    font-weight: bold;
+    
+    -webkit-transition: background-color .2s ease-in;
+    -moz-transition: background-color .2s ease-in;
+    -o-transition: background-color .2s ease-in;
+    -ms-transition: background-color .2s ease-in;
+    transition: background-color .2s ease-in;
+}
+
+.questions-wrapper .answer label {
+    display: inline-block;
+    width: 100%;
+}
+
+.questions-wrapper .unanswered .answer label {
+    cursor: pointer;
+}
+
+.questions-wrapper .answer input {
+    display: none;
+}
+
+.questions-wrapper .answer label > div {
+    padding: 10px;
+}
+
+.questions-wrapper .unanswered .answer:hover {
+    background: lightgray;
+}
+
+.questions-wrapper .question-dialog .answer.selected {
+    background: gray;
+}
+
+.questions-wrapper .question-dialog .answer.wrong {
+    background: #FF4E50;
+}
+
+.questions-wrapper .question-dialog .answer.correct {
+    background: #88C425;
+}

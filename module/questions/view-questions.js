@@ -4,6 +4,8 @@ var SCCT_Module_Questions = {
 	onContentLoad: function() {
 		SCCT_Module_Media.media.on( 'loadedmetadata', SCCT_Module_Questions.loadQuestions );
 		Session_CCT_View.data.questions.template = doT.template( Session_CCT_View.data.questions.template );
+		
+		jQuery('.questions-wrapper').on( 'change.answer', ".unanswered input:radio[name='answer']:checked", SCCT_Module_Questions.onChange );
 	},
 	
 	loadQuestions: function() {
@@ -30,19 +32,30 @@ var SCCT_Module_Questions = {
 		} );
 	},
 	
-	submit: function( element ) {
-		var id = jQuery(element).closest('.question-dialog').data('id');
+	onChange: function() {
+		var element = jQuery(this);
+		var dialog = element.closest('.question-dialog');
+		var id = dialog.data('id');
+		var answer = element.closest('.answer');
+		
+		answer.siblings('.selected').removeClass('selected');
+		answer.addClass('selected');
 		
 		jQuery.post( Session_CCT_View.data.ajaxurl, {
 			action: 'scct_answer',
 			session_id: Session_CCT_View.data.session_id,
 			question: id,
-			answer: jQuery(".question-"+id+" input:radio[name='answer']:checked").val(),
+			answer: element.val(),
 		}, function( response ) {
-			if ( response != 1 && Session_CCT_View.data.questions.meta.mode == 'correct' ) {
-				jQuery(".question-"+id+" .error").show();
+			if ( response == 1 ) {
+				answer.addClass('correct');
+				dialog.removeClass('unanswered');
 			} else {
-				SCCT_Module_Questions.skip( element );
+				answer.addClass('wrong');
+			}
+			
+			if ( Session_CCT_View.data.questions.meta.mode == 'any' || response == 1 ) {
+				dialog.find('.submit').fadeIn();
 			}
 		} );
 	},

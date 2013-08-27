@@ -69,6 +69,26 @@
 			} else {
 				target.appendChild( options._container );
 			}
+			
+			/** For reversed display order.
+			if ( options.sort ) {
+				var children = jQuery(target).children();
+				var success = false;
+				children.each( function() {
+					if ( this.dataset.start >= options.start ) {
+						target.insertBefore( options._container, this );
+						success = true;
+					}
+					return ! success;
+				} );
+				
+				if ( ! success ) {
+					target.appendChild( options._container );
+				}
+			} else {
+				target.insertBefore( options._container, target.firstChild );
+			}
+			*/
 		},
 		
 		/**

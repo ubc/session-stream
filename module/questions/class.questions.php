@@ -139,7 +139,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 	public function question_template( $data ) {
 		ob_start();
 		?>
-		<div class="question-dialog question-{{=it.index}}" data-id="{{=it.index}}">
+		<div class="question-dialog question-{{=it.index}} unanswered" data-id="{{=it.index}}">
 			<div class="error" style="display: none;">
 				Incorrect Answer
 				<br /><br />
@@ -151,13 +151,15 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 				{{~it.answers :value:index}}
 					<li class="answer">
 						<label>
-							<input class="scctq-answer" name="answer" type="radio" value="{{=index}}" />
-							{{=value.title}}!
+							<div>
+								<input class="scctq-answer" name="answer" type="radio" value="{{=index}}" />
+								{{=value.title}}
+							</div>
 						</label>
 					</li>
 				{{~}}
 			</ul>
-			<button class="btn btn-inverse button" onclick="SCCT_Module_Questions.submit(this);">Submit</button>
+			<button class="btn btn-inverse button submit" onclick="SCCT_Module_Questions.skip(this);">Okay</button>
 			<?php if ( $data['meta']['mode'] == 'skippable' ): ?>
 				<button class="btn btn-primary button" onclick="SCCT_Module_Questions.skip(this);">Skip</button>
 			<?php endif; ?>
