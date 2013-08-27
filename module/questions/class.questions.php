@@ -8,8 +8,8 @@ class SCCT_Module_Questions extends Session_CCT_Module {
     	wp_register_script( 'scct-view-questions', SESSION_CCT_DIR_URL.'/module/questions/view-questions.js', array( 'jquery' ), '1.0', true );
     	wp_register_script( 'popcornjs-questions', SESSION_CCT_DIR_URL.'/module/questions/popcorn.question.js', array( 'jquery', 'popcornjs' ), '1.0', true );
 		
-		add_action( 'wp_ajax_scct_answer', array( $this, 'register_answer' ) );
-		add_action( 'wp_ajax_nopriv_scct_answer', array( $this, 'register_answer' ) );
+		add_action( 'wp_ajax_scct_answer', array( $this, 'ajax_register_answer' ) );
+		add_action( 'wp_ajax_nopriv_scct_answer', array( $this, 'ajax_register_answer' ) );
 	}
 	
 	public function load_admin() {
@@ -183,8 +183,6 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 			$data['questions']['list'][$index] = $question;
 		}
 		
-		error_log( "Questions ".print_r( $data['questions'], TRUE ) );
-		
 		return $data;
 	}
 	
@@ -229,13 +227,19 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 		
 		$question['answers'][] = $answer;
 		$list[] = $question;
+		usort( $list, array( $this, 'compare_questions' ) );
+		
 		$_POST[$this->slug]['list'] = $list;
 		$_POST[$this->slug]['meta']['random'] = $_POST[$this->slug]['meta']['random'] == "on";
 		
 		parent::save( $post_id );
 	}
 	
-	public function register_answer() {
+	public function compare_questions( $a, $b ) {
+		return Session_CCT_View::string_to_seconds( $a['time'] ) > Session_CCT_View::string_to_seconds( $b['time'] );
+	}
+	
+	public function ajax_register_answer() {
 		$data = $this->data( $_POST['session_id'] );
 		$data = $data['list'][$_POST['question']];
 		echo $data['answers'][$_POST['answer']]['correct'] == "on";
