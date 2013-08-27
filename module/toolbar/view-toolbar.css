@@ -1,0 +1,39 @@
+.toolbar-wrapper {
+    position: fixed;
+    right: 0;
+    
+    background: white;
+    margin: 0;
+    height: 100%;
+    
+    outline: 1px dashed black;
+    z-index: 15;
+}
+
+.toolbar-wrapper .module-icon {
+    padding: 5px;
+    margin: 5px;
+    border: 2px solid white;
+    border-radius: 3px;
+    opacity: 0.5;
+    
+    -webkit-transition: all .2s ease-in;
+    -moz-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    -ms-transition: all .2s ease-in;
+    transition: all .2s ease-in;
+}
+
+.toolbar-wrapper .tool.selected .module-icon {
+    opacity: 1;
+}
+
+.toolbar-wrapper .tool {
+    font-size: 30px;
+    cursor: pointer;
+    display: block;
+}
+
+.toolbar-wrapper .tool:hover .module-icon {
+    border-color: black;
+}

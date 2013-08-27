@@ -4,7 +4,9 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	function __construct() {
 		parent::__construct( array(
 			'name'     => "Slides",
+			'slug'     => "slideshow",
 			'priority' => "high",
+			'order'    => 5,
 		) );
 		
     	wp_register_style(  'scct-view-slideshow', SESSION_CCT_DIR_URL.'/module/slideshow/view-slideshow.css' );
@@ -118,12 +120,14 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	function localize_view( $data ) {
 		$slideshow = $this->data();
 		
-		foreach ( $slideshow['list'] as $index => $slide ) {
-			if ( ! empty( $slide['content'] ) ) {
-				$slideshow['list'][$index]['content'] = do_shortcode( $slide['content'] );
+		if ( empty( $slideshow['list'] ) ) {
+			foreach ( $slideshow['list'] as $index => $slide ) {
+				if ( ! empty( $slide['content'] ) ) {
+					$slideshow['list'][$index]['content'] = do_shortcode( $slide['content'] );
+				}
+				
+				$slideshow['list'][$index]['start'] = Session_CCT_View::string_to_seconds( $slide['start'] );
 			}
-			
-			$slideshow['list'][$index]['start'] = Session_CCT_View::string_to_seconds( $slide['start'] );
 		}
 		
 		$data['slideshow'] = $slideshow;

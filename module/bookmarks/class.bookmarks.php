@@ -5,6 +5,7 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 		parent::__construct( array(
 			'name'     => "Bookmarks",
 			'priority' => "high",
+			'order'    => 10,
 		) );
 		
     	wp_register_style( 'scct-view-bookmarks', SESSION_CCT_DIR_URL.'/module/bookmarks/view-bookmarks.css' );

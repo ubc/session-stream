@@ -1,0 +1,9 @@
+@media screen and (max-width: 767px) {
+    .hidden-mobile {
+        display: none;
+    }
+    
+    .scct-wrapper {
+        margin-bottom: 10px;
+    }
+}

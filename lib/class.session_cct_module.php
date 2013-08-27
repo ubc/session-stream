@@ -7,8 +7,11 @@ class Session_CCT_Module {
 		add_action( 'load-post.php',     array( __CLASS__, 'meta_box_setup' ) );
 		add_action( 'load-post-new.php', array( __CLASS__, 'meta_box_setup' ) );
 		add_action( 'save_post',         array( __CLASS__, 'save_post_meta' ), 10, 2 );
-		add_action( 'scct_print_view',   array( __CLASS__, 'print_view' ) );
 		add_action( 'wp',                array( __CLASS__, 'load_modules' ) );
+	}
+	
+	public static function get_modules() {
+		return self::$modules;
 	}
 	
 	static function meta_box_setup() {
@@ -17,29 +20,18 @@ class Session_CCT_Module {
 	
 	static function meta_box_add() {
 		foreach ( self::$modules as $index => $module ) {
-			add_meta_box( 'session-cct-'.$module->atts['slug'], __( $module->atts['name'], 'session-cct' ), array( $module, 'admin' ), SESSION_CCT_SLUG, $module->atts['context'], $module->atts['priority'] );
+			if ( $module->atts['has_admin'] ) {
+				add_meta_box( 'session-cct-'.$module->atts['slug'], __( $module->atts['name'], 'session-cct' ), array( $module, 'admin' ), SESSION_CCT_SLUG, $module->atts['context'], $module->atts['priority'] );
+			}
 		}
 	}
 	
 	static function load_modules() {
 		if ( Session_CCT_View::is_active() ) {
 			foreach ( self::$modules as $index => $module ) {
-				if ( $module->atts['active'] ) {
+				if ( $module->atts['has_view'] ) {
 					$module->load_view();
 				}
-			}
-		}
-	}
-	
-	static function print_view( $post_id ) {
-		foreach ( self::$modules as $index => $module ) {
-			$data = $module->data( $post_id );
-			if ( $data['meta']['mode'] != 'disabled' ) {
-				?>
-				<div class="<?php echo $module->atts['slug']; ?>-wrapper scct-wrapper">
-					<?php $module->view( $post_id ); ?>
-				</div>
-				<?php
 			}
 		}
 	}
@@ -61,7 +53,9 @@ class Session_CCT_Module {
 		endif;
 		
 		foreach ( self::$modules as $index => $module ) {
-			$module->save( $post_id );
+			if ( $module->atts['has_admin'] ) {
+				$module->save( $post_id );
+			}
 		}
 	}
 	
@@ -71,19 +65,33 @@ class Session_CCT_Module {
 	
 	function __construct( $atts ) {
 		$this->atts = wp_parse_args( $atts, array(
-			'name'     => "Untitled",
-			'slug'     => null,
-			'priority' => "default",
-			'context'  => "normal",
-			'active'   => true,
+			'name'      => "Untitled",
+			'slug'      => null,
+			'icon'      => null,
+			'context'   => "normal",
+			'priority'  => "default",
+			'order'     => 10,
+			'has_admin' => true,
+			'has_view'  => true,
 		) );
 		
-		if ( empty( $this->atts['slug'] ) ) {
+		if ( $this->atts['slug'] === null ) {
 			$this->atts['slug'] = self::slugify( $atts['name'] );
 		}
 		
+		if ( $this->atts['icon'] === null ) {
+			$this->atts['icon'] = SESSION_CCT_DIR_URL.'/img/'.$this->atts['slug'].'.svg';
+		}
+		
 		self::$modules[] = $this;
-		add_action( 'admin_init', array( $this, 'load_admin' ) );
+		
+		if ( $this->atts['has_admin'] ) {
+			add_action( 'admin_init', array( $this, 'load_admin' ) );
+		}
+		
+		if ( $this->atts['has_view'] ) {
+			add_action( 'scct_print_view', array( $this, 'wrapper' ), $this->atts['order'] );
+		}
 	}
 	
 	public function load_admin() {}
@@ -93,6 +101,25 @@ class Session_CCT_Module {
 		?>
 		<strong>Warning!</strong> This module has not implemented an admin view.
 		<?php
+	}
+	
+	final public function wrapper( $post_id ) {
+		$data = $this->data( $post_id );
+		if ( ! isset( $data['meta']['mode'] ) || $data['meta']['mode'] != 'disabled' ) {
+			?>
+			<div class="<?php echo $this->atts['slug']; ?>-wrapper scct-wrapper">
+				<?php if ( ! empty( $this->atts['icon'] ) ): ?>
+				<div class="title hidden-desktop">
+					<?php $this->icon(); ?>
+					<strong><?php echo $this->atts['name']; ?></strong>
+				</div>
+				<?php endif; ?>
+				<div class="scct-inner-wrapper">
+					<?php $this->view( $post_id ); ?>
+				</div>
+			</div>
+			<?php
+		}
 	}
 	
 	public function view() {
@@ -122,8 +149,19 @@ class Session_CCT_Module {
 		echo $this->atts['slug']."[".$key."]";
 	}
 	
+	public function icon() {
+		self::module_icon( $this->atts['icon'] );
+	}
+	
 	
 	// ============================== UTILITY ============================== //
+	
+	public function module_icon( $url ) {
+		?>
+		<!--<object class="module-icon" data="<?php echo $url; ?>" type="image/svg+xml"></object>-->
+		<img class="module-icon" src="<?php echo $url; ?>" />
+		<?php
+	}
 	
 	/** Courtesy of http://stackoverflow.com/a/2955878 */
 	static public function slugify( $text ) {

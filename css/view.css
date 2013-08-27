@@ -9,37 +9,32 @@ body {
     box-sizing: border-box;
 }
 
+.scct-wrapper .title {
+    font-size: 15px;
+    padding: 5px;
+}
+
+.scct-wrapper .module-icon {
+    height: 1em;
+    vertical-align: bottom;
+}
+
 .session-cct .media-wrapper {
     color: black;
     outline: 1px dashed purple;
-    float: left;
-    width: 60%;
-    margin: 5px;
 }
 
-.session-cct .slides-wrapper {
+.session-cct .slideshow-wrapper {
     color: black;
     outline: 1px dashed red;
-    float: left;
-    height: 230px;
-    width: 60%;
-    margin: 5px;
 }
 
 .session-cct .pulse-wrapper {
     color: black;
     outline: 1px dashed blue;
-    float: right;
-    height: 600px;
-    width: 25%;
-    margin: 5px;
 }
 
 .session-cct .bookmarks-wrapper {
     color: black;
     outline: 1px dashed green;
-    float: right;
-    height: 300px;
-    width: 10%;
-    margin: 5px;
 }

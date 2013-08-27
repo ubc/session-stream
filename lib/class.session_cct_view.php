@@ -5,8 +5,9 @@ class Session_CCT_View {
 		add_action( 'init', array( __CLASS__, 'load' ) );
 		
     	wp_register_script( 'scct-view', SESSION_CCT_DIR_URL.'/js/view.js',  array( 'jquery', 'popcornjs' ), '1.0', true );
-    	wp_register_style(  'scct-view', SESSION_CCT_DIR_URL.'/css/view.css' );
-    	wp_register_style(  'scct-layout', SESSION_CCT_DIR_URL.'/css/layout.css' );
+    	wp_register_style( 'scct-view', SESSION_CCT_DIR_URL.'/css/view.css' );
+    	wp_register_style( 'scct-layout-desktop', SESSION_CCT_DIR_URL.'/css/layout-desktop.css' );
+    	wp_register_style( 'scct-layout-mobile', SESSION_CCT_DIR_URL.'/css/layout-mobile.css' );
 	}
 	
 	public static function load() {
@@ -53,7 +54,8 @@ class Session_CCT_View {
 		
     	wp_enqueue_script( 'scct-view' );
     	wp_enqueue_style( 'scct-view' );
-    	wp_enqueue_style( 'scct-layout' );
+    	wp_enqueue_style( 'scct-layout-mobile' );
+		wp_enqueue_style( 'scct-layout-desktop' );
 		
 		ob_start();
 		do_action( "scct_print_view", $post->ID );

@@ -4,6 +4,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 	function __construct() {
 		parent::__construct( array(
 			'name' => "Questions",
+			'icon' => false,
 		) );
 		
     	wp_register_style(  'scct-view-questions', SESSION_CCT_DIR_URL.'/module/questions/view-questions.css' );

@@ -1,0 +1,36 @@
+@media screen and (min-width: 768px) {
+    .hidden-desktop {
+        display: none;
+    }
+    
+    .hidden {
+        display: none;
+    }
+    
+    .scct-wrapper {
+        margin: 5px;
+    }
+    
+    .session-cct .media-wrapper {
+        float: left;
+        width: 60%;
+    }
+    
+    .session-cct .slideshow-wrapper {
+        float: left;
+        height: 230px;
+        width: 60%;
+    }
+    
+    .session-cct .pulse-wrapper {
+        float: right;
+        height: 600px;
+        width: 25%;
+    }
+    
+    .session-cct .bookmarks-wrapper {
+        float: right;
+        height: 300px;
+        width: 10%;
+    }
+}
