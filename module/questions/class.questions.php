@@ -17,7 +17,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 	}
 	
 	public function load_view() {
-		add_filter( 'scct_localize_view',  array( $this, 'localize_view' ) );
+		add_filter( 'scct_localize_view', array( $this, 'localize_view' ) );
 	}
 	
 	public function admin( $post, $box ) {
@@ -152,7 +152,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 					<li class="answer">
 						<label>
 							<div>
-								<input class="scctq-answer" name="answer" type="radio" value="{{=index}}" />
+								<input class="scctq-answer" name="answer" type="radio" value="{{=value.index}}" />
 								{{=value.title}}
 							</div>
 						</label>
@@ -173,9 +173,17 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 		$data['questions']['template'] = $this->question_template( $data['questions'] );
 		
 		foreach ( $data['questions']['list'] as $index => $question ) {
-			$data['questions']['list'][$index]['index'] = $index;
-			$data['questions']['list'][$index]['synctime'] = Session_CCT_View::string_to_seconds( $question['time'] );
+			foreach ( $question['answers'] as $answer_index => $answer ) {
+				$answer['index'] = $answer_index;
+				$question['answers'][$answer_index] = $answer;
+			}
+			
+			$question['index'] = $index;
+			$question['synctime'] = Session_CCT_View::string_to_seconds( $question['time'] );
+			$data['questions']['list'][$index] = $question;
 		}
+		
+		error_log( "Questions ".print_r( $data['questions'], TRUE ) );
 		
 		return $data;
 	}

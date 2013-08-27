@@ -12,11 +12,11 @@ var SCCT_Module_Questions = {
 		var list = Session_CCT_View.data.questions.list;
 		
 		for ( index in list ) {
-			SCCT_Module_Questions.addQuestion( list[index].index, list[index], list[index].synctime );
+			SCCT_Module_Questions.addQuestion( list[index] );
 		}
 	},
 	
-	addQuestion: function( id, data, start ) {
+	addQuestion: function( data ) {
 		if ( Session_CCT_View.data.questions.meta.random ) {
 			data.answers = SCCT_Module_Questions.shuffle( data.answers );
 		}
@@ -24,8 +24,8 @@ var SCCT_Module_Questions = {
 		var new_question = Session_CCT_View.data.questions.template( data );
 		
 		SCCT_Module_Media.media.question( {
-			id: id,
-			start: start,
+			id: data.index,
+			start: data.synctime,
 			end: SCCT_Module_Media.media.duration(),
 			text: new_question,
 			target: "scct-questions",
