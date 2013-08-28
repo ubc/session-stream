@@ -1,12 +1,21 @@
 body {
-    background: white;
+    background: black;
 }
 
 #primary {
     margin: 0;
+    /*
     padding: 1%;
-    width: 100%;
+    */
     box-sizing: border-box;
+    position: absolute;
+    top: 28px;
+    bottom: 0;
+    width: 100%;
+}
+
+.scct-wrapper {
+    background: white;
 }
 
 .scct-wrapper .title {
@@ -37,4 +46,8 @@ body {
 .session-cct .bookmarks-wrapper {
     color: black;
     outline: 1px dashed green;
+}
+
+.session-cct .toolbar-wrapper {
+    outline: 1px dashed black;
 }

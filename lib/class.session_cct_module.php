@@ -8,6 +8,7 @@ class Session_CCT_Module {
 		add_action( 'load-post-new.php', array( __CLASS__, 'meta_box_setup' ) );
 		add_action( 'save_post',         array( __CLASS__, 'save_post_meta' ), 10, 2 );
 		add_action( 'wp',                array( __CLASS__, 'load_modules' ) );
+		add_filter( 'scct_classes',      array( __CLASS__, 'add_classes' ) );
 	}
 	
 	public static function get_modules() {
@@ -34,6 +35,16 @@ class Session_CCT_Module {
 				}
 			}
 		}
+	}
+	
+	static function add_classes( $array ) {
+		foreach ( self::$modules as $index => $module ) {
+			if ( $module->atts['has_view'] ) {
+				$array[] = 'module-'.$module->atts['slug'];
+			}
+		}
+		
+		return $array;
 	}
 	
 	static function save_post_meta( $post_id, $post_object ) {

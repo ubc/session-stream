@@ -58,7 +58,11 @@ class Session_CCT_View {
 		wp_enqueue_style( 'scct-layout-desktop' );
 		
 		ob_start();
-		do_action( "scct_print_view", $post->ID );
+		?>
+		<div class="session-cct <?php echo implode( " ", apply_filters( "scct_classes", array() ) ); ; ?>">
+			<?php do_action( "scct_print_view", $post->ID ); ?>
+		</div>
+		<?php
 		return ob_get_clean();
 	}
 	

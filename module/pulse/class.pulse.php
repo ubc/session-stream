@@ -7,7 +7,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 			'priority' => "default",
 			'context'  => "side",
 			'has_view' => Session_CCT::$plugins['pulse_cpt'],
-			'order'    => 15,
+			'order'    => 5,
 		) );
 		
     	wp_register_style(  'scct-view-pulse', SESSION_CCT_DIR_URL.'/module/pulse/view-pulse.css' );

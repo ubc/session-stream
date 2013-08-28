@@ -6,6 +6,7 @@ class SCCT_Module_Toolbar extends Session_CCT_Module {
 			'name'      => "Toolbar",
 			'has_admin' => false,
 			'icon'      => false,
+			'order'     => 0,
 		) );
 		
     	wp_register_style( 'scct-view-toolbar', SESSION_CCT_DIR_URL.'/module/toolbar/view-toolbar.css' );

@@ -3,34 +3,77 @@
         display: none;
     }
     
+    body {
+        overflow: hidden;
+        height: 100%;
+    }
+    
     .hidden {
         display: none;
     }
     
-    .scct-wrapper {
-        margin: 5px;
+    .media-wrapper {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 60px;
     }
     
-    .session-cct .media-wrapper {
+    .session-cct.module-pulse .media-wrapper {
+        margin-right: 20.4%;
+    }
+    
+    .session-cct.module-slideshow .media-wrapper {
+        position: static;
         float: left;
-        width: 60%;
+        width: 50%;
     }
     
-    .session-cct .slideshow-wrapper {
-        float: left;
-        height: 230px;
-        width: 60%;
+    .slideshow-wrapper {
+        position: absolute;
+        right: 55px;
+        bottom: 0;
+        left: 5px;
+        top: 5px;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        z-index: -1;
     }
     
-    .session-cct .pulse-wrapper {
-        float: right;
-        height: 600px;
-        width: 25%;
+    .session-cct.module-media .slideshow-wrapper {
+        height: 40%;
+        width: 50%;
+        left: auto;
+        top: auto;
     }
     
-    .session-cct .bookmarks-wrapper {
-        float: right;
-        height: 300px;
+    .session-cct.module-pulse .slideshow-wrapper {
+        margin-right: 20.4%;
+    }
+    
+    .pulse-wrapper {
+        position: absolute;
+        right: 55px;
+        height: 100%;
+        width: 20%;
+        z-index: 10;
+    }
+    
+    .bookmarks-wrapper {
+        position: absolute;
+        right: 55px;
         width: 10%;
+        z-index: 10;
+    }
+    
+    .session-cct.module-pulse .bookmarks-wrapper {
+        margin-right: 20%;
+    }
+    
+    .toolbar-wrapper {
+        position: absolute;
+        right: 0;
+        height: 100%;
+        width: 55px;
     }
 }

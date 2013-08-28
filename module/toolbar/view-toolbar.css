@@ -1,12 +1,6 @@
 .toolbar-wrapper {
-    position: fixed;
-    right: 0;
-    
     background: white;
     margin: 0;
-    height: 100%;
-    
-    outline: 1px dashed black;
     z-index: 15;
 }
 

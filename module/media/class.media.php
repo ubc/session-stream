@@ -5,7 +5,7 @@ class SCCT_Module_Media extends Session_CCT_Module {
 		parent::__construct( array(
 			'name'     => "Media",
 			'priority' => "high",
-			'order'    => 1,
+			'order'    => 10,
 		) );
 		
     	wp_register_style(  'scct-view-media', SESSION_CCT_DIR_URL.'/module/media/view-media.css' );
