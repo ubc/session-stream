@@ -16,9 +16,17 @@ body {
 
 .scct-wrapper {
     background: white;
+    overflow: hidden;
+    overflow: hidden;
+    
+    -webkit-transition: max-height .2s ease-in;
+    -moz-transition: max-height .2s ease-in;
+    -o-transition: max-height .2s ease-in;
+    -ms-transition: max-height .2s ease-in;
+    transition: max-height .2s ease-in;
 }
 
-.scct-wrapper .title {
+.scct-wrapper .scct-title {
     font-size: 15px;
     padding: 5px;
 }
@@ -50,4 +58,29 @@ body {
 
 .session-cct .toolbar-wrapper {
     outline: 1px dashed black;
+}
+
+.toggle-collapse {
+    cursor: pointer;
+}
+
+.scct-wrapper .collapse-indicator {
+    float: right;
+    height: 1em;
+    
+    -webkit-transition: all .2s ease-in;
+    -moz-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    -ms-transition: all .2s ease-in;
+    transition: all .2s ease-in;
+    
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Safari and Chrome */
+}
+
+.scct-wrapper.collapsed .collapse-indicator {
+    transform: rotate(180deg);
+    -ms-transform: rotate(180deg); /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Safari and Chrome */
 }

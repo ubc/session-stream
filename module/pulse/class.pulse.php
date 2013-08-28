@@ -3,11 +3,12 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 	
 	function __construct() {
 		parent::__construct( array(
-			'name'     => "Pulse",
+			'name'     => "Comments",
+			'slug'     => "pulse",
 			'priority' => "default",
 			'context'  => "side",
 			'has_view' => Session_CCT::$plugins['pulse_cpt'],
-			'order'    => 5,
+			'order'    => 20,
 		) );
 		
     	wp_register_style(  'scct-view-pulse', SESSION_CCT_DIR_URL.'/module/pulse/view-pulse.css' );

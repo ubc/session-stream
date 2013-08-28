@@ -13,3 +13,5 @@ http://thenounproject.com/noun/video-player/#icon-No10681
 http://thenounproject.com/noun/bookmark/#icon-No10065
 "Exchange" icon designed by George Ianta from The Noun Project
 http://thenounproject.com/noun/exchange/#icon-No20748
+"Right Arrow" icon designed by Michael Zenaty from The Noun Project
+http://thenounproject.com/noun/right-arrow/#icon-No21828

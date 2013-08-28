@@ -24,7 +24,7 @@
     }
     
     .session-cct.module-slideshow .media-wrapper {
-        position: static;
+        position: relative;
         float: left;
         width: 50%;
     }

@@ -7,4 +7,8 @@
         margin-bottom: 10px;
         max-height: 50%;
     }
+    
+    .scct-wrapper.collapsed {
+        max-height: 25px;
+    }
 }

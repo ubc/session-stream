@@ -6,7 +6,7 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 			'name'     => "Slides",
 			'slug'     => "slideshow",
 			'priority' => "high",
-			'order'    => 15,
+			'order'    => 5,
 		) );
 		
     	wp_register_style(  'scct-view-slideshow', SESSION_CCT_DIR_URL.'/module/slideshow/view-slideshow.css' );

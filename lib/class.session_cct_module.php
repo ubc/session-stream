@@ -120,9 +120,10 @@ class Session_CCT_Module {
 			?>
 			<div class="<?php echo $this->atts['slug']; ?>-wrapper scct-wrapper">
 				<?php if ( ! empty( $this->atts['icon'] ) ): ?>
-				<div class="title hidden-desktop">
+				<div class="scct-title hidden-desktop toggle-collapse">
 					<?php $this->icon(); ?>
 					<strong><?php echo $this->atts['name']; ?></strong>
+					<img class="collapse-indicator" src="<?php echo SESSION_CCT_DIR_URL.'/img/arrow.svg'; ?>" />
 				</div>
 				<?php endif; ?>
 				<div class="scct-inner-wrapper">
