@@ -1,13 +1,9 @@
 var Session_CCT_View = {
 	data: scct_data,
 	
-	toggleModuleDisplay: function( slug, source ) {
+	toggleModuleDisplay: function( slug ) {
 		jQuery('.'+slug+'-wrapper').toggleClass('hidden');
 		jQuery('.session-cct').toggleClass('module-'+slug);
-		
-		if ( source != undefined ) {
-			jQuery(source).toggleClass('selected');
-		}
 	}
 }
 

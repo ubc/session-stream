@@ -40,6 +40,10 @@
         z-index: -1;
     }
     
+    .session-cct.invert-media .slideshow-wrapper {
+        z-index: 1;
+    }
+    
     .session-cct.module-media .slideshow-wrapper {
         height: 40%;
         width: 50%;

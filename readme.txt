@@ -11,3 +11,5 @@ http://thenounproject.com/noun/slideshow/#icon-No6517
 http://thenounproject.com/noun/video-player/#icon-No10681
 "Bookmark" icon designed by iconoci from The Noun Project
 http://thenounproject.com/noun/bookmark/#icon-No10065
+"Exchange" icon designed by George Ianta from The Noun Project
+http://thenounproject.com/noun/exchange/#icon-No20748
