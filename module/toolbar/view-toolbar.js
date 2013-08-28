@@ -12,7 +12,7 @@ var SCCT_Module_Toolbar = {
 	},
 	
 	toggleModuleDisplay: function( slug, button ) {
-		jQuery(source).toggleClass('selected');
+		jQuery(button).toggleClass('selected');
 		Session_CCT_View.toggleModuleDisplay(slug);
 	},
 }
