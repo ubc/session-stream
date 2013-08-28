@@ -18,6 +18,12 @@ class SCCT_Module_Toolbar extends Session_CCT_Module {
 		wp_enqueue_script( 'twitter-bootstrap' );
 		wp_enqueue_script( 'scct-view-toolbar' );
 		wp_enqueue_style( 'scct-view-toolbar' );
+		
+		$exit_url = $_SERVER['HTTP_REFERER'];
+		if ( empty( $exit_url ) ) {
+			$exit_url = home_url();
+		}
+		
 		?>
 		<ul id="scct-toolbar" class="hidden-mobile">
 			<?php
@@ -33,7 +39,7 @@ class SCCT_Module_Toolbar extends Session_CCT_Module {
 				</a>
 			</li>
 			<li>
-				<a class="tool selected" data-toggle="tooltip" title="Exit" href="<?php echo home_url(); ?>">
+				<a class="tool selected" data-toggle="tooltip" title="Exit" href="<?php echo $exit_url; ?>">
 					<?php Session_CCT_Module::module_icon( SESSION_CCT_DIR_URL.'/img/exit.svg' ); ?>
 				</a>
 			</li>
@@ -44,7 +50,7 @@ class SCCT_Module_Toolbar extends Session_CCT_Module {
 	private function view_icon( $module ) {
 		?>
 		<li>
-			<a class="tool selected" data-toggle="tooltip" title="<?php echo $module->atts['name']; ?>" onclick="SCCT_Module_Toolbar.toggleModuleDisplay( '<?php echo $module->atts['slug']; ?>', this )">
+			<a class="tool selected tool-<?php echo $module->atts['slug']; ?>" data-toggle="tooltip" title="<?php echo $module->atts['name']; ?>" onclick="SCCT_Module_Toolbar.toggleModuleDisplay( '<?php echo $module->atts['slug']; ?>', this )">
 				<?php $module->icon(); ?>
 			</a>
 		</li>

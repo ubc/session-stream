@@ -9,7 +9,17 @@ var SCCT_Module_Toolbar = {
 	},
 	
 	flipMedia: function() {
-		jQuery('.session-cct').toggleClass('invert-media');
+		var session = jQuery('.session-cct')
+		var has_media = session.hasClass('module-media');
+		var has_slideshow = session.hasClass('module-slideshow');
+		
+		if ( has_media && has_slideshow ) {
+			session.toggleClass('invert-media');
+		} else if ( has_media || has_slideshow ) {
+			SCCT_Module_Toolbar.toggleModuleDisplay( 'media', jQuery('.tool-media' ) );
+			SCCT_Module_Toolbar.toggleModuleDisplay( 'slideshow', jQuery('.tool-slideshow' ) );
+		}
+		
 	},
 	
 	toggleModuleDisplay: function( slug, button ) {
