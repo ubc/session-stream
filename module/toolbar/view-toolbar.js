@@ -3,6 +3,7 @@ var SCCT_Module_Toolbar = {
 	onContentLoad: function() {
 		jQuery('.tool').tooltip( {
 			placement: 'left',
+			container: 'body',
 			delay: { show: 1500, hide: 0 },
 		} );
 	},
