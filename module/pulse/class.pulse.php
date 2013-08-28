@@ -95,7 +95,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 						Pulse_CPT_Form_Widget::pulse_form( $pulse );
 					}
 				?>
-				<div id="pulse-list" class="pulse-list">
+				<div id="pulse-list" class="pulse-list minimal">
 					<!-- To be populated by PopcornJS -->
 				</div>
 				<?php $it = Pulse_CPT::the_pulse_array_js( $pulse ); ?>
@@ -132,7 +132,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 		$_POST[$this->atts['slug']] = array_merge( array(
 			'title'                  => '',
 			'display_title'          => false,
-			'compact_view'           => true,
+			'view'                   => '',
 			'placeholder'            => "",
 			'enable_character_count' => true,
 			'num_char'               => 140,
