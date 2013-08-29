@@ -4,7 +4,6 @@ var SCCT_Module_Media = {
 	
 	onContentLoad: function() {
 		SCCT_Module_Media.media = Popcorn.smart( '#scct-media', Session_CCT_View.data.media.url );
-		SCCT_Module_Media.media.on( 'play', SCCT_Module_Media.onPlay );
 	},
 	
 	skipTo: function( time ) {
