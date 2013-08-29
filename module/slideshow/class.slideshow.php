@@ -113,7 +113,7 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	
 	public function view() {
 		?>
-		<div id="scct-slide" class="slide"></div>
+		<div id="slide-list" class="slide-list"></div>
 		<?php
 	}
 	

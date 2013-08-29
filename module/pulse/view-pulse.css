@@ -31,3 +31,8 @@
     overflow: hidden;
     height: 100%;
 }
+
+.pulse-wrapper .pulse-author {
+    margin-bottom: 3px;
+    display: inline-block;
+}

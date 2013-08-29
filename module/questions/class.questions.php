@@ -143,10 +143,6 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 		ob_start();
 		?>
 		<div class="question-dialog question-{{=it.index}} unanswered" data-id="{{=it.index}}">
-			<div class="error" style="display: none;">
-				Incorrect Answer
-				<br /><br />
-			</div>
 			<div class="question">
 				{{=it.title}}
 			</div>
@@ -163,8 +159,9 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 				{{~}}
 			</ul>
 			<button class="btn btn-inverse button submit" onclick="SCCT_Module_Questions.skip(this);">Okay</button>
+			<button class="btn btn-inverse button cancel" onclick="SCCT_Module_Questions.cancel(this);">Go Back</button>
 			<?php if ( $data['meta']['mode'] == 'skippable' ): ?>
-				<button class="btn btn-primary button" onclick="SCCT_Module_Questions.skip(this);">Skip</button>
+				<button class="btn btn-primary button skip" onclick="SCCT_Module_Questions.skip(this);">Skip</button>
 			<?php endif; ?>
 		</div>
 		<?php

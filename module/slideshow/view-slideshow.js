@@ -32,8 +32,8 @@ var SCCT_Module_Slideshow = {
 			SCCT_Module_Media.media.footnote( {
 				start: slide.start,
 				end: end,
-				text: '<div class="scct-slide-content '+slide.type+'">'+content+'</div>',
-				target: "scct-slide",
+				text: '<div class="slide '+slide.type+'"><div class="inner"><span>'+content+'</span></div></div>',
+				target: "slide-list",
 			} );
 		}
 	},

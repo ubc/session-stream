@@ -55,9 +55,16 @@ var SCCT_Module_Questions = {
 			}
 			
 			if ( Session_CCT_View.data.questions.meta.mode == 'any' || response == 1 ) {
+				dialog.find('.cancel').hide();
+				dialog.find('.skip').hide();
 				dialog.find('.submit').fadeIn();
 			}
 		} );
+	},
+	
+	cancel: function( element ) {
+		var start = jQuery(element).closest('.dialog-wrapper').data('start');
+		SCCT_Module_Media.skipTo( start - 1 );
 	},
 	
 	skip: function( element ) {
