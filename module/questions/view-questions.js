@@ -37,6 +37,7 @@ var SCCT_Module_Questions = {
 		var dialog = element.closest('.question-dialog');
 		var id = dialog.data('id');
 		var answer = element.closest('.answer');
+		var value = element.val();
 		
 		answer.siblings('.selected').removeClass('selected');
 		answer.addClass('selected');
@@ -45,7 +46,7 @@ var SCCT_Module_Questions = {
 			action: 'scct_answer',
 			session_id: Session_CCT_View.data.session_id,
 			question: id,
-			answer: element.val(),
+			answer: value,
 		}, function( response ) {
 			if ( response == 1 ) {
 				answer.addClass('correct');
@@ -53,6 +54,9 @@ var SCCT_Module_Questions = {
 			} else {
 				answer.addClass('wrong');
 			}
+			
+			dialog.find('.explanation').hide();
+			dialog.find('.explanation-'+value).fadeIn();
 			
 			if ( Session_CCT_View.data.questions.meta.mode == 'any' || response == 1 ) {
 				dialog.find('.cancel').hide();

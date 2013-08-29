@@ -83,8 +83,16 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 				<input type="text" name="<?php $this->field_name( array( "list", "", "time" ) ); ?>" value="<?php echo $time; ?>" />
 			</label>
 			<br />
-			Answers
-			<ul class="scct-section-list">
+			<label>
+				Details
+				<br />
+				<textarea class="widefat" name="<?php $this->field_name( array( "list", "", "description" ) ); ?>"><?php echo $data['description']; ?></textarea>
+				<br />
+				<small>Use this area to supply additional information about the question.</small>
+			</label>
+			<br />
+			<strong>Answers</strong>
+			<ul class="scct-section-list indent">
 				<?php
 					if ( empty( $answers ) ) {
 						$this->admin_answer();
@@ -110,11 +118,20 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 				<input type="checkbox" name="<?php $this->field_name( array( "list", "", "answer_correct" ) ); ?>" <?php checked( $data['correct'] == "on" ); ?> />
 				This answer is correct.
 			</label>
-			<span class="scct-section-meta no-float">
+			
+			<span class="scct-section-meta">
 				<a class="scct-close" onclick="Session_CCT_Admin.removeSection( this );">
 					&#10006;
 				</a>
 			</span>
+			<br />
+			<label>
+				Explanation
+				<br />
+				<textarea class="widefat" name="<?php $this->field_name( array( "list", "", "answer_description" ) ); ?>" value="<?php echo $data['description']; ?>" ></textarea>
+				<br />
+				<small>Optionally, use this area to explain why the answer is correct or incorrect.</small>
+			</label>
 		</li>
 		<?php
 	}
@@ -146,6 +163,9 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 			<div class="question">
 				{{=it.title}}
 			</div>
+			<div class="description">
+				{{=it.description}}
+			</div>
 			<ul class="answers">
 				{{~it.answers :value:index}}
 					<li class="answer">
@@ -163,6 +183,11 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 			<?php if ( $data['meta']['mode'] == 'skippable' ): ?>
 				<button class="btn btn-primary button skip" onclick="SCCT_Module_Questions.skip(this);">Skip</button>
 			<?php endif; ?>
+			{{~it.answers :value:index}}
+				<div class="explanation explanation-{{=value.index}}" style="display: none;">
+					{{=value.description}}
+				</div>
+			{{~}}
 		</div>
 		<?php
 		return ob_get_clean();

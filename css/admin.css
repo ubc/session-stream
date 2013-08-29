@@ -1,3 +1,11 @@
+.indent {
+    margin-left: 10px;
+}
+
+textarea {
+    max-width: 100%;
+}
+
 #session-cct-media select {
     width: 19%;
 }
@@ -21,7 +29,7 @@
     vertical-align: baseline;
 }
 
-.scct-section-meta:not(.no-float) {
+.scct-section-meta {
     float: right;
 }
 

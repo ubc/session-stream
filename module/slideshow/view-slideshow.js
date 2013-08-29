@@ -32,7 +32,7 @@ var SCCT_Module_Slideshow = {
 			SCCT_Module_Media.media.footnote( {
 				start: slide.start,
 				end: end,
-				text: '<div class="slide '+slide.type+'"><div class="inner"><span>'+content+'</span></div></div>',
+				text: '<div class="slide '+slide.type+'"><div class="inner">'+content+'</div></div>',
 				target: "slide-list",
 			} );
 		}

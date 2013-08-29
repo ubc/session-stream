@@ -1,3 +1,7 @@
+.pulse-wrapper {
+    background: white;
+}
+
 .pulse-wrapper .bookmark {
     display: block;
     padding: 3px 11px;

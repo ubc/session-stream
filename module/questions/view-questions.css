@@ -23,6 +23,11 @@
     padding: 10px;
 }
 
+.questions-wrapper .explanation,
+.questions-wrapper .description {
+    padding: 10px;
+}
+
 .questions-wrapper .answer {
     font-weight: bold;
     

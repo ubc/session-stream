@@ -12,8 +12,8 @@
         display: none;
     }
     
-    .media-wrapper {
-        z-index: 1;
+    .slideshow-wrapper {
+        z-index: -1;
     }
     
     .session-cct.module-media.invert-media .slideshow-wrapper,

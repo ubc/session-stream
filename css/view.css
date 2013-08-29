@@ -4,9 +4,6 @@ body {
 
 #primary {
     margin: 0;
-    /*
-    padding: 1%;
-    */
     box-sizing: border-box;
     position: absolute;
     top: 28px;
@@ -15,8 +12,6 @@ body {
 }
 
 .scct-wrapper {
-    background: white;
-    overflow: hidden;
     overflow: hidden;
     
     -webkit-transition: max-height .2s ease-in;
@@ -37,22 +32,18 @@ body {
 }
 
 .session-cct .media-wrapper {
-    color: black;
     outline: 1px dashed purple;
 }
 
 .session-cct .slideshow-wrapper {
-    color: black;
     outline: 1px dashed red;
 }
 
 .session-cct .pulse-wrapper {
-    color: black;
     outline: 1px dashed blue;
 }
 
 .session-cct .bookmarks-wrapper {
-    color: black;
     outline: 1px dashed green;
 }
 
