@@ -30,7 +30,7 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	}
 	
 	public function admin( $post, $box ) {
-		$slides = get_post_meta( $post->ID, 'session_cct_slides', true );
+		$slides = $this->data( $post->ID );
 		
 		?>
 		<div class="scct-admin-section">
@@ -120,13 +120,18 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	function localize_view( $data ) {
 		$slideshow = $this->data();
 		
-		if ( empty( $slideshow['list'] ) ) {
+		if ( ! empty( $slideshow['list'] ) ) {
 			foreach ( $slideshow['list'] as $index => $slide ) {
+				error_log('test');
 				if ( ! empty( $slide['content'] ) ) {
-					$slideshow['list'][$index]['content'] = do_shortcode( $slide['content'] );
+					error_log("do shortcode on ".$slide['content']);
+					$slide['content'] = do_shortcode( $slide['content'] );
+				} else {
+					error_log("empty ".$slide['content']);
 				}
 				
-				$slideshow['list'][$index]['start'] = Session_CCT_View::string_to_seconds( $slide['start'] );
+				$slide['start'] = Session_CCT_View::string_to_seconds( $slide['start'] );
+				$slideshow['list'][$index] = $slide;
 			}
 		}
 		

@@ -24,14 +24,13 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 	}
 	
 	public function admin( $post, $box ) {
-		$data = get_post_meta( $post->ID, 'session_cct_pulse', true );
+		$data = $this->data( $post->ID );
 		if ( empty( $data ) ) {
 			$data = array();
 		}
 		
 		$data = array_merge( array(
 			'markers'     => "on",
-			'mode'        => "enabled",
 			'placeholder' => "",
 			'num_char'    => 140,
 		), $data );
@@ -41,7 +40,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 		<p>
 			<label>
 				Mode
-				<select name="<?php $this->field_name( "meta", "mode" ); ?>">
+				<select name="<?php $this->field_name( array( "meta", "mode" ) ); ?>">
 					<option value="enabled" <?php selected( $data['meta']['mode'] == "enabled" ); ?>>Open</option>
 					<option value="locked" <?php selected( $data['meta']['mode'] == "locked" ); ?>>Locked</option>
 					<option value="disabled" <?php selected( $data['meta']['mode'] == "disabled" ); ?>>Disable Module</option>
@@ -91,7 +90,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 		<div class="widget">
 			<div id="scct-pulse-list" class="pulse-widget">
 				<?php
-					if ( $pulse['mode'] != 'locked' ) {
+					if ( $pulse['meta']['mode'] != 'locked' ) {
 						Pulse_CPT_Form_Widget::pulse_form( $pulse );
 					}
 				?>

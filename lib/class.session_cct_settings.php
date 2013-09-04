@@ -25,8 +25,8 @@ class Session_CCT_Settings {
 		register_setting( 'session_options', 'session_example' );
 		
 		// Main settings
-		add_settings_section( 'session_settings_main', 'Session CCT Settings', array( __CLASS__, 'setting_section_main' ), 'session-cct_settings' );
-		add_settings_field( 'session_example', 'Example Setting', array( __CLASS__, 'setting_example' ), 'session-cct_settings', 'session_settings_main' );
+		//add_settings_section( 'session_settings_main', 'Session CCT Settings', array( __CLASS__, 'setting_section_main' ), 'session-cct_settings' );
+		//add_settings_field( 'session_example', 'Example Setting', array( __CLASS__, 'setting_example' ), 'session-cct_settings', 'session_settings_main' );
 		
 		// Plugin integration
 		add_settings_section( 'session_settings_plugins', 'Plugin Integration Status', array( __CLASS__, 'setting_section_plugins' ), 'session-cct_settings' );
@@ -68,7 +68,7 @@ class Session_CCT_Settings {
 				settings_fields('session_options');
 			?>
 			<br />
-			<input type="submit" class="button-primary" value="Save Changes" />
+			<!--<input type="submit" class="button-primary" value="Save Changes" />-->
 		</form>
 		<?php
 	}

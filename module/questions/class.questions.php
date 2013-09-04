@@ -24,7 +24,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 	}
 	
 	public function admin( $post, $box ) {
-		$questions = get_post_meta( $post->ID, 'session_cct_questions', true );
+		$questions = $this->data( $post->ID );
 		
 		?>
 		<div class="scct-admin-section">
@@ -128,7 +128,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 			<label>
 				Explanation
 				<br />
-				<textarea class="widefat" name="<?php $this->field_name( array( "list", "", "answer_description" ) ); ?>" value="<?php echo $data['description']; ?>" ></textarea>
+				<textarea class="widefat" name="<?php $this->field_name( array( "list", "", "answer_description" ) ); ?>"><?php echo $data['description']; ?></textarea>
 				<br />
 				<small>Optionally, use this area to explain why the answer is correct or incorrect.</small>
 			</label>

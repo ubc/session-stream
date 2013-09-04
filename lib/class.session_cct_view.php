@@ -20,7 +20,7 @@ class Session_CCT_View {
 		return is_single() && get_post_type() == SESSION_CCT_SLUG;
 	}
 	
-	function edit_body_class( $wp_classes, $extra_classes ) {
+	static function edit_body_class( $wp_classes, $extra_classes ) {
 		if ( Session_CCT_View::is_active() ) {
 			$wp_classes[] = "full-width";
 		}
@@ -28,7 +28,7 @@ class Session_CCT_View {
 		return array_merge( $wp_classes, (array) $extra_classes );
 	}
 	
-	function session_template( $template ) {
+	static function session_template( $template ) {
 		if ( Session_CCT_View::is_active() ) {
 			$template = SESSION_CCT_DIR_PATH.'/view/session.php';
 		}

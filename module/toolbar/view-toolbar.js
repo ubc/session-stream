@@ -16,25 +16,26 @@ var SCCT_Module_Toolbar = {
 		if ( has_media && has_slideshow ) {
 			session.toggleClass('invert-media');
 		} else if ( has_media || has_slideshow ) {
-			SCCT_Module_Toolbar.toggleModuleDisplay( 'media', jQuery('.tool-media') );
-			SCCT_Module_Toolbar.toggleModuleDisplay( 'slideshow', jQuery('.tool-slideshow') );
+			SCCT_Module_Toolbar.toggleModuleDisplay( 'media', jQuery('.tool-media'), false );
+			SCCT_Module_Toolbar.toggleModuleDisplay( 'slideshow', jQuery('.tool-slideshow'), false );
 		}
-		
 	},
 	
-	toggleModuleDisplay: function( slug, button ) {
+	toggleModuleDisplay: function( slug, button, preventNone ) {
+		if ( preventNone == null ) {
+			preventNone = true;
+		}
+		
 		var session = jQuery('.session-cct');
 		var has_media = session.hasClass('module-media');
 		var has_slideshow = session.hasClass('module-slideshow');
 		
-		console.log( slug+', '+has_media+', '+has_slideshow );
-		
-		if ( slug == 'media' && has_media && ! has_slideshow ) {
+		if ( preventNone && slug == 'media' && has_media && ! has_slideshow ) {
 			jQuery(button).toggleClass('selected');
 			jQuery('.tool-slideshow').toggleClass('selected');
 			Session_CCT_View.toggleModuleDisplay('media');
 			Session_CCT_View.toggleModuleDisplay('slideshow');
-		} else if ( slug == 'slideshow' && has_slideshow && ! has_media ) {
+		} else if ( preventNone && slug == 'slideshow' && has_slideshow && ! has_media ) {
 			jQuery(button).toggleClass('selected');
 			jQuery('.tool-media').toggleClass('selected');
 			Session_CCT_View.toggleModuleDisplay('media');

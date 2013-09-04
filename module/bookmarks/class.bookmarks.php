@@ -20,7 +20,7 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 	}
 	
 	public function admin( $post, $box ) {
-		$bookmarks = get_post_meta( $post->ID, 'session_cct_bookmarks', true );
+		$bookmarks = $this->data( $post->ID );
 		
 		?>
 		<div class="scct-admin-section">
@@ -35,7 +35,7 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 			<br />
 			<!-- Show Timestamp -->
 			<label>
-				<input type="checkbox" name="<?php $this->field_name( array( "meta", "show_time" ) ); ?>" <?php checked( $bookmarks['show_time']['meta'] ); ?> />
+				<input type="checkbox" name="<?php $this->field_name( array( "meta", "show_time" ) ); ?>" <?php checked( $bookmarks['meta']['show_time'] == "on" ); ?> />
 				Show Timestamp
 			</label>
 		</div>
@@ -99,14 +99,14 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 			</li>
 			<?php
 				foreach ( $bookmarks['list'] as $bookmark ) {
-					$this->view_bookmark( $bookmark );
+					$this->view_bookmark( $bookmark, $bookmarks['meta']['show_time'] == "on" );
 				}
 			?>
 		</ul>
 		<?php
 	}
 	
-	public function view_bookmark( $data = array() ) {
+	public function view_bookmark( $data = array(), $show_timestamp ) {
 		$title = ( empty( $data['title'] ) ? ""     : $data['title'] );
 		$time  = ( empty( $data['time']  ) ? "0:00" : $data['time']  );
 		
@@ -116,7 +116,10 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 		?>
 		<li class="control" title="<?php echo $title; ?>">
 			<a class="scct-bookmark" onclick="<?php echo $action; ?>">
-				<?php echo $title; ?><span class="timestamp"><?php echo $time; ?></span>
+				<?php echo $title; ?>
+				<?php if ( $show_timestamp ): ?>
+					<span class="timestamp"><?php echo $time; ?></span>
+				<?php endif; ?>
 			</a>
 		</li>
 		<?php
