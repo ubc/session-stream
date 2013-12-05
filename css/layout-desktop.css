@@ -4,8 +4,17 @@
     }
     
     body {
-        overflow: hidden;
+        overflow: scroll;
         height: 100%;
+        margin: 0px;
+        box-sizing: border-box;
+        -moz-box-sizing:border-box; /* Firefox */
+        border-left: 80px;
+        border-top: 0px;
+        border-bottom: 0px;
+        border-right: 320px;
+        border-style: solid;
+        border-color: #002145;
     }
     
     .hidden {
@@ -19,71 +28,70 @@
     .session-cct.module-media.invert-media .slideshow-wrapper,
     .media-wrapper {
         position: absolute;
-        top: 5px;
-        left: 5px;
-        right: 60px;
+        top: 10px;
+        left: 0px;
     }
     
     .session-cct.module-media.invert-media .slideshow-wrapper,
     .session-cct.module-slideshow .media-wrapper {
         position: relative;
         float: left;
-        width: 50%;
+        margin-left: 0px;
+        width: 100%;
     }
     
     .session-cct.module-pulse .media-wrapper {
-        margin-right: 20.4%;
+        margin-bottom: 20px;
     }
     
     .slideshow-wrapper {
         margin-bottom: 5px;
-        margin-right: 5px;
     }
     
     .session-cct.module-slideshow.invert-media .media-wrapper,
     .slideshow-wrapper {
-        position: absolute;
-        right: 55px;
-        bottom: 0;
-        left: 5px;
-        top: 5px;
+        position: relative;
+        margin-top: 40px;
     }
     
     .session-cct.module-slideshow.invert-media .media-wrapper,
     .session-cct.module-media .slideshow-wrapper {
-        width: 40%;
         left: auto;
-        top: auto;
+        right: auto;
+        margin-top: 40px;
     }
     
     .session-cct.module-pulse .slideshow-wrapper {
-        margin-right: 20.4%;
     }
     
     .pulse-wrapper {
         position: absolute;
-        right: 55px;
-        height: 100%;
-        width: 20%;
+        right: 10px;
+        top: 40px;
+        height: 600px;
+        width: 300px;
         z-index: 10;
     }
     
     .bookmarks-wrapper {
+        background: white;
         position: absolute;
-        right: 55px;
-        width: 15%;
-        min-width: 150px;
+        right: 10px;
+        top: 650px;
+        width: 300px;
+        height: 300px;
+        overflow: scroll;
         z-index: 10;
     }
     
     .session-cct.module-pulse .bookmarks-wrapper {
-        margin-right: 20%;
     }
     
     .toolbar-wrapper {
-        position: absolute;
-        right: 0;
-        height: 100%;
+        position: fixed;
+        left: 10px;
+        top: 40px;
+        height: 320px;
         width: 55px;
     }
 }

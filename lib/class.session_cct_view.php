@@ -40,6 +40,9 @@ class Session_CCT_View {
 		if ( Session_CCT_View::is_active() ) {
 			return self::the_session( $content );
 		}
+        else {
+            return $content;
+        }
 	}
 	
 	public static function the_session( $content ) {

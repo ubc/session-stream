@@ -1,13 +1,10 @@
 body {
-    background: black;
+    background: #002145;
 }
 
 #primary {
     margin: 0;
     box-sizing: border-box;
-    position: absolute;
-    top: 28px;
-    bottom: 0;
     width: 100%;
 }
 
@@ -21,6 +18,12 @@ body {
     transition: max-height .2s ease-in;
 }
 
+#scct-toolbar {
+list-style-type: none;
+padding-left: 0px;
+
+}
+
 .scct-wrapper .scct-title {
     font-size: 15px;
     padding: 5px;
@@ -32,23 +35,26 @@ body {
 }
 
 .session-cct .media-wrapper {
-    outline: 1px dashed purple;
 }
 
 .session-cct .slideshow-wrapper {
-    outline: 1px dashed red;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 .session-cct .pulse-wrapper {
-    outline: 1px dashed blue;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 .session-cct .bookmarks-wrapper {
-    outline: 1px dashed green;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 .session-cct .toolbar-wrapper {
-    outline: 1px dashed black;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 .toggle-collapse {

@@ -33,11 +33,15 @@ class SCCT_Module_Toolbar extends Session_CCT_Module {
 					}
 				}
 			?>
-			<li>
-				<a class="tool selected" data-toggle="tooltip" title="Flip" onclick="SCCT_Module_Toolbar.flipMedia();">
-					<?php Session_CCT_Module::module_icon( SESSION_CCT_DIR_URL.'/img/exchange.svg' ); ?>
-				</a>
-			</li>
+            <?php
+                /* Commented out as functionality does not work with current CSS theme
+                    <li>
+                        <a class="tool selected" data-toggle="tooltip" title="Flip" onclick="SCCT_Module_Toolbar.flipMedia();">
+                            <?php Session_CCT_Module::module_icon( SESSION_CCT_DIR_URL.'/img/exchange.svg' ); ?>
+                        </a>
+                    </li>
+                */
+            ?>
 			<li>
 				<a class="tool selected" data-toggle="tooltip" title="Exit" href="<?php echo $exit_url; ?>">
 					<?php Session_CCT_Module::module_icon( SESSION_CCT_DIR_URL.'/img/exit.svg' ); ?>
