@@ -19,7 +19,7 @@ textarea {
     width: 50px;
 }
 
-.scct-admin-section {
+.scct-admin-section:not(.no-css) {
     border-bottom: 1px solid #CCC;
     margin-bottom: 5px;
     padding-bottom: 5px;

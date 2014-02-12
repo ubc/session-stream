@@ -1,0 +1,85 @@
+body {
+    background: #002145;
+}
+
+#primary {
+    margin: 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+.session-cct{
+    position: relative;
+}
+.scct-wrapper {
+    overflow: hidden;
+    
+    -webkit-transition: max-height .2s ease-in;
+    -moz-transition: max-height .2s ease-in;
+    -o-transition: max-height .2s ease-in;
+    -ms-transition: max-height .2s ease-in;
+    transition: max-height .2s ease-in;
+}
+
+#scct-toolbar {
+list-style-type: none;
+padding-left: 0px;
+
+}
+
+.scct-wrapper .scct-title {
+    font-size: 15px;
+    padding: 5px;
+}
+
+.scct-wrapper .module-icon {
+    height: 1em;
+    vertical-align: bottom;
+}
+
+.session-cct .media-wrapper {
+}
+
+.session-cct .slideshow-wrapper {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.session-cct .pulse-wrapper {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.session-cct .bookmarks-wrapper {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.session-cct .toolbar-wrapper {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.toggle-collapse {
+    cursor: pointer;
+}
+
+.scct-wrapper .collapse-indicator {
+    float: right;
+    height: 1em;
+    
+    -webkit-transition: all .2s ease-in;
+    -moz-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    -ms-transition: all .2s ease-in;
+    transition: all .2s ease-in;
+    
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Safari and Chrome */
+}
+
+.scct-wrapper.collapsed .collapse-indicator {
+    transform: rotate(180deg);
+    -ms-transform: rotate(180deg); /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Safari and Chrome */
+}

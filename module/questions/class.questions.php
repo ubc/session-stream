@@ -22,6 +22,10 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 	public function load_view() {
 		add_filter( 'scct_localize_view', array( $this, 'localize_view' ) );
 	}
+
+	public function load_style(){
+		self::wp_enqueue_style(  'scct-view-questions' );
+	}
 	
 	public function admin( $post, $box ) {
 		$questions = $this->data( $post->ID );
@@ -149,7 +153,7 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 	public function view() {
 		wp_enqueue_script( 'popcornjs-questions' );
 		wp_enqueue_script( 'scct-view-questions' );
-		wp_enqueue_style(  'scct-view-questions' );
+		
 		
 		?>
 		<div id="scct-questions"></div>
@@ -215,38 +219,40 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 		$question = null;
 		$answer = null;
 		$list = array();
-		foreach ( $_POST[$this->atts['slug']]['list'] as $field ) {
-			reset( $field );
-			$key = key( $field );
-			$value = $field[$key];
-			
-			if ( Session_CCT_Admin::starts_with( $key, 'answer' ) ) {
-				$key = substr( $key, 7 );
+		if( !empty( $_POST[$this->atts['slug']] )) {
+			foreach ( $_POST[$this->atts['slug']]['list'] as $field ) {
+				reset( $field );
+				$key = key( $field );
+				$value = $field[$key];
 				
-				if ( $key == 'title' ) {
-					if ( ! empty( $answer ) ) {
-						$question['answers'][] = $answer;
-					}
+				if ( Session_CCT_Admin::starts_with( $key, 'answer' ) ) {
+					$key = substr( $key, 7 );
 					
-					$answer = array();
-				}
-				
-				$answer[$key] = $value;
-			} else {
-				if ( $key == 'title' ) {
-					if ( ! empty( $question ) ) {
+					if ( $key == 'title' ) {
 						if ( ! empty( $answer ) ) {
 							$question['answers'][] = $answer;
 						}
 						
-						$list[] = $question;
-						$answer = null;
+						$answer = array();
 					}
 					
-					$question = array();
+					$answer[$key] = $value;
+				} else {
+					if ( $key == 'title' ) {
+						if ( ! empty( $question ) ) {
+							if ( ! empty( $answer ) ) {
+								$question['answers'][] = $answer;
+							}
+							
+							$list[] = $question;
+							$answer = null;
+						}
+						
+						$question = array();
+					}
+					
+					$question[$key] = $value;
 				}
-				
-				$question[$key] = $value;
 			}
 		}
 		

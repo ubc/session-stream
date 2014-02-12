@@ -8,12 +8,12 @@ var SCCT_Module_Pulse = {
 			.appendTo( '.pulse-form' );
 		
 		jQuery('.pulse-form textarea').keyup( function() {
-			SCCT_Module_Media.pauseForModule();
+			SCCT_Media.pauseForModule();
 		} );
 		
 		jQuery('.pulse-form').submit( function() {
-			jQuery('.ss_synctime').val( SCCT_Module_Media.media.roundTime() );
-			SCCT_Module_Media.playForModule();
+			jQuery('.ss_synctime').val( SCCT_Media.media.roundTime() );
+			SCCT_Media.playForModule();
 		} );
 	},
 	
@@ -22,8 +22,8 @@ var SCCT_Module_Pulse = {
             CTLT_Stream.on( 'server-push', SCCT_Module_Pulse.listen );
 		}
 		
-		SCCT_Module_Media.media.on( 'loadedmetadata', SCCT_Module_Pulse.loadPulses );
-		SCCT_Module_Media.media.on( 'loadedmetadata', SCCT_Module_Pulse.loadMarkers );
+		SCCT_Media.media.on( 'loadedmetadata', SCCT_Module_Pulse.loadPulses );
+		SCCT_Media.media.on( 'loadedmetadata', SCCT_Module_Pulse.loadMarkers );
 	},
     
     listen: function( data ) {
@@ -37,10 +37,10 @@ var SCCT_Module_Pulse = {
 		for ( index in Session_CCT_View.data.bookmarks.list ) {
 			var bookmark = Session_CCT_View.data.bookmarks.list[index];
 			
-			SCCT_Module_Media.media.pulse( {
+			SCCT_Media.media.pulse( {
 				start: bookmark.synctime,
-				end: SCCT_Module_Media.media.duration(),
-				text: '<a class="bookmark" onclick="SCCT_Module_Media.skipTo('+bookmark.synctime+');">'+bookmark.title+'<span class="time">'+bookmark.time+'</span></a>',
+				end: SCCT_Media.media.duration(),
+				text: '<a class="bookmark" onclick="SCCT_Media.skipTo('+bookmark.synctime+');">'+bookmark.title+'<span class="time">'+bookmark.time+'</span></a>',
 				sort: true,
 				target: "pulse-list",
 			} );
@@ -58,9 +58,9 @@ var SCCT_Module_Pulse = {
 	addPulse: function( data, start, sort ) {
 		var new_pulse = Pulse_CPT_Form.single_pulse_template( data );
 		
-		SCCT_Module_Media.media.pulse( {
+		SCCT_Media.media.pulse( {
 			start: start,
-			end: SCCT_Module_Media.media.duration(),
+			end: SCCT_Media.media.duration(),
 			text: new_pulse,
 			sort: sort,
 			target: "pulse-list",

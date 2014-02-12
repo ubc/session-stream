@@ -2,7 +2,7 @@ var SCCT_Module_Questions = {
 	questions: {},
 	
 	onContentLoad: function() {
-		SCCT_Module_Media.media.on( 'loadedmetadata', SCCT_Module_Questions.loadQuestions );
+		SCCT_Media.media.on( 'loadedmetadata', SCCT_Module_Questions.loadQuestions );
 		Session_CCT_View.data.questions.template = doT.template( Session_CCT_View.data.questions.template );
 		
 		jQuery('.questions-wrapper').on( 'change.answer', ".unanswered input:radio[name='answer']:checked", SCCT_Module_Questions.onChange );
@@ -23,10 +23,10 @@ var SCCT_Module_Questions = {
 		
 		var new_question = Session_CCT_View.data.questions.template( data );
 		
-		SCCT_Module_Media.media.question( {
+		SCCT_Media.media.question( {
 			id: data.index,
 			start: data.synctime,
-			end: SCCT_Module_Media.media.duration(),
+			end: SCCT_Media.media.duration(),
 			text: new_question,
 			target: "scct-questions",
 		} );
@@ -68,12 +68,12 @@ var SCCT_Module_Questions = {
 	
 	cancel: function( element ) {
 		var start = jQuery(element).closest('.dialog-wrapper').data('start');
-		SCCT_Module_Media.skipTo( start - 1 );
+		SCCT_Media.skipTo( start - 1 );
 	},
 	
 	skip: function( element ) {
 		var id = jQuery(element).closest('.question-dialog').data('id');
-		SCCT_Module_Media.media.removeTrackEvent( SCCT_Module_Questions.questions[id] );
+		SCCT_Media.media.removeTrackEvent( SCCT_Module_Questions.questions[id] );
 	},
 	
 	shuffle: function( array ) {

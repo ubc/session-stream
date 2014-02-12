@@ -1,7 +1,7 @@
 var SCCT_Module_Slideshow = {
 	
 	onContentLoad: function() {
-		SCCT_Module_Media.media.on( 'loadedmetadata', SCCT_Module_Slideshow.loadSlides );
+		SCCT_Media.media.on( 'loadedmetadata', SCCT_Module_Slideshow.loadSlides );
 	},
 	
 	loadSlides: function() {
@@ -26,10 +26,10 @@ var SCCT_Module_Slideshow = {
 			if ( next_slide != undefined ) {
 				end = next_slide.start;
 			} else {
-				end = SCCT_Module_Media.media.duration();
+				end = SCCT_Media.media.duration();
 			}
 			
-			SCCT_Module_Media.media.footnote( {
+			SCCT_Media.media.footnote( {
 				start: slide.start,
 				end: end,
 				text: '<div class="slide '+slide.type+'"><div class="inner">'+content+'</div></div>',

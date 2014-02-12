@@ -2,17 +2,40 @@
 class Session_CCT_Module {
 	// ============================== STATIC ============================== //
 	private static $modules;
+
+	private static $wp_version;
 	
 	public static function init() {
+		self::$wp_version = get_bloginfo( 'version' );
 		add_action( 'load-post.php',     array( __CLASS__, 'meta_box_setup' ) );
 		add_action( 'load-post-new.php', array( __CLASS__, 'meta_box_setup' ) );
 		add_action( 'save_post',         array( __CLASS__, 'save_post_meta' ), 10, 2 );
 		add_action( 'wp',                array( __CLASS__, 'load_modules' ) );
 		add_filter( 'scct_classes',      array( __CLASS__, 'add_classes' ) );
+		add_filter( 'scct_load_style', 	 array( __CLASS__, 'load_styles') ); 
 	}
-	
+	# in the future combine the styles into one
+	public function wp_enqueue_style($style) {
+		global $wp_styles;
+		
+		$style = $wp_styles->registered[$style];
+		
+		$var = ( !empty( $style->ver) ?  $style->ver : self::$wp_version );
+		
+		echo '<link rel="stylesheet" id="'.$style->handle.'" href="'.$style->src.'?var='.$var .'" type="text/css">'."\n";	
+	}
+
 	public static function get_modules() {
 		return self::$modules;
+	}
+
+	static function load_styles(){
+		
+		foreach ( self::$modules as $index => $module ) {
+			if ( $module->atts['has_view'] ) {
+				$module->load_style();
+			}	
+		}
 	}
 	
 	static function meta_box_setup() {
@@ -104,7 +127,9 @@ class Session_CCT_Module {
 			add_action( 'scct_print_view', array( $this, 'wrapper' ), $this->atts['order'] );
 		}
 	}
-	
+	public function load_module_style(){
+
+	}
 	public function load_admin() {}
 	public function load_view() {}
 	
@@ -121,9 +146,7 @@ class Session_CCT_Module {
 			<div class="<?php echo $this->atts['slug']; ?>-wrapper scct-wrapper">
 				<?php if ( ! empty( $this->atts['icon'] ) ): ?>
 				<div class="scct-title hidden-desktop toggle-collapse">
-					<?php $this->icon(); ?>
 					<strong><?php echo $this->atts['name']; ?></strong>
-					<img class="collapse-indicator" src="<?php echo SESSION_CCT_DIR_URL.'/img/arrow.svg'; ?>" />
 				</div>
 				<?php endif; ?>
 				<div class="scct-inner-wrapper">
@@ -141,6 +164,7 @@ class Session_CCT_Module {
 	}
 	
 	public function save( $post_id ) {
+		# @todo: check securturity 
 		update_post_meta( $post_id, 'session_cct_'.$this->atts['slug'], $_POST[$this->atts['slug']] );
 	}
 	
@@ -170,11 +194,11 @@ class Session_CCT_Module {
 	
 	public function module_icon( $url ) {
 		?>
-		<!--<object class="module-icon" data="<?php echo $url; ?>" type="image/svg+xml"></object>-->
 		<img class="module-icon" src="<?php echo $url; ?>" />
 		<?php
 	}
 	
+	# @this could be done easier... or should be done different
 	/** Courtesy of http://stackoverflow.com/a/2955878 */
 	static public function slugify( $text ) {
 		$original = $text;

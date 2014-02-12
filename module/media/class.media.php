@@ -1,5 +1,5 @@
 <?php
-class SCCT_Module_Media extends Session_CCT_Module {
+class SCCT_Media extends Session_CCT_Module {
 	
 	function __construct() {
 		parent::__construct( array(
@@ -13,15 +13,18 @@ class SCCT_Module_Media extends Session_CCT_Module {
 	}
 	
 	public function load_view() {
+
 		add_filter( 'scct_localize_view', array( $this, 'localize_view' ) );
-		
-		wp_enqueue_style( 'scct-view-media' );
-		wp_enqueue_script( 'scct-view-media' );
+	}
+
+	public function load_style(){
+
+		self::wp_enqueue_style( 'scct-view-media' );
+
 	}
 	
 	public function admin( $post, $box ) {
 		$media = $this->data( $post->ID );
-		
 		?>
 		<label for="<?php $this->field_name( "type" ); ?>">
 			<select name="<?php $this->field_name( "type" ); ?>">
@@ -38,15 +41,16 @@ class SCCT_Module_Media extends Session_CCT_Module {
 	
 	public function view() {
 		$media = $this->data();
+		wp_enqueue_script( 'scct-view-media');
 		?>
 		<div id="scct-media" class="iframe-wrapper <?php echo $media['type']; ?>"></div>
 		<?php
 	}
 	
-	function localize_view( $data ) {
+	public function localize_view( $data ) {
 		$data['media'] = $this->data();
 		return $data;
 	}
 }
 
-new SCCT_Module_Media();
+$scct_media = new SCCT_Media();

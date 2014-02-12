@@ -6,6 +6,7 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 			'name'     => "Bookmarks",
 			'priority' => "high",
 			'order'    => 15,
+			'has_view' => false
 		) );
 		
     	wp_register_style( 'scct-view-bookmarks', SESSION_CCT_DIR_URL.'/module/bookmarks/view-bookmarks.css' );
@@ -13,6 +14,10 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 	
 	public function load_admin() {
 		add_filter( 'scct_localize_admin', array( $this, 'localize_admin' ) );
+	}
+
+	public function load_style() {
+		self::wp_enqueue_style( 'scct-view-bookmarks' );
 	}
 	
 	public function load_view() {
@@ -87,11 +92,26 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 		$data['template']['bookmark'] = ob_get_clean();
 		return $data;
 	}
-	
-	public function view() {
+	public function view_bookmarks(){
 		$bookmarks = $this->data();
 		
-		wp_enqueue_style( 'scct-view-bookmarks' );
+		if( is_array( $bookmarks['list'] ) && !empty( $bookmarks['list'][0]['time'] ) )  { ?>
+			<li><a href=""><i class=""></i> <span>Bookmarks </span></a>
+			<ul class="nav-bookmarks">
+			<?php
+				foreach ( $bookmarks['list'] as $bookmark ) {
+					$this->view_bookmark( $bookmark, $bookmarks['meta']['show_time'] == "on" );
+				}
+			?>
+			</ul>
+			</li>
+		<?php 
+		}
+		
+	}
+	public function view2() {
+		$bookmarks = $this->data();
+
 		?>
 		<ul id="scct-bookmarks">
 			<li class="title hidden-mobile">
@@ -111,11 +131,11 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 		$time  = ( empty( $data['time']  ) ? "0:00" : $data['time']  );
 		
 		$seconds = Session_CCT_View::string_to_seconds( $time );
-		$action = "SCCT_Module_Media.skipTo(".$seconds.");";
+		$action = "SCCT_Media.skipTo(".$seconds.");";
 		
 		?>
-		<li class="control" title="<?php echo $title; ?>">
-			<a class="scct-bookmark" onclick="<?php echo $action; ?>">
+		<li class="control" >
+			<a class="scct-bookmark" href="#" onclick="<?php echo $action; ?>" title="<?php echo $title; ?>">
 				<?php echo $title; ?>
 				<?php if ( $show_timestamp ): ?>
 					<span class="timestamp"><?php echo $time; ?></span>
@@ -138,20 +158,22 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 	public function save( $post_id ) {
 		$bookmark = null;
 		$list = array();
-		foreach ( $_POST[$this->atts['slug']]['list'] as $field ) {
-			reset( $field );
-			$key = key( $field );
-			$value = $field[$key];
-			
-			if ( $key == 'title' ) {
-				if ( ! empty( $bookmark ) ) {
-					$list[] = $bookmark;
+		if( !empty( $_POST[$this->atts['slug']] ) ) {
+			foreach ( $_POST[$this->atts['slug']]['list'] as $field ) {
+				reset( $field );
+				$key = key( $field );
+				$value = $field[$key];
+				
+				if ( $key == 'title' ) {
+					if ( ! empty( $bookmark ) ) {
+						$list[] = $bookmark;
+					}
+					
+					$bookmark = array();
 				}
 				
-				$bookmark = array();
+				$bookmark[$key] = $value;
 			}
-			
-			$bookmark[$key] = $value;
 		}
 		$list[] = $bookmark;
 		$_POST[$this->atts['slug']]['list'] = $list;
@@ -160,4 +182,4 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 	}
 }
 
-new SCCT_Module_Bookmarks();
+$scct_module_bookmarks = new SCCT_Module_Bookmarks();

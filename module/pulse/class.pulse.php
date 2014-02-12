@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * 
+ */
 class SCCT_Module_Pulse extends Session_CCT_Module {
 	
 	function __construct() {
@@ -19,10 +23,20 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 		add_filter( 'the_pulse_data', array( $this, 'the_pulse_data' ) );
 	}
 	
+	/**
+	 * add filters 
+	 * @return null
+	 */
 	public function load_view() {
 		add_filter( 'scct_localize_view', array( $this, 'localize_view' ) );
 	}
 	
+	/**
+	 * 		
+	 * @param  Post Object $post 
+	 * @param  [type] $box  [description]
+	 * @return [type]       [description]
+	 */
 	public function admin( $post, $box ) {
 		$data = $this->data( $post->ID );
 		if ( empty( $data ) ) {
@@ -128,6 +142,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 	}
 	
 	public function save( $post_id ) {
+		$post_data = ( isset( $_POST[$this->atts['slug']]) ? $_POST[$this->atts['slug']] : array() ); 
 		$_POST[$this->atts['slug']] = array_merge( array(
 			'title'                  => '',
 			'display_title'          => false,
@@ -146,7 +161,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 				'co_authoring' => false,
 				'file_upload'  => false,
 			),
-		), $_POST[$this->atts['slug']] );
+		), $post_data );
 		
 		parent::save( $post_id );
 	}

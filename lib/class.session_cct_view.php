@@ -3,11 +3,20 @@ class Session_CCT_View {
 	
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'load' ) );
-		
-    	wp_register_script( 'scct-view', SESSION_CCT_DIR_URL.'/js/view.js', array( 'jquery', 'popcornjs' ), '1.0', true );
+		add_filter( 'scct_load_style', 	 array( __CLASS__, 'load_styles') ); 
+    	wp_register_script( 'scct-view', SESSION_CCT_DIR_URL.'/js/view.js', array( 'jquery', 'popcornjs', 'magnific-popup' ), '1.0', true );
     	wp_register_style( 'scct-view', SESSION_CCT_DIR_URL.'/css/view.css' );
+    	wp_register_style( 'scct-icons', SESSION_CCT_DIR_URL.'/icons/genericons.css' );
     	wp_register_style( 'scct-layout-desktop', SESSION_CCT_DIR_URL.'/css/layout-desktop.css' );
     	wp_register_style( 'scct-layout-mobile', SESSION_CCT_DIR_URL.'/css/layout-mobile.css' );
+	}
+
+	public static function load_styles(){
+
+		Session_CCT_Module::wp_enqueue_style( 'scct-view' );
+		Session_CCT_Module::wp_enqueue_style( 'scct-icons' );
+    	#Session_CCT_Module::wp_enqueue_style( 'scct-layout-mobile' );
+		#Session_CCT_Module::wp_enqueue_style( 'scct-layout-desktop' );
 	}
 	
 	public static function load() {
@@ -32,7 +41,6 @@ class Session_CCT_View {
 		if ( Session_CCT_View::is_active() ) {
 			$template = SESSION_CCT_DIR_PATH.'/view/session.php';
 		}
-		
 		return $template;
 	}
 	
@@ -56,17 +64,54 @@ class Session_CCT_View {
 		wp_localize_script( 'scct-view', 'scct_data', $data );
 		
     	wp_enqueue_script( 'scct-view' );
-    	wp_enqueue_style( 'scct-view' );
-    	wp_enqueue_style( 'scct-layout-mobile' );
-		wp_enqueue_style( 'scct-layout-desktop' );
-		
-		ob_start();
+    	
 		?>
+		<div id="header">
+			<div class="half">
+			<h1 class="site-title"><span class="genericon genericon-reply-single"></span> <a href="<?php echo site_url( ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+			<?php the_title( "<h2>", "</h2>", true); ?>
+			<div class="more-session">
+				<div class="nav-previous"><?php previous_post_link('%link', '<span class="genericon genericon-leftarrow"></span> Older Session ') ?></div>
+				<div class="nav-next"><?php next_post_link('%link', 'Newer Session <span class="genericon genericon-rightarrow"></span>') ?></div>
+			</div>
+			</div>
+
+			<div class="half">
+				<ul class="nav">
+					<li class="mobile-hidden"><a href="#fullscreen" id="fullscreen"><i class="genericon genericon-fullscreen"></i> <span>Full Screen</span></a></li>
+					<?php if( class_exists('SCCT_Comments') ) { ?>
+						<li><a href="#comments" class="open-popup-link"><i class="genericon genericon-chat"></i> <span>Discussion</span></a></li>
+					<?php } 
+					if( class_exists( 'SCCT_Module_Bookmarks' ) ) {
+						global $scct_module_bookmarks;
+						$scct_module_bookmarks->view_bookmarks();
+					} 
+					?>
+				</ul>
+			</div>
+		</div>
+		<div id="timeline">
+			<div id="timeline-small">
+				<div id="timeline-time">0:00</div>
+				<div id="timeline-fill"></div>
+			</div>
+			<div id="total-time">loading</div>
+
+			<div class="comment-shell" data-time="41:30">
+				<img src="http://1.gravatar.com/avatar/b248e2d8d7c239963374add656dec92f?s=26&d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D26&r=G" height="16" width="16" />
+				<span>enej</span>
+			</div>
+			<div class="comment-shell" data-time="21:30">
+				<img src="http://1.gravatar.com/avatar/b248e2d8d7c239963374add656dec92f?s=26&d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D26&r=G" height="16" width="16" />
+				<span>Really longname123123</span>
+			</div>
+
+		</div>
 		<div class="session-cct <?php echo implode( " ", apply_filters( "scct_classes", array() ) ); ; ?>">
 			<?php do_action( "scct_print_view", $post->ID ); ?>
 		</div>
 		<?php
-		return ob_get_clean();
+		
 	}
 	
 	public static function string_to_seconds( $string ) {

@@ -5,9 +5,14 @@ class Session_CCT {
 	
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'load' ) );
+
+		# add_action( );
 		
 		self::$plugins['pulse_cpt'] = defined( "PULSE_CPT_BASENAME" );
 		self::$plugins['stream'] = defined( "CTLT_STREAM" );
+
+		add_action( 'add_meta_boxes', array( __CLASS__, 'remove_comments_meta_boxes' ), 10 );
+
 	}
 	
 	public static function install() {
@@ -43,6 +48,7 @@ class Session_CCT {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
+			'menu_icon'			 => 'dashicons-video-alt3',
 			'query_var'          => true,
 			'rewrite'            => array( 'slug' => 'session' ),
 			'capability_type'    => 'post',
@@ -50,14 +56,20 @@ class Session_CCT {
 			'hierarchical'       => false,
 			'menu_position'      => null,
 			'taxonomies'         => array( 'category', 'post_tag' ),
-			'supports'           => array( 'title', 'excerpt', 'author' ),
+			'supports'           => array( 'title', 'excerpt', 'author', 'comments'  ),
 		);
 		
   		register_post_type( SESSION_CCT_SLUG, $args );
 	}
+
+	public static function remove_comments_meta_boxes() {
+		remove_meta_box( 'commentstatusdiv', SESSION_CCT_SLUG, 'normal' );
+		remove_meta_box( 'commentsdiv', SESSION_CCT_SLUG, 'normal' );
+	}
 	
 	public static function register_scripts() {
-    	wp_register_script( 'popcornjs', 'http://popcornjs.org/code/dist/popcorn-complete.js', array(), '1.0', true );
+    	wp_register_script( 'popcornjs', SESSION_CCT_DIR_URL.'/js/popcorn-complete.js', array(), '1.3', true );
+    	wp_register_script( 'magnific-popup', 	 SESSION_CCT_DIR_URL.'/js/jquery.magnific-popup.min.js', array(), '0.9.9', true );
     	wp_register_script( 'dotjs',     SESSION_CCT_DIR_URL.'/js/doT.js',                     array(), '1.0', true );
 	}
 	

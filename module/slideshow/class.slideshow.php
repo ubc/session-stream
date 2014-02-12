@@ -24,9 +24,10 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	
 	public function load_view() {
 		add_filter( 'scct_localize_view', array( $this, 'localize_view' ) );
-		
-		wp_enqueue_style(  'scct-view-slideshow' );
-		wp_enqueue_script( 'scct-view-slideshow' );
+	}
+	
+	public function load_style() {
+		self::wp_enqueue_style(  'scct-view-slideshow' );
 	}
 	
 	public function admin( $post, $box ) {
@@ -112,6 +113,7 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	}
 	
 	public function view() {
+		wp_enqueue_script( 'scct-view-slideshow' );
 		?>
 		<div id="slide-list" class="slide-list"></div>
 		<?php
@@ -142,20 +144,22 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	public function save( $post_id ) {
 		$slide = null;
 		$list = array();
-		foreach ( $_POST[$this->atts['slug']]['list'] as $field ) {
-			reset( $field );
-			$key = key( $field );
-			$value = $field[$key];
-			
-			if ( $key == 'type' ) {
-				if ( ! empty( $slide ) ) {
-					$list[] = $slide;
+		if( !empty( $_POST[ $this->atts['slug'] ] ) ){ 
+			foreach ( $_POST[$this->atts['slug']]['list'] as $field ) {
+				reset( $field );
+				$key = key( $field );
+				$value = $field[$key];
+				
+				if ( $key == 'type' ) {
+					if ( ! empty( $slide ) ) {
+						$list[] = $slide;
+					}
+					
+					$slide = array();
 				}
 				
-				$slide = array();
+				$slide[$key] = $value;
 			}
-			
-			$slide[$key] = $value;
 		}
 		$list[] = $slide;
 		usort( $list, array( $this, 'compare_slides' ) );
