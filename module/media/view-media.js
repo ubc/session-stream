@@ -2,29 +2,46 @@ var SCCT_Media = {
 	media: null,
 	was_playing: null,
 	duration: null,
+	playing: false,
 	
 	onContentLoad: function() {
-		console.log(Session_CCT_View.data);
-		SCCT_Media.media = Popcorn.smart( '#scct-media', Session_CCT_View.data.media.url );
 		
+		SCCT_Media.media = Popcorn.smart( '#scct-media', Session_CCT_View.data.media.url );
+		SCCT_Media.media.autoplay( false );
 		
 		
 		SCCT_Media.media.on('loadeddata', function(){
 			SCCT_Media.duration = SCCT_Media.media.duration()
 			SCCT_Timeline.set( 'duration' ,  SCCT_Media.duration );
 		});
-
+		// this is here just in case
 		SCCT_Media.media.on("play", function() {
-    		
+    		SCCT_Media.playing = true;
     		console.log("Playing!");
+    		SCCT_Play_Media_Button.html('<span class="genericon genericon-pause"></span>');
+    		SCCT_Media.media.on( "timeupdate", SCCT_Media.update_time );
+
+   		});
+   		SCCT_Media.media.on("pause", function() {
+    		SCCT_Media.playing = false;
+    		console.log("paused");
+    		SCCT_Play_Media_Button.html('<span class="genericon genericon-play"></span>');
+    		SCCT_Media.media.off("timeupdate");
+
    		});
 
-   		jQuery("#fullscreen").toggle(function(){
-   			
-   			SCCT_Media.launchFullscreen( jQuery("body").get( 0 ) );
-   		},
-   		function() {
-
+   		jQuery("#fullscreen").toggle( function() {
+   			var element = jQuery('body').get(0);
+			if(element.requestFullscreen) {
+				element.requestFullscreen();
+			} else if(element.mozRequestFullScreen) {
+				element.mozRequestFullScreen();
+			} else if(element.webkitRequestFullscreen) {
+				element.webkitRequestFullscreen();
+			} else if(element.msRequestFullscreen) {
+				element.msRequestFullscreen();
+			}
+   		}, function() {
 			if(document.exitFullscreen) {
 				document.exitFullscreen();
 			} else if(document.mozCancelFullScreen) {
@@ -32,29 +49,32 @@ var SCCT_Media = {
 			} else if(document.webkitExitFullscreen) {
 				document.webkitExitFullscreen();
 			}
-
    		})
 	},
 	launchFullscreen: function( element ) {
-	  if(element.requestFullscreen) {
-	    element.requestFullscreen();
-	  } else if(element.mozRequestFullScreen) {
-	    element.mozRequestFullScreen();
-	  } else if(element.webkitRequestFullscreen) {
-	    element.webkitRequestFullscreen();
-	  } else if(element.msRequestFullscreen) {
-	    element.msRequestFullscreen();
-	  }
+	  
 	},
 	
 	skipTo: function( time ) {
-
+		
 		SCCT_Media.media.currentTime( time );
-		SCCT_Timeline.set( 'freeze_left', event.clientX + SCCT_Timeline.margin );
-		SCCT_Timeline.set( 'freeze_width', event.clientX + SCCT_Timeline.timeline_time_width );
+		SCCT_Media.media.pause( time );
+		var px = SCCT_Timeline.time_to_pixel( time );
+		SCCT_Timeline.set( 'freeze_left', px + SCCT_Timeline.margin );
+		SCCT_Timeline.set( 'freeze_width', px + SCCT_Timeline.timeline_time_width );
 		SCCT_Timeline.set( 'freeze_time',  time  );
+		SCCT_Timeline.set( 'time',  time );
+
 	},
-	
+	update_time: function(){
+		
+    		var time = this.currentTime();
+   			var px = SCCT_Timeline.time_to_pixel( time );
+			SCCT_Timeline.set( 'freeze_left', px + SCCT_Timeline.margin );
+			SCCT_Timeline.set( 'freeze_width', px + SCCT_Timeline.timeline_time_width );
+			SCCT_Timeline.set( 'freeze_time',  time );
+			SCCT_Timeline.set( 'time',  time );
+	},
 	pauseForModule: function() {
 		if ( SCCT_Media.was_playing == null ) {
 			SCCT_Media.was_playing = ! SCCT_Media.media.paused();
@@ -77,6 +97,7 @@ var SCCT_Media = {
 document.addEventListener( "DOMContentLoaded", SCCT_Media.onContentLoad, false );
 
 var SCCT_Timeline = {
+
 	timeline_shell: null,
 	time: null,	
 	duration: null,
@@ -85,8 +106,8 @@ var SCCT_Timeline = {
 	timeline_el: null,
 	margin: -60,
 	freeze_time: 0,
-	freeze_left:0,
-	freeze_width:0,
+	freeze_left:60,
+	freeze_width:60,
 	timeline_time_width: 0,
 
 	get: function( name ){
@@ -103,6 +124,7 @@ var SCCT_Timeline = {
 		
 		
 	},
+
 	update_duration: function( time ){
 		// do this when we know what time the whole thing is...
 		SCCT_Timeline.init();
@@ -122,42 +144,61 @@ var SCCT_Timeline = {
 	},
 	init: function( event ){
 		// console.log
+		jQuery("#timeline").slideDown();
 		SCCT_Timeline.timeline_time_el = jQuery("#timeline-time");
-		SCCT_Timeline.timeline_el 	  = jQuery("#timeline-small"); 
+		SCCT_Timeline.timeline_el 	  = jQuery("#timeline-shell"); 
 		SCCT_Timeline.timeline_width   = SCCT_Timeline.timeline_el.width();
 		SCCT_Timeline.timeline_fill	  = jQuery("#timeline-fill");
 		SCCT_Timeline.timeline_shell = jQuery("#timeline");
-		
-		
+		SCCT_Play_Media_Button = jQuery("#play-media");
 		SCCT_Timeline.comments_on_timeline();
 		SCCT_Timeline.slides_on_timeline();
+		SCCT_Play_Media_Button.click( function(){
+
+			if( SCCT_Media.playing ){
+				SCCT_Media.media.pause(SCCT_Timeline.time);
+				
+			} else {
+				SCCT_Media.media.play(SCCT_Timeline.time);
+				
+			}
+
+		});
 
 		SCCT_Timeline.timeline_el.hover( 
 			function( event ) {
 			
 				SCCT_Timeline.timeline_time_el.css('left', event.clientX + SCCT_Timeline.timeline_time_width );
-				SCCT_Timeline.timeline_fill.width( (event.clientX + SCCT_Timeline.margin )+'px');
+				// SCCT_Timeline.timeline_fill.width( (event.clientX + SCCT_Timeline.margin )+'px');
 				var time = SCCT_Timeline.pixel_to_time( event.clientX );  
 			
 				SCCT_Timeline.set( 'time',  time );
 
+				// if the event is playing
+				// take over the time line but continou playing
+				if( SCCT_Media.playing )
+					SCCT_Media.media.off( "timeupdate" );
+
+
 		}, function( event ) {
 
-			SCCT_Timeline.timeline_fill.width( SCCT_Timeline.freeze_left );
-			SCCT_Timeline.timeline_time_el.css('left',SCCT_Timeline.freeze_width ).text( 
-			SCCT_Timeline.seconds_to_time( SCCT_Timeline.freeze_time ) );
+			// SCCT_Timeline.timeline_fill.width( SCCT_Timeline.freeze_left );
+			SCCT_Timeline.timeline_time_el.css('left',SCCT_Timeline.freeze_width ).text( SCCT_Timeline.seconds_to_time( SCCT_Timeline.freeze_time ) );
+			
+			if( SCCT_Media.playing )
+				SCCT_Media.media.on( "timeupdate", SCCT_Media.update_time );
 
 		}).mousemove(function( event ) {
 
 			var time = SCCT_Timeline.pixel_to_time( event.clientX );
 
-			SCCT_Timeline.timeline_fill.width( (event.clientX + SCCT_Timeline.margin )+'px');
+			// SCCT_Timeline.timeline_fill.width( (event.clientX + SCCT_Timeline.margin )+'px');
 			SCCT_Timeline.set( 'time',  time );
 
 			SCCT_Timeline.timeline_time_el.css('left', event.clientX + SCCT_Timeline.timeline_time_width );
 
 		}).click( function( event ){
-
+			// pause the thing first
 			SCCT_Media.skipTo( SCCT_Timeline.time );
 
 		});
@@ -221,20 +262,22 @@ var SCCT_Timeline = {
 			var item = list[count];
 			count++;
 			var left = SCCT_Timeline.time_to_pixel( item.start )+"px";
-			slides += "<div class='slide-shell' style='left:"+left+"' data-time='"+item.start+"'><span class='genericon genericon-picture'></span></div>";
+			slides += "<div class='slide-shell' style='left:"+left+"' ><div class='slide-icon' data-time='"+item.start+"' ><span class='genericon genericon-picture'></span></div></div>";
 		}
 
 		SCCT_Timeline.timeline_shell.append( slides );
-		jQuery('.slide-shell').click(
-			function() {
+
+		jQuery('.slide-icon').click( function() {
 				var time = jQuery(this).data( "time" );
 				
-				
+				SCCT_Timeline.set( 'time',  time );
 				SCCT_Media.skipTo( time );
 		} );
 
 	}, 
-	time_to_pixel: function( time ){
+	time_to_pixel: function( time ) {
+		// convert time to to seconds
+		// 
 		var px = parseInt( ( time / SCCT_Timeline.duration ) * SCCT_Timeline.timeline_width  ) - SCCT_Timeline.margin;
 		return px;
 	},

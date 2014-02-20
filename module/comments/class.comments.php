@@ -125,8 +125,10 @@ class SCCT_Comments extends Session_CCT_Module {
 	}
 	
 	public function view() {  
+		if( comments_open() ) {
+			comments_template( ); 
+		}
 		
-		comments_template( ); 
 	}
 	
 	public function localize_view( $data ) {

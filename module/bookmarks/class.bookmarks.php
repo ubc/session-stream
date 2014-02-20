@@ -96,7 +96,7 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 		$bookmarks = $this->data();
 		
 		if( is_array( $bookmarks['list'] ) && !empty( $bookmarks['list'][0]['time'] ) )  { ?>
-			<li><a href=""><i class=""></i> <span>Bookmarks </span></a>
+			<li>Contents</a>
 			<ul class="nav-bookmarks">
 			<?php
 				foreach ( $bookmarks['list'] as $bookmark ) {
@@ -115,7 +115,7 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 		?>
 		<ul id="scct-bookmarks">
 			<li class="title hidden-mobile">
-				Bookmarks
+				Contents
 			</li>
 			<?php
 				foreach ( $bookmarks['list'] as $bookmark ) {

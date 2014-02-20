@@ -115,7 +115,11 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	public function view() {
 		wp_enqueue_script( 'scct-view-slideshow' );
 		?>
+
+		<a href="#add-slide" class="open-popup-link button">Add a slide</a>
+		<div id="add-slide" class=" mfp-hide white-popup"><form ><?php self::admin_slide(); ?></form></div>
 		<div id="slide-list" class="slide-list"></div>
+		end of slides and media
 		<?php
 	}
 	

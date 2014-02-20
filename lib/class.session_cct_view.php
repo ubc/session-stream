@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * 
+ * 
+ */
 class Session_CCT_View {
 	
 	public static function init() {
@@ -79,7 +84,7 @@ class Session_CCT_View {
 			<div class="half">
 				<ul class="nav">
 					<li class="mobile-hidden"><a href="#fullscreen" id="fullscreen"><i class="genericon genericon-fullscreen"></i> <span>Full Screen</span></a></li>
-					<?php if( class_exists('SCCT_Comments') ) { ?>
+					<?php if( class_exists('SCCT_Comments') && comments_open() ) { ?>
 						<li><a href="#comments" class="open-popup-link"><i class="genericon genericon-chat"></i> <span>Discussion</span></a></li>
 					<?php } 
 					if( class_exists( 'SCCT_Module_Bookmarks' ) ) {
@@ -90,22 +95,23 @@ class Session_CCT_View {
 				</ul>
 			</div>
 		</div>
-		<div id="timeline">
-			<div id="timeline-small">
+		<div id="timeline" style="display:none;">	
+			<a href="#play" id="play-media"><span class="genericon genericon-play"></span></a>
+			<div id="timeline-shell">
 				<div id="timeline-time">0:00</div>
 				<div id="timeline-fill"></div>
 			</div>
 			<div id="total-time">loading</div>
 
-			<div class="comment-shell" data-time="41:30">
+			<div class="comment-shell" data-time="1:30">
 				<img src="http://1.gravatar.com/avatar/b248e2d8d7c239963374add656dec92f?s=26&d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D26&r=G" height="16" width="16" />
 				<span>enej</span>
 			</div>
-			<div class="comment-shell" data-time="21:30">
+			<div class="comment-shell" data-time="2:22">
 				<img src="http://1.gravatar.com/avatar/b248e2d8d7c239963374add656dec92f?s=26&d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D26&r=G" height="16" width="16" />
 				<span>Really longname123123</span>
 			</div>
-
+			
 		</div>
 		<div class="session-cct <?php echo implode( " ", apply_filters( "scct_classes", array() ) ); ; ?>">
 			<?php do_action( "scct_print_view", $post->ID ); ?>

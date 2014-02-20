@@ -1,6 +1,7 @@
 body{
 	font-family: "Helvetica Neue",​arial,​sans-serif;
 	margin: 0;
+	background: #FFF;
 }
 a{
 	color:#44A8CF;
@@ -162,22 +163,39 @@ a{
  * Timeline
  * ===========================================================================
  */
+#play-media{
+	position: absolute;
+	top:28px;
+	left:30px;
+	text-decoration: none;
+	border:2px solid #CCC;
+	width: 20px;
+	height: 10px;
+	border-right: 50%;
+	text-align: center;
+	padding: 1px 0 6px;
+}
 #timeline{
 	clear: both;
-	background: #F2F3F5;
+	background: #FFF;
 	height: 100px;
-	padding: 20px 60px;
+	padding: 30px 60px 10px;
 	position: relative;
 	margin-top: 10px;
+	border-top:1px solid #CCC;
+	border-bottom:1px solid #CCC;
+		-webkit-box-shadow: 0 8px 6px -6px #CCC;
+	   -moz-box-shadow: 0 8px 6px -6px #CCC;
+	        box-shadow: 0 8px 6px -6px #CCC;
 }
-#timeline-small{
-	height: 25px;
+#timeline-shell{
+	height: 15px;
 	background: #CAE6F1 url( ../img/track.gif) repeat-x bottom left;
 	float: right;
 	width: 100%;
 }
 #timeline-fill{
-	height: 25px;
+	height: 15px;
 	background: #44A8CF url( ../img/track.gif) repeat-x bottom left;
 	width: 0;
 }
@@ -186,25 +204,26 @@ a{
 	position: absolute;
 	right: 0;
 	top: 10px;
-	width: 40px;
-	padding: 5px 10px 2px;
+	width: 70px;
+	margin-left: -35px;
+	padding: 5px 0 2px;
 	font-size: 12px;
 	background: #FFF;
 	text-align: center;
 	z-index: 2;
-	border-radius: 10px;
 	cursor: pointer;
+	font-weight: bold;
+	color:#333;
+	border:1px solid #CCC;
+		-webkit-box-shadow: 0 8px 6px -6px #AAA;
+	   -moz-box-shadow: 0 8px 6px -6px #AAA;
+	        box-shadow: 0 8px 6px -6px #AAA;
 }
 #timeline-time{
 	position: absolute;
-	left: 0;
-	z-index: 1;
-	-webkit-border-radius: 10px;
-	-webkit-border-bottom-left-radius: 0;
-	-moz-border-radius: 10px;
-	-moz-border-radius-bottomleft: 0;
-	border-radius: 10px;
-	border-bottom-left-radius: 0;
+	left: 35;
+	z-index: 3;
+	
 }
 
 .comment-shell{
@@ -232,11 +251,27 @@ a{
  */
 .slide-shell{
 	position: absolute;
-	top:80px;
-	background: #FFF;
+	top:30px;
+	height:60px;
+	border-left:1px solid rgba(203, 62, 33, 0.5);
+	display: block;
+	background: rgba(203, 62, 33, 0.5);
+	width: 1px;
+
+}
+.slide-icon {
+	background: #CB3E21;
 	font-size: 12px;
 	padding: 2px;
 	cursor: pointer;
+	height:14px;
+	margin-top:60px;
+	margin-left: -10px;
+	margin-right: -10px;
+	border-radius: 2px;
+}
+.slide-icon .genericon{
+	color: #FFF;
 }
 
 /**

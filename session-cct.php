@@ -27,7 +27,7 @@ require_once( 'lib/class.session_cct_view.php' );
 require_once( 'lib/class.session_cct_admin.php' );
 require_once( 'module/media/class.media.php' );
 require_once( 'module/slideshow/class.slideshow.php' );
-# require_once( 'module/comments/class.comments.php' );
+require_once( 'module/comments/class.comments.php' );
 # require_once( 'module/pulse/class.pulse.php' );
 require_once( 'module/bookmarks/class.bookmarks.php' );
 # require_once( 'module/questions/class.questions.php' );

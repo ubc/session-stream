@@ -43,6 +43,7 @@ class SCCT_Media extends Session_CCT_Module {
 		$media = $this->data();
 		wp_enqueue_script( 'scct-view-media');
 		?>
+		hello
 		<div id="scct-media" class="iframe-wrapper <?php echo $media['type']; ?>"></div>
 		<?php
 	}
