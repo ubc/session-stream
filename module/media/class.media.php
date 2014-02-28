@@ -1,4 +1,6 @@
 <?php
+
+
 class SCCT_Media extends Session_CCT_Module {
 	
 	function __construct() {
@@ -41,9 +43,7 @@ class SCCT_Media extends Session_CCT_Module {
 	
 	public function view() {
 		$media = $this->data();
-		wp_enqueue_script( 'scct-view-media');
-		?>
-		hello
+		wp_enqueue_script( 'scct-view-media'); ?>
 		<div id="scct-media" class="iframe-wrapper <?php echo $media['type']; ?>"></div>
 		<?php
 	}

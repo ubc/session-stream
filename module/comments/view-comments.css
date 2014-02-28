@@ -1,17 +1,22 @@
 .comments-wrapper{
 	clear: both;
 	width: 100%;
+	font-size:80%;
 }
 #comments{
-	padding: 20px;
+	padding: 5px 10px;
 	background: #FFF;
 	max-width: 650px;
+	height:100%;
 }
 .comments-title{
 	font-size: 110%;
 }
 
 /* comment list */
+#comments > .commentlist{
+	margin-left: 0;
+}
 .commentlist,
 .commentlist li{
 	list-style: none;
@@ -22,19 +27,25 @@
 .comment-item{
 	background: #FFF;
 	margin-bottom: 20px;
-	margin-left: 60px;
+	margin-left: 32px;
 }
 .comment-item .avatar{
-	margin-left: -60px;
+	margin-left: -32px;
 	float: left;
 	border-radius: 3px;
+	width:22px;
+	margin-top: 7px;
 }
 .comment-item textarea{
 	font-family: "Helvetica Neue",​arial,​sans-serif;
-	padding: 10px 0;
+	padding:2px;
 	line-height: 1.5;
 	width: 100%;
 	height: 20px;
+	margin-top: 5px;
+}
+.comment-content p{
+	font-size:90%;
 }
 .comment-content,
 .comment-meta{}
@@ -42,7 +53,7 @@
 .comment-item .comment-action{
 	float: right;
 	margin-right: 15px;
-	margin-top: 0px;
+	margin-top: 8px;
 	color:#999;
 	font-weight: normal;
 	
@@ -51,9 +62,9 @@
 	font-size: 12px;
 }
 .children .comment-item .avatar{
-	margin-left: -40px;
+	/* margin-left: -40px;
 	width: 32px;
-	height:32px;
+	height:32px; */
 }
 .children .comment-item{
 	margin-left: 40px;
@@ -85,6 +96,15 @@
 }
 #commentform {
 	max-width: 665px;
+	border-bottom: 1px solid #CCC;
+	margin: 0 -10px 10px;
+	padding: 0 10px;
+}
+#commentform p{
+	margin-bottom: 10px;
+}
+.form-submit{
+	text-align: right;
 }
 #commentform p label{
 	display: block;
@@ -172,4 +192,9 @@ textarea {
 	padding-left: 3px;
 	vertical-align: top; /* Improves readability and alignment in all browsers */
 	width: 98%;
+}
+
+/* Filter */
+.sub-nav dt, .sub-nav dd, .sub-nav li{
+	font-size: 80%!important;
 }

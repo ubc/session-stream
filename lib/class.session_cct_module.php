@@ -32,7 +32,7 @@ class Session_CCT_Module {
 	static function load_styles(){
 		
 		foreach ( self::$modules as $index => $module ) {
-			if ( $module->atts['has_view'] ) {
+			if ( $module->atts['has_view'] || $module->atts['has_view_sidebar'] ) {
 				$module->load_style();
 			}	
 		}
@@ -107,6 +107,7 @@ class Session_CCT_Module {
 			'order'     => 10,
 			'has_admin' => true,
 			'has_view'  => true,
+			'has_view_sidebar'  => false,
 		) );
 		
 		if ( $this->atts['slug'] === null ) {
@@ -124,12 +125,14 @@ class Session_CCT_Module {
 		}
 		
 		if ( $this->atts['has_view'] ) {
-			add_action( 'scct_print_view', array( $this, 'wrapper' ), $this->atts['order'] );
+			add_action( 'scct-print-main-view', array( $this, 'wrapper' ), $this->atts['order'] );
+		}
+		if ( $this->atts['has_view_sidebar'] ) {
+			add_action( 'scct-print-sidebar-view', array( $this, 'wrapper' ), $this->atts['order'] );
 		}
 	}
-	public function load_module_style(){
 
-	}
+	public function load_module_style(){}
 	public function load_admin() {}
 	public function load_view() {}
 	
@@ -144,11 +147,6 @@ class Session_CCT_Module {
 		if ( ! isset( $data['meta']['mode'] ) || $data['meta']['mode'] != 'disabled' ) {
 			?>
 			<div class="<?php echo $this->atts['slug']; ?>-wrapper scct-wrapper">
-				<?php if ( ! empty( $this->atts['icon'] ) ): ?>
-				<div class="scct-title hidden-desktop toggle-collapse">
-					<strong><?php echo $this->atts['name']; ?></strong>
-				</div>
-				<?php endif; ?>
 				<div class="scct-inner-wrapper">
 					<?php $this->view( $post_id ); ?>
 				</div>
@@ -157,11 +155,7 @@ class Session_CCT_Module {
 		}
 	}
 	
-	public function view() {
-		?>
-		<strong>Warning!</strong> This module has not implemented a front end view.
-		<?php
-	}
+	public function view() { }
 	
 	public function save( $post_id ) {
 		# @todo: check securturity 

@@ -7,27 +7,40 @@
 class Session_CCT_View {
 	
 	public static function init() {
+
 		add_action( 'init', array( __CLASS__, 'load' ) );
 		add_filter( 'scct_load_style', 	 array( __CLASS__, 'load_styles') ); 
-    	wp_register_script( 'scct-view', SESSION_CCT_DIR_URL.'/js/view.js', array( 'jquery', 'popcornjs', 'magnific-popup' ), '1.0', true );
-    	wp_register_style( 'scct-view', SESSION_CCT_DIR_URL.'/css/view.css' );
-    	wp_register_style( 'scct-icons', SESSION_CCT_DIR_URL.'/icons/genericons.css' );
-    	wp_register_style( 'scct-layout-desktop', SESSION_CCT_DIR_URL.'/css/layout-desktop.css' );
-    	wp_register_style( 'scct-layout-mobile', SESSION_CCT_DIR_URL.'/css/layout-mobile.css' );
+
+    	
+    	wp_register_style( 'normalize', SESSION_CCT_DIR_URL.'/assets/foundation/css/normalize.css' );
+    	wp_register_style( 'foundation', SESSION_CCT_DIR_URL.'/assets/foundation/css/foundation.min.css' );
+    	wp_register_style( 'scct-view', SESSION_CCT_DIR_URL.'/assets/css/view.css' );
+    	wp_register_style( 'scct-icons', SESSION_CCT_DIR_URL.'/assets/icons/genericons.css' );
+
+    	wp_register_script( 'foundation', SESSION_CCT_DIR_URL.'/assets/foundation/js/foundation.min.js', array( 'jquery' ), '5.1', true );
+    	wp_register_script( 'popcornjs', SESSION_CCT_DIR_URL.'/assets/js/popcorn-complete.js', array(), '1.3', true );
+    	wp_register_script( 'magnific-popup', 	 SESSION_CCT_DIR_URL.'/js/jquery.magnific-popup.min.js', array(), '0.9.9', true );
+    	wp_register_script( 'nano-scroller', 	 SESSION_CCT_DIR_URL.'/assets/js/jquery.nanoscroller.min.js', array( 'jquery' ), '0.7.6', true );
+    	wp_register_script( 'dotjs',     SESSION_CCT_DIR_URL.'/js/doT.js',                     array(), '1.0', true );
+    	wp_register_script( 'scct-view', SESSION_CCT_DIR_URL.'/assets/js/view.js', array( 'jquery', 'popcornjs', 'foundation', 'nano-scroller' ), '1.0', true );
+    	
 	}
 
 	public static function load_styles(){
-
-		Session_CCT_Module::wp_enqueue_style( 'scct-view' );
+		Session_CCT_Module::wp_enqueue_style( 'normalize' );
+		Session_CCT_Module::wp_enqueue_style( 'foundation' );
 		Session_CCT_Module::wp_enqueue_style( 'scct-icons' );
-    	#Session_CCT_Module::wp_enqueue_style( 'scct-layout-mobile' );
-		#Session_CCT_Module::wp_enqueue_style( 'scct-layout-desktop' );
+		Session_CCT_Module::wp_enqueue_style( 'scct-view' );
+		
 	}
 	
 	public static function load() {
-		add_filter( 'the_content',     array( __CLASS__, 'the_content'      ) );
 		add_filter( 'single_template', array( __CLASS__, 'session_template' ) );
+		/*
+		add_filter( 'the_content',     array( __CLASS__, 'the_content'      ) );
+		
 		add_filter( 'body_class',      array( __CLASS__, 'edit_body_class'  ), 10, 2);
+		*/
 	}
 	
 	public static function is_active() {
@@ -50,6 +63,7 @@ class Session_CCT_View {
 	}
 	
 	public static function the_content( $content ) {
+
 		if ( Session_CCT_View::is_active() ) {
 			return self::the_session( $content );
 		}
@@ -57,30 +71,66 @@ class Session_CCT_View {
             return $content;
         }
 	}
-	
-	public static function the_session( $content ) {
+
+	public static function the_head(){
 		global $post;
-		
+
 		$data = apply_filters( "scct_localize_view", array(
 			'session_id' => $post->ID,
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		) );
 		
 		wp_localize_script( 'scct-view', 'scct_data', $data );
-		
     	wp_enqueue_script( 'scct-view' );
+
+	}
+	
+	public static function the_session( $content ) {
+		global $post;
     	
 		?>
-		<div id="header">
-			<div class="half">
-			<h1 class="site-title"><span class="genericon genericon-reply-single"></span> <a href="<?php echo site_url( ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-			<?php the_title( "<h2>", "</h2>", true); ?>
-			<div class="more-session">
-				<div class="nav-previous"><?php previous_post_link('%link', '<span class="genericon genericon-leftarrow"></span> Older Session ') ?></div>
-				<div class="nav-next"><?php next_post_link('%link', 'Newer Session <span class="genericon genericon-rightarrow"></span>') ?></div>
-			</div>
+		<div id="body-wrap" class="<?php echo implode( " ", apply_filters( "scct_classes", array() ) ) ; ?>" >
+			<div id="wrapper" class="main-view ">
+				<div id="main">
+					<?php do_action( "scct-print-main-view", $post->ID ); ?>
+					This is the main shell
+				</div>
 			</div>
 
+			
+		</div>
+		<?php
+		
+	}
+	public static function the_navigation() { ?>
+			<div class="navigation-content">
+				<?php do_action( "scct-print-navigation-view", $post->ID ); ?>
+			</div>
+		<?php
+	}
+
+	public static function the_sidebar() { ?>
+		
+				<div class="sidebar-content">
+				<?php do_action( "scct-print-sidebar-view", $post->ID ); ?>
+				</div>
+
+		<?php
+	}
+	public static function the_header() { 
+		?>
+		<div id="header">
+
+			<div class="half">
+				<h1 class="site-title"><span class="genericon genericon-reply-single"></span> <a href="<?php echo site_url( ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+				<?php the_title( "<h2>", "</h2>", true); ?>
+				<div class="more-session">
+					<div class="nav-previous"><?php previous_post_link('%link', '<span class="genericon genericon-leftarrow"></span> Older Session ') ?></div>
+					<div class="nav-next"><?php next_post_link('%link', 'Newer Session <span class="genericon genericon-rightarrow"></span>') ?></div>
+				</div>
+			</div>
+			<?php 
+			/*
 			<div class="half">
 				<ul class="nav">
 					<li class="mobile-hidden"><a href="#fullscreen" id="fullscreen"><i class="genericon genericon-fullscreen"></i> <span>Full Screen</span></a></li>
@@ -94,7 +144,12 @@ class Session_CCT_View {
 					?>
 				</ul>
 			</div>
+			*/ ?>
 		</div>
+	<?php
+	}
+
+	public static function show_timeline() { ?>
 		<div id="timeline" style="display:none;">	
 			<a href="#play" id="play-media"><span class="genericon genericon-play"></span></a>
 			<div id="timeline-shell">
@@ -113,11 +168,7 @@ class Session_CCT_View {
 			</div>
 			
 		</div>
-		<div class="session-cct <?php echo implode( " ", apply_filters( "scct_classes", array() ) ); ; ?>">
-			<?php do_action( "scct_print_view", $post->ID ); ?>
-		</div>
 		<?php
-		
 	}
 	
 	public static function string_to_seconds( $string ) {

@@ -1,0 +1,75 @@
+/* Take into account the admin bar */
+.admin-bar .page-wrap{
+  margin-top:30px;
+}
+@media screen and (max-width: 782px) {
+	.admin-bar .page-wrap{
+		margin-top:46px;
+	}
+}
+/* End - Take into account the admin bar */
+body {
+	color: #333;
+}
+/* screen reader text should be visible only to screenreaders */
+.screen-reader-text{
+	position: absolute; top:0; left:-9999px;
+}
+.main-section{
+	position: relative;
+	display:block;
+	overflow: hidden;
+	padding: 20px;
+}
+.tab-bar .genericon{
+	color: #FFFFFF;
+    display: block;
+    font-size: 21px;
+    height: 2.813rem;
+    line-height: 2.763rem;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    text-indent: 0;
+    width: 2.8125rem;
+}
+.tab-bar  .genericon-chat{
+	font-size: 31px;
+}
+.tab-bar .comment-number{
+	display: inline;
+    font-size: 12px;
+    left: 8px;
+    opacity: 0.9;
+    padding: 4px 6px;
+    position: absolute;
+    top: 3px;
+}
+.right-sidebar{
+	background: #FFF;
+}
+/* should work differently when displayin on things larger then a phone */
+@media only screen and (min-width: 40.063em) { 
+	.right-sidebar{
+		background: #FFF;
+	    float: right;
+	    font-size: 12px;
+	    
+	    line-height: 20px;
+	    position: fixed;
+	    right: 0;
+	    top: 30px;
+	    width: 39%;
+	    max-width: 500px;
+	    transform:none;
+	    border-left:1px solid #CCC;
+	}
+	.move-left > .inner-wrap{
+		transform: none;
+	}
+	.main-section{
+		float:left;
+		width:60%;
+	}
+} /* min-width 641px, medium screens */
+

@@ -4,12 +4,12 @@ class Session_CCT {
 	public static $plugins = array();
 	
 	public static function init() {
+
 		add_action( 'init', array( __CLASS__, 'load' ) );
 
-		# add_action( );
 		
 		self::$plugins['pulse_cpt'] = defined( "PULSE_CPT_BASENAME" );
-		self::$plugins['stream'] = defined( "CTLT_STREAM" );
+		self::$plugins['stream'] 	= defined( "CTLT_STREAM" );
 
 		add_action( 'add_meta_boxes', array( __CLASS__, 'remove_comments_meta_boxes' ), 10 );
 
@@ -22,10 +22,10 @@ class Session_CCT {
 	
 	public static function load() {
 		self::register_content_type();
-		self::register_scripts();
 	}
 	
 	public static function register_content_type() {
+
 		$labels = array(
 			'name'               => _x( 'Session', 'session-cct' ),
 			'singular_name'      => _x( 'Session', 'session-cct' ),
@@ -67,50 +67,7 @@ class Session_CCT {
 		remove_meta_box( 'commentsdiv', SESSION_CCT_SLUG, 'normal' );
 	}
 	
-	public static function register_scripts() {
-    	wp_register_script( 'popcornjs', SESSION_CCT_DIR_URL.'/js/popcorn-complete.js', array(), '1.3', true );
-    	wp_register_script( 'magnific-popup', 	 SESSION_CCT_DIR_URL.'/js/jquery.magnific-popup.min.js', array(), '0.9.9', true );
-    	wp_register_script( 'dotjs',     SESSION_CCT_DIR_URL.'/js/doT.js',                     array(), '1.0', true );
-	}
 	
-	public static function is_mobile() {
-		$mobile_browser = '0';
-		
-		if ( preg_match( '/(up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone|android)/i', strtolower( $_SERVER['HTTP_USER_AGENT'] ) ) ) {
-			$mobile_browser++;
-		}
-		
-		if ( ( strpos( strtolower( $_SERVER['HTTP_ACCEPT'] ), 'application/vnd.wap.xhtml+xml' ) > 0 ) or ( ( isset( $_SERVER['HTTP_X_WAP_PROFILE'] ) or isset( $_SERVER['HTTP_PROFILE'] ) ) ) ) {
-			$mobile_browser++;
-		}    
-		
-		$mobile_ua = strtolower( substr( $_SERVER['HTTP_USER_AGENT'], 0, 4 ) );
-		$mobile_agents = array(
-			'w3c ','acs-','alav','alca','amoi','audi','avan','benq','bird','blac',
-			'blaz','brew','cell','cldc','cmd-','dang','doco','eric','hipt','inno',
-			'ipaq','java','jigs','kddi','keji','leno','lg-c','lg-d','lg-g','lge-',
-			'maui','maxo','midp','mits','mmef','mobi','mot-','moto','mwbp','nec-',
-			'newt','noki','oper','palm','pana','pant','phil','play','port','prox',
-			'qwap','sage','sams','sany','sch-','sec-','send','seri','sgh-','shar',
-			'sie-','siem','smal','smar','sony','sph-','symb','t-mo','teli','tim-',
-			'tosh','tsm-','upg1','upsi','vk-v','voda','wap-','wapa','wapi','wapp',
-			'wapr','webc','winw','winw','xda ','xda-'
-		);
-		
-		if ( in_array( $mobile_ua, $mobile_agents ) ) {
-			$mobile_browser++;
-		}
-		
-		if ( strpos( strtolower( $_SERVER['ALL_HTTP'] ), 'OperaMini' ) > 0) {
-			$mobile_browser++;
-		}
-		
-		if ( strpos( strtolower( $_SERVER['HTTP_USER_AGENT'] ), 'windows' ) > 0) {
-			$mobile_browser = 0;
-		}
-		
-		return $mobile_browser;
-	}
 	
 }
 
