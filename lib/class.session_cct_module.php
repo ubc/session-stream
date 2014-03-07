@@ -53,7 +53,7 @@ class Session_CCT_Module {
 	static function load_modules() {
 		if ( Session_CCT_View::is_active() ) {
 			foreach ( self::$modules as $index => $module ) {
-				if ( $module->atts['has_view'] ) {
+				if ( $module->atts['has_view'] || $module->atts['has_view_sidebar']) {
 					$module->load_view();
 				}
 			}

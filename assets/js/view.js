@@ -1,10 +1,7 @@
 jQuery(document).foundation();
 
-
-
-
 var Session_CCT_View = {
-	data: scct_data,
+	data: session_stream_data,
 	
 	onContentLoad: function() {
 		jQuery('.toggle-collapse').on( 'click', Session_CCT_View.toggleCollapse )

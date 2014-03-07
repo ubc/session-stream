@@ -72,10 +72,10 @@ class SCCT_Module_Questions extends Session_CCT_Module {
 					&#10006;
 				</a>
 				<a class="scct-up" onclick="Session_CCT_Admin.move( this, false );">
-					<img src="<?php echo SESSION_CCT_DIR_URL; ?>/img/arrow-down.png" />
+					<img src="<?php echo SESSION_CCT_DIR_URL; ?>/assets/img/arrow-down.png" />
 				</a>
 				<a class="scct-down" onclick="Session_CCT_Admin.move( this, true );">
-					<img src="<?php echo SESSION_CCT_DIR_URL; ?>/img/arrow-up.png" />
+					<img src="<?php echo SESSION_CCT_DIR_URL; ?>/assets/img/arrow-up.png" />
 				</a>
 			</span>
 			<label>

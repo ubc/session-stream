@@ -2,7 +2,7 @@
 	// this is a comments template
 	wp_enqueue_script( 'comment-reply' );
 ?>
-<div id="comments" class="comments-area white-popup mfp-hide">
+<div id="comments" class="comments-area">
 	<?php
 	global $current_user;
 	// form args
@@ -29,15 +29,18 @@
 			?>
 		</h2>
 		<?php comment_form( $args ); ?>
-
+		<?php 
+		/*
 		<dl class="sub-nav"> <dt>Filter:</dt> <dd class="active"><a href="#">All</a></dd> <dd><a href="#">Active</a></dd> <dd><a href="#">Pending</a></dd> <dd><a href="#">Suspended</a></dd> </dl>
-
+		*/
+		?>
 
 		<ol class="commentlist">
 			<?php wp_list_comments( array(
 				'callback'	 => array( 'SCCT_Comments', 'list_comment' ),
 				'short_ping' => true,
 				'avatar_size'=> 34,
+				'reverse_top_level' => true
 			) ); ?>
 		</ol><!-- .commentlist -->
 
@@ -56,10 +59,8 @@
 		if ( ! comments_open() && get_comments_number() ) : ?>
 		<p class="nocomments"><?php _e( 'Comments are closed.' , 'twentytwelve' ); ?></p>
 		<?php endif; ?>
-	<?php else:  ?>
-	<?php comment_form( $args ); ?>
-	<?php endif; // have_comments() ?>
-
-	
+		<?php else:  ?>
+		<?php comment_form( $args ); ?>
+		<?php endif; // have_comments() ?>
 
 </div><!-- #comments .comments-area -->

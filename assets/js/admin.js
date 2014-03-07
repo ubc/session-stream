@@ -1,5 +1,5 @@
 var Session_CCT_Admin = {
-	data: scct_data,
+	data: session_stream_data,
 	
 	onReady: function() {
 		

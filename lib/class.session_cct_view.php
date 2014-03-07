@@ -26,7 +26,7 @@ class Session_CCT_View {
     	
 	}
 
-	public static function load_styles(){
+	public static function load_styles() {
 		Session_CCT_Module::wp_enqueue_style( 'normalize' );
 		Session_CCT_Module::wp_enqueue_style( 'foundation' );
 		Session_CCT_Module::wp_enqueue_style( 'scct-icons' );
@@ -76,11 +76,17 @@ class Session_CCT_View {
 		global $post;
 
 		$data = apply_filters( "scct_localize_view", array(
-			'session_id' => $post->ID,
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-		) );
+			'session_data' => array( 
+				'session_id' 		=> $post->ID,
+				'session_title' 	=> $post->post_title,
+				'session_permalink' => get_permalink( $post->ID ) ),
+
+			'meta' => array( 
+				'ajaxurl' => admin_url( 'admin-ajax.php' ) )
 		
-		wp_localize_script( 'scct-view', 'scct_data', $data );
+			) );
+		
+		wp_localize_script( 'scct-view', 'session_stream_data', $data );
     	wp_enqueue_script( 'scct-view' );
 
 	}
