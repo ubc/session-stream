@@ -8,19 +8,18 @@ window.session_stream_data = window.session_stream_data || {};
     var ajax_action = 'session-stream-comments';
 
     var comments = session_stream_data.comments = session_stream_data.comments || {};
-
+    var GC  = {}; // Gelato Comments
     // _.extend( comments, { model: {}, view: {}, routes: {}, router: {}, template: session_stream_data.comments.template });
+   
+    GC.Comment = Backbone.Model.extend({});
 
-    Comment = Backbone.Model.extend({});
-
-    
-    CommentsList = Backbone.Collection.extend({
+    GC.Comments = Backbone.Collection.extend({
         
         model: Comment,
 
     });
 
-    var commentsCollection = new commentsList( session_stream_data.comments );
+    var commentsCollection = new GC.Comments( session_stream_data.comments );
     
    
     var CommentView = Backbone.View.extend({
