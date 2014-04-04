@@ -51,10 +51,8 @@ body {
 /* should work differently when displayin on things larger then a phone */
 @media only screen and (min-width: 40.063em) { 
 	.right-sidebar{
-		background: #FFF;
 	    float: right;
 	    font-size: 12px;
-	    
 	    line-height: 20px;
 	    position: fixed;
 	    right: 0;

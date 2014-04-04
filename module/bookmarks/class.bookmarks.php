@@ -1,4 +1,6 @@
 <?php
+
+
 class SCCT_Module_Bookmarks extends Session_CCT_Module {
 	
 	function __construct() {

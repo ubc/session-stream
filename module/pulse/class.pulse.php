@@ -13,6 +13,8 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 			'context'  => "side",
 			'has_view' => Session_CCT::$plugins['pulse_cpt'],
 			'order'    => 20,
+			'has_view' => false,
+			'has_view_sidebar' => true
 		) );
 		
     	wp_register_style(  'scct-view-pulse', SESSION_CCT_DIR_URL.'/module/pulse/view-pulse.css' );
@@ -29,6 +31,10 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 	 */
 	public function load_view() {
 		add_filter( 'scct_localize_view', array( $this, 'localize_view' ) );
+	}
+
+	public function load_style(){
+		self::wp_enqueue_style( 'scct-view-pulse' );
 	}
 	
 	/**
@@ -99,12 +105,13 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 		
 		wp_enqueue_script( 'popcornjs-pulse' );
 		wp_enqueue_script( 'scct-view-pulse' );
-		wp_enqueue_style( 'scct-view-pulse' );
+		
 		?>
 		<div class="widget">
 			<div id="scct-pulse-list" class="pulse-widget">
 				<?php
-					if ( $pulse['meta']['mode'] != 'locked' ) {
+				
+					if ( is_array($pulse) && $pulse['meta']['mode'] != 'locked' ) {
 						Pulse_CPT_Form_Widget::pulse_form( $pulse );
 					}
 				?>

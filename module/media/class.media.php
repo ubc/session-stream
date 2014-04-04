@@ -22,10 +22,10 @@ class SCCT_Media extends Session_CCT_Module {
 	public function load_style(){
 
 		self::wp_enqueue_style( 'scct-view-media' );
-
 	}
 	
 	public function admin( $post, $box ) {
+
 		$media = $this->data( $post->ID );
 		?>
 		<label for="<?php $this->field_name( "type" ); ?>">
@@ -42,15 +42,19 @@ class SCCT_Media extends Session_CCT_Module {
 	}
 	
 	public function view() {
+
 		$media = $this->data();
 		wp_enqueue_script( 'scct-view-media'); ?>
 		<div id="scct-media" class="iframe-wrapper <?php echo $media['type']; ?>"></div>
 		<?php
+
 	}
 	
 	public function localize_view( $data ) {
+
 		$data['media'] = $this->data();
 		return $data;
+		
 	}
 }
 
