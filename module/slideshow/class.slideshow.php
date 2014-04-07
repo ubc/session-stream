@@ -112,12 +112,13 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 	}
 	
 	public function view() {
-		?>
+        ?>
 		<div id="slide-list" class="slide-list"></div>
 		<?php
 	}
 	
 	function localize_view( $data ) {
+    
 		$slideshow = $this->data();
 		
 		if ( ! empty( $slideshow['list'] ) ) {
@@ -136,6 +137,7 @@ class SCCT_Module_Slideshow extends Session_CCT_Module {
 		}
 		
 		$data['slideshow'] = $slideshow;
+
 		return $data;
 	}
 	

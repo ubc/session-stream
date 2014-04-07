@@ -90,7 +90,7 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 	
 	public function view() {
 		$bookmarks = $this->data();
-		
+        
 		wp_enqueue_style( 'scct-view-bookmarks' );
 		?>
 		<ul id="scct-bookmarks">
@@ -126,7 +126,8 @@ class SCCT_Module_Bookmarks extends Session_CCT_Module {
 	}
 	
 	function localize_view( $data ) {
-		$data['bookmarks'] = $this->data();
+        
+        $data['bookmarks'] = $this->data();
 		
 		foreach ( $data['bookmarks']['list'] as $index => $bookmark ) {
 			$data['bookmarks']['list'][$index]['synctime'] = Session_CCT_View::string_to_seconds( $bookmark['time'] );

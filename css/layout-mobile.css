@@ -12,4 +12,8 @@
     .scct-wrapper.collapsed {
         max-height: 25px;
     }
+    
+    .iframe-wrapper {
+        position: relative;
+    }
 }

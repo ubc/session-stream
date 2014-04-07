@@ -1,11 +1,20 @@
 body {
-    background: #002145;
+    background: #E6E9EC;
+    font:15px arial,sans-serif;
+}
+
+#wpadminbar {
+    display: none !important;
 }
 
 #primary {
     margin: 0;
     box-sizing: border-box;
     width: 100%;
+}
+
+.hidden {
+    display: none;
 }
 
 .scct-wrapper {
@@ -34,27 +43,9 @@ padding-left: 0px;
     vertical-align: bottom;
 }
 
-.session-cct .media-wrapper {
-}
-
-.session-cct .slideshow-wrapper {
-    border: 1px solid black;
-    border-radius: 5px;
-}
-
-.session-cct .pulse-wrapper {
-    border: 1px solid black;
-    border-radius: 5px;
-}
-
-.session-cct .bookmarks-wrapper {
-    border: 1px solid black;
-    border-radius: 5px;
-}
-
-.session-cct .toolbar-wrapper {
-    border: 1px solid black;
-    border-radius: 5px;
+.session-cct .toolbar-wrapper, .session-cct .bookmarks-wrapper, .session-cct .timeline-wrapper, .session-cct .slideshow-wrapper, .session-cct .pulse-wrapper {
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
 }
 
 .toggle-collapse {

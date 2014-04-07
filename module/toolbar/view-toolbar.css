@@ -1,5 +1,4 @@
 .toolbar-wrapper {
-    position: fixed;
     background: white;
     margin: 0;
     z-index: 15;
@@ -39,4 +38,26 @@
     -o-transition: opacity .2s ease-in;
     -ms-transition: opacity .2s ease-in;
     transition: opacity .2s ease-in;
+}
+@media screen and (min-width: 768px) {
+.pulse-wrapper-side {
+    height: 78% !important;
+}
+
+.module-side {
+    position: fixed !important;
+    right: 10px !important;
+    bottom: 1% !important;
+    height: 19% !important;
+    width: 300px !important;
+    z-index: 11 !important;
+    float: none !important;
+    margin-bottom: 0px !important;
+}
+
+.media-wrapper iframe,
+.media-wrapper object,
+.media-wrapper embed {
+    height: 100%;
+}
 }

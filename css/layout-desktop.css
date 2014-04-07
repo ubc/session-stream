@@ -14,7 +14,21 @@
         border-bottom: 0px;
         border-right: 320px;
         border-style: solid;
-        border-color: #002145;
+        border-color: #E6E9EC;
+    }
+    
+    .larger-body {
+        overflow: scroll;
+        height: 100%;
+        margin: 0px;
+        box-sizing: border-box;
+        -moz-box-sizing:border-box; /* Firefox */
+        border-left: 80px;
+        border-top: 0px;
+        border-bottom: 0px;
+        border-right: 10px;
+        border-style: solid;
+        border-color: #E6E9EC;
     }
     
     .hidden {
@@ -24,12 +38,10 @@
     .slideshow-wrapper {
         z-index: -1;
     }
-    
+
     .session-cct.module-media.invert-media .slideshow-wrapper,
     .media-wrapper {
-        position: absolute;
-        top: 10px;
-        left: 0px;
+        margin-top: 10px;
     }
     
     .session-cct.module-media.invert-media .slideshow-wrapper,
@@ -38,10 +50,7 @@
         float: left;
         margin-left: 0px;
         width: 100%;
-    }
-    
-    .session-cct.module-pulse .media-wrapper {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     
     .slideshow-wrapper {
@@ -58,40 +67,34 @@
     .session-cct.module-media .slideshow-wrapper {
         left: auto;
         right: auto;
-        margin-top: 40px;
+        margin-top: 10px;
     }
     
     .session-cct.module-pulse .slideshow-wrapper {
     }
     
     .pulse-wrapper {
-        position: absolute;
+        position: fixed;
         right: 10px;
-        top: 40px;
-        height: 600px;
+        top: 1%;
+        height: 98%;
         width: 300px;
         z-index: 10;
     }
     
-    .bookmarks-wrapper {
+    .timeline-wrapper {
         background: white;
-        position: absolute;
-        right: 10px;
-        top: 650px;
-        width: 300px;
-        height: 300px;
-        overflow: scroll;
+        overflow: hidden;
+        height: 50px;
         z-index: 10;
-    }
-    
-    .session-cct.module-pulse .bookmarks-wrapper {
+        margin-top: 1%;
     }
     
     .toolbar-wrapper {
         position: fixed;
         left: 10px;
-        top: 40px;
-        height: 320px;
+        top: 1%;
+        height: 98%;
         width: 55px;
     }
 }

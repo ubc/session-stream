@@ -2,7 +2,7 @@ var Session_CCT_View = {
 	data: scct_data,
 	
 	onContentLoad: function() {
-		jQuery('.toggle-collapse').on( 'click', Session_CCT_View.toggleCollapse )
+		jQuery('.toggle-collapse').on( 'click', Session_CCT_View.toggleCollapse );
 		console.log(Session_CCT_View.data);
 	},
 	

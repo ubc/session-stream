@@ -57,7 +57,7 @@ class Session_CCT {
 	}
 	
 	public static function register_scripts() {
-    	wp_register_script( 'popcornjs', 'http://popcornjs.org/code/dist/popcorn-complete.js', array(), '1.0', true );
+    	wp_register_script( 'popcornjs', SESSION_CCT_DIR_URL.'/js/popcorn-complete.js', array(), '1.0', true );
     	wp_register_script( 'dotjs',     SESSION_CCT_DIR_URL.'/js/doT.js',                     array(), '1.0', true );
 	}
 	

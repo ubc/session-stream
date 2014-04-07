@@ -34,17 +34,7 @@ var SCCT_Module_Pulse = {
     },
 	
 	loadMarkers: function() {
-		for ( index in Session_CCT_View.data.bookmarks.list ) {
-			var bookmark = Session_CCT_View.data.bookmarks.list[index];
-			
-			SCCT_Module_Media.media.pulse( {
-				start: bookmark.synctime,
-				end: SCCT_Module_Media.media.duration(),
-				text: '<a class="bookmark" onclick="SCCT_Module_Media.skipTo('+bookmark.synctime+');">'+bookmark.title+'<span class="time">'+bookmark.time+'</span></a>',
-				sort: true,
-				target: "pulse-list",
-			} );
-		}
+		
 	},
 	
 	loadPulses: function() {

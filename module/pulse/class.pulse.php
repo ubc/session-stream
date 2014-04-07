@@ -88,6 +88,7 @@ class SCCT_Module_Pulse extends Session_CCT_Module {
 		wp_enqueue_style( 'scct-view-pulse' );
 		?>
 		<div class="widget">
+        <div class="pulse-label">Join the conversation:</div>
 			<div id="scct-pulse-list" class="pulse-widget">
 				<?php
 					if ( $pulse['meta']['mode'] != 'locked' ) {

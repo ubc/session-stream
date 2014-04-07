@@ -11,8 +11,23 @@
     cursor: pointer;
 }
 
+.pulse-form-input {
+    background: #FFF;
+}
+
+.pulse-label {
+    font-size: 12px;
+    color: #CCCCCC  ;
+    text-align: center;
+    margin-top: 5px;
+}
+
 .pulse-wrapper .bookmark:hover {
     color: #555;
+}
+
+.pulse-form {
+    border: 0px !important;
 }
 
 .pulse-wrapper .bookmark .time {

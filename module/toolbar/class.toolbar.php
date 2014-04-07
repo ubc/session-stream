@@ -28,20 +28,22 @@ class SCCT_Module_Toolbar extends Session_CCT_Module {
 		<ul id="scct-toolbar" class="hidden-mobile">
 			<?php
 				foreach ( Session_CCT_Module::get_modules() as $module ) {
-					if ( ! empty( $module->atts['icon'] ) ) {
+					if ( ! empty( $module->atts['icon'] ) && $module->atts['slug'] != 'timeline' ) {
 						$this->view_icon( $module );
 					}
 				}
 			?>
-            <?php
-                /* Commented out as functionality does not work with current CSS theme
-                    <li>
-                        <a class="tool selected" data-toggle="tooltip" title="Flip" onclick="SCCT_Module_Toolbar.flipMedia();">
-                            <?php Session_CCT_Module::module_icon( SESSION_CCT_DIR_URL.'/img/exchange.svg' ); ?>
-                        </a>
-                    </li>
-                */
-            ?>
+            <li>
+                <a class="tool selected tool-reverse" data-toggle="tooltip" title="Reverse Order">
+                    <?php Session_CCT_Module::module_icon( SESSION_CCT_DIR_URL.'/img/reverse.svg' ); ?>
+                </
+                a>
+            </li>
+            <li>
+                <a class="tool selected tool-cycle" data-toggle="tooltip" title="Cycle Displays">
+                    <?php Session_CCT_Module::module_icon( SESSION_CCT_DIR_URL.'/img/cycle.svg' ); ?>
+                </a>
+            </li>
 			<li>
 				<a class="tool selected" data-toggle="tooltip" title="Exit" href="<?php echo $exit_url; ?>">
 					<?php Session_CCT_Module::module_icon( SESSION_CCT_DIR_URL.'/img/exit.svg' ); ?>
@@ -54,7 +56,7 @@ class SCCT_Module_Toolbar extends Session_CCT_Module {
 	private function view_icon( $module ) {
 		?>
 		<li>
-			<a class="tool selected tool-<?php echo $module->atts['slug']; ?>" data-toggle="tooltip" title="<?php echo $module->atts['name']; ?>" onclick="SCCT_Module_Toolbar.toggleModuleDisplay( '<?php echo $module->atts['slug']; ?>', this )">
+			<a class="tool selected tool-<?php echo $module->atts['slug']; ?>" data-toggle="tooltip" title="Hide/Show <?php echo $module->atts['name']; ?>">
 				<?php $module->icon(); ?>
 			</a>
 		</li>

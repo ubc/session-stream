@@ -3,7 +3,7 @@ var SCCT_Module_Media = {
 	was_playing: null,
 	
 	onContentLoad: function() {
-		SCCT_Module_Media.media = Popcorn.smart( '#scct-media', Session_CCT_View.data.media.url );
+		SCCT_Module_Media.media = Popcorn.smart( '#scct-media', Session_CCT_View.data.media.url + '&controls=0' );
 	},
 	
 	skipTo: function( time ) {

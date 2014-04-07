@@ -2,12 +2,48 @@ var SCCT_Module_Toolbar = {
 	
 	onContentLoad: function() {
 		jQuery('.tool').tooltip( {
-			placement: 'left',
+			placement: 'right',
 			container: 'body',
 			delay: { show: 1500, hide: 0 },
 		} );
+       SCCT_Module_Toolbar.clickDetect();
 	},
 	
+    clickDetect : function() {
+    
+        jQuery('.tool-pulse').click( function(e) {
+            jQuery('body').toggleClass('larger-body');
+            jQuery('.pulse-wrapper').toggleClass('hidden');
+        });
+        
+        jQuery('.tool-slideshow').click( function(e) {
+            jQuery('.slideshow-wrapper').toggleClass('hidden');
+        });
+        
+        jQuery('.tool-media').click( function(e) {
+            jQuery('.media-wrapper').toggleClass('hidden');
+            jQuery('.timeline-wrapper').css("margin-top", "10px");
+        });
+        
+        jQuery('.tool-reverse').toggle( function() {
+                jQuery('.slideshow-wrapper').insertBefore('.media-wrapper');
+                jQuery('.timeline-wrapper').insertBefore('.media-wrapper');
+            } , function() {
+                jQuery('.slideshow-wrapper').insertAfter('.media-wrapper');
+                jQuery('.timeline-wrapper').insertAfter('.media-wrapper');
+        });
+        jQuery('.tool-cycle').toggle( function() {
+                jQuery('.slideshow-wrapper').addClass('module-side');
+                jQuery('.pulse-wrapper').addClass('pulse-wrapper-side');
+            } , function() {
+                jQuery('.slideshow-wrapper').removeClass('module-side');
+                jQuery('.media-wrapper').addClass('module-side');
+            } , function() {
+                jQuery('.media-wrapper').removeClass('module-side');
+                jQuery('.pulse-wrapper').removeClass('pulse-wrapper-side');
+        });
+    },
+    
 	flipMedia: function() {
 		var session = jQuery('.session-cct');
 		var has_media = session.hasClass('module-media');
@@ -22,6 +58,10 @@ var SCCT_Module_Toolbar = {
 	},
 	
 	toggleModuleDisplay: function( slug, button, preventNone ) {
+    
+        if( slug == 'comments') {
+        }
+    
 		if ( preventNone == null ) {
 			preventNone = true;
 		}
