@@ -1,0 +1,150 @@
+#timeline-media-control {
+    display: block;
+    height: 100%;
+    max-height: 50px;
+    width: 50px;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+}
+
+#timeline-media-control img {
+    height: 60%;
+    width: 60%;
+    margin-top: 20%;
+}
+
+#timeline-media-padding {
+    width: 10px;
+    height: 41px;
+    border-radius: 3 0 0 3;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: #CCD3DA;
+    display: block;
+    overflow: hidden;
+    float: left;
+    cursor: pointer;
+}
+
+#timeline-content-wrapper {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#timeline-content {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 0.5px solid grey;
+    border-radius: 2px;
+}
+
+#timeline-progress-wrapper {
+    display: block;
+    height: 0px;
+    position: relative;
+}
+
+#timeline-progress-bar {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 41px;
+    border-radius: 0 3 3 0;
+    background: #CCD3DA;
+}
+
+#timeline-comment-list {
+    display: block;
+    height: 18px;
+    position: relative;
+}
+
+#timeline-chapter-list {
+    display: block;
+    height: 20px;
+    position: relative;
+}
+
+#timeline-line {
+    width:100%;
+    height: 2px;
+    background-color: #193758;
+    border-radius: 2px;
+    position: relative;
+}
+
+.timeline-comment {
+    width: 5px;
+    background: #002145;
+    position: absolute;
+    top: 2px;
+    float: left;
+}
+
+.timeline-slide {
+    width: 20px;
+    height: 17px;
+    border: 0.5px solid grey;
+    border-radius: 2px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 1px #ffffff inset;
+    overflow: hidden;
+    position: absolute;
+    float: left;
+    bottom: 2px;
+}
+
+.timeline-slide-title {
+    text-align: center;
+    color: white;
+}
+
+#timeline-volume-wrapper {
+    display: block;
+    position: relative;
+    height: 100%;
+    max-height: 50px;
+    width: 20px;
+    float: right;
+    cursor: pointer;
+}
+
+#timeline-volume-padding {
+    position: absolute;
+    top: 0px;
+    left: 5px;
+    width: 10px;
+    height: 10px;
+}
+
+#timeline-volume-control {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    height: 30px;
+    width: 10px;
+    background: #CCD3DA;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 5px;
+}
+
+#timeline-volume-bar {
+    position: absolute;
+    bottom: 0px;
+    width: 10px;
+    background: #002145;
+}
+
+#timeline-volume-label {
+    height: 10px;
+    width: 10px;
+    margin: auto;
+}
+
+#timeline-volume-label img {
+    height: 100%;
+    width: 100%;
+}
